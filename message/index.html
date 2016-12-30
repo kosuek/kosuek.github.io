@@ -50,9 +50,11 @@ audio.id = "audio1"
 $(message).html(audio);
 }
 
-function audioset2(){var audio2 = new Audio();
+function audioset2(){
+var audio2 = new Audio();
 audio2.controls = true;
-audio2.src = "./m4a/syuyokai1_20160811.m4a";
+//audio2.src = "./m4a/syuyokai1_20160811.m4a";
+audio2.src = "./m4a/20161204.m4a";
 audio2.id = "audio2"
 $(message2).html(audio2);
 
@@ -129,12 +131,12 @@ document.getElementById("audio7").playbackRate = speed;
 	<br><br><br><br>
 	
 	<div class="col-xs-2" id="day1">****/**/** 主日礼拝</div><div class="col-xs-10" id="message"></div><br><br><br>
-	<div class="col-xs-2">20161017 蛇が...1</div>	<div class="col-xs-10" id="message4"></div><br><br><br>
+	<div class="col-xs-2">20161016 蛇が...1</div>	<div class="col-xs-10" id="message4"></div><br><br><br>
 	<div class="col-xs-2">20161030 蛇が...2</div>	<div class="col-xs-10" id="message5"></div><br><br><br>
 	<div class="col-xs-2">20161113 蛇が...3</div>	<div class="col-xs-10" id="message6"></div><br><br><br>
 	<div class="col-xs-2">20161127 蛇が...4</div>	<div class="col-xs-10" id="message7"></div><br><br><br>
-	<div class="col-xs-2">20160811 修養会1</div>		<div class="col-xs-10" id="message2"></div><br><br><br>
-	<div class="col-xs-2">20160812 修養会2</div>		<div class="col-xs-10" id="message3"></div><br><br><br>
+	<div class="col-xs-2">20161204</div>		<div class="col-xs-10" id="message2"></div><br><br><br>
+	<div class="col-xs-2"></div>		<div class="col-xs-10" id="message3"></div><br><br><br>
 	
 	<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(-30)"	type="button" value="<<30秒"></div>
 	<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(-10)"	type="button" value="<<10秒"></div>
