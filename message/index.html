@@ -20,75 +20,12 @@ audio { width: 100%; }
 </style>
 <script>
 window.onload = function(){
-
-lastSunday = getlastSunday();
-audioset(lastSunday);
 audioset2();
 }
 
-function getlastSunday(){
-var dt = new Date();
-if(dt.getHours()<10)
-{dt.setDate(dt.getDate() -1 )};
-var today = dt.getDay();
-dt.setDate(dt.getDate() - today);
-var month_n = dt.getMonth()+1;
-var month = ('00' + month_n).slice( -2 );
-var day_n = dt.getDate();
-var day = ('00' + day_n).slice( -2 );
-var year = String(dt.getFullYear());
-var lastSunday = year + month + day;
-$(day1).html(lastSunday+"礼拝");
-console.log(lastSunday);
-return lastSunday;
-}
-
-function audioset(messageday){
-var audio = new Audio();
-audio.controls = true;
-audio.src = "./m4a/"+messageday+".m4a";
-audio.id = "audio1"
-$(message).html(audio);
-}
-
 function audioset2(){
-var audio2 = new Audio();
-audio2.controls = true;
-//audio2.src = "./m4a/syuyokai1_20160811.m4a";
-audio2.src = "./m4a/20161204.m4a";
-audio2.id = "audio2"
-$(message2).html(audio2);
-
-var audio3 = new Audio();
-audio3.controls = true;
-audio3.src = "./m4a/syuyokai2_20160812.m4a";
-audio3.id = "audio3"
-$(message3).html(audio3);
-
-var audio4 = new Audio();
-audio4.controls = true;
-audio4.src = "./m4a/20161016.m4a";
-audio4.id = "audio4"
-$(message4).html(audio4);
-
-var audio5 = new Audio();
-audio5.controls = true;
-audio5.src = "./m4a/20161030.m4a";
-audio5.id = "audio5"
-$(message5).html(audio5);
-
-var audio6 = new Audio();
-audio6.controls = true;
-audio6.src = "./m4a/20161113.m4a";
-audio6.id = "audio6"
-$(message6).html(audio6);
-
-var audio7 = new Audio();
-audio7.controls = true;
-audio7.src = "./m4a/20161127.m4a";
-audio7.id = "audio7"
-$(message7).html(audio7);
-
+var audio2 = new Audio();audio2.controls = true;audio2.src = "./m4a/20161204.m4a";audio2.id = "audio2"$(message2).html(audio2);
+var audio3 = new Audio();audio3.controls = true;audio3.src = "./m4a/20161204.m4a";audio3.id = "audio3"$(message3).html(audio3);
 }
 
 function skip(seconds){
