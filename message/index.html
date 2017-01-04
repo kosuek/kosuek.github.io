@@ -25,7 +25,6 @@ audioset2();
 
 function audioset2(){
 var audio2 = new Audio();audio2.controls = true;audio2.src = "./m4a/20161204.m4a";audio2.id = "audio2"$(message2).html(audio2);
-var audio3 = new Audio();audio3.controls = true;audio3.src = "./m4a/20161204.m4a";audio3.id = "audio3"$(message3).html(audio3);
 }
 
 function skip(seconds){
@@ -69,7 +68,7 @@ document.getElementById("audio7").playbackRate = speed;
 	<br><br><br><br>
 	<div id="messagelist"></div><
 	
-	<div class="col-xs-2">20161016 蛇が...1</div>	<div class="col-xs-10" id="message4"></div>
+	<div class="col-xs-2">20161016 蛇が...1</div>	<div class="col-xs-10" id="audio2"></div>
 	
 	<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(-30)"	type="button" value="<<30秒"></div>
 	<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(-10)"	type="button" value="<<10秒"></div>
