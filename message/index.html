@@ -29,21 +29,9 @@ var audio2 = new Audio();audio2.controls = true;audio2.src = "./m4a/20161204.m4a
 
 function skip(seconds){
 document.getElementById("audio1").currentTime += seconds;
-document.getElementById("audio2").currentTime += seconds;
-document.getElementById("audio3").currentTime += seconds;
-document.getElementById("audio4").currentTime += seconds;
-document.getElementById("audio5").currentTime += seconds;
-document.getElementById("audio6").currentTime += seconds;
-document.getElementById("audio7").currentTime += seconds;
 }
 function rateup(speed){
 document.getElementById("audio1").playbackRate = speed;
-document.getElementById("audio2").playbackRate = speed;
-document.getElementById("audio3").playbackRate = speed;
-document.getElementById("audio4").playbackRate = speed;
-document.getElementById("audio5").playbackRate = speed;
-document.getElementById("audio6").playbackRate = speed;
-document.getElementById("audio7").playbackRate = speed;
 
 
 }
@@ -57,7 +45,7 @@ document.getElementById("audio7").playbackRate = speed;
 			<h4>ひたち光教会アプリ</h4>
 		</div>
 		<div class="col-xs-4">
-			ver 20161127
+			ver 20170104
 		</div>
 	</div>
 </div>
@@ -68,7 +56,7 @@ document.getElementById("audio7").playbackRate = speed;
 	<br><br><br><br>
 	<div id="messagelist"></div><
 	
-	<div class="col-xs-2">20161016 蛇が...1</div>	<div class="col-xs-10" id="audio2"></div>
+	<div class="col-xs-2">20161016<div><div class="col-xs-10" id="audio2"></div>
 	
 	<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(-30)"	type="button" value="<<30秒"></div>
 	<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(-10)"	type="button" value="<<10秒"></div>
