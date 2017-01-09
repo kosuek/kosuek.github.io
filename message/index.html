@@ -26,7 +26,7 @@ function audioset(){
 var selaudio;
 var audio = new Audio();
 
-selaudio = $(messageSelect).val();
+selaudio = $(messageSelect).val().substr(0,8);
 
 console.log(selaudio);
 
