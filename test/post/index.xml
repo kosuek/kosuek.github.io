@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+      <title>Posts on ひたち光教会 </title>
+      <generator uri="https://gohugo.io">Hugo</generator>
+    <link>http://example.org/post/index.xml</link>
+    <language>ja</language>
+    
+    
+    <updated>Sat, 11 Feb 2017 11:37:17 JST</updated>
+    
+    <item>
+      <title>hello</title>
+      <link>http://example.org/post/hello/</link>
+      <pubDate>Sat, 11 Feb 2017 11:37:17 JST</pubDate>
+      
+      <guid>http://example.org/post/hello/</guid>
+      <description>
+
+&lt;p&gt;こんにちは、&lt;strong&gt;Hugo&lt;/strong&gt; を始めました。&lt;/p&gt;
+
+&lt;h3 id=&#34;markdown記法&#34;&gt;Markdown記法&lt;/h3&gt;
+
+&lt;p&gt;Markdownの書き方は以下のサイトが参考になります。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://ja.wikipedia.org/wiki/Markdown&#34;&gt;Wikipedia&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://qiita.com/Qiita/items/c686397e4a0f4f11683d&#34;&gt;Qiita&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.markdown.jp/what-is-markdown/#markdown-1&#34;&gt;日本語Markdownユーザー会&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
