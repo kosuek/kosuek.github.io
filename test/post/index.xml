@@ -3,7 +3,7 @@
   <channel>
       <title>Posts on ひたち光教会 </title>
       <generator uri="https://gohugo.io">Hugo</generator>
-    <link>http://example.org/post/index.xml</link>
+    <link>https://kosuek.github.io/test/post/index.xml</link>
     <language>ja</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>hello</title>
-      <link>http://example.org/post/hello/</link>
+      <link>https://kosuek.github.io/test/post/hello/</link>
       <pubDate>Sat, 11 Feb 2017 11:37:17 JST</pubDate>
       
-      <guid>http://example.org/post/hello/</guid>
+      <guid>https://kosuek.github.io/test/post/hello/</guid>
       <description>
 
 &lt;p&gt;こんにちは、&lt;strong&gt;Hugo&lt;/strong&gt; を始めました。&lt;/p&gt;
