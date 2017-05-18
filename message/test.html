@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title>ひたち光教会app</title>
+<meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=1" name="viewport">
+<meta charset="utf-8">
+<link href="./img/hhc.ico" rel="shortcut icon">
+<link href="./img/hhc.ico" rel="apple-touch-icon">
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style type="text/css">
+<!-- 
+.col-xs-12,.col-xs-6,.col-xs-4,.col-xs-3,.col-xs-2 {padding-right : 0px;padding-left : 0px;}
+audio { width: 100%; }
+-->
+</style>
+<script>
+window.onload = function(){
+
+audioset();
+
+window.localStorage.getItem("nowTime", val);
+console.log(val);
+document.getElementById("audio").currentTime = val;
+
+}
+
+
+var get_nowTime = function(){
+	val = document.getElementById("audio").currentTime;
+	console.log(val);
+	window.localStorage.setItem("nowTime", val);
+  } 
+
+setInterval(get_nowTime, 5000);
+
+
+$(function () {
+	$("select").change(audioset);
+});
+
+function audioset(){
+var selaudio;
+var audio = new Audio();
+
+selaudio = $(messageSelect).val().substr(0,8);
+
+console.log(selaudio);
+
+audio.controls = true;
+audio.src = "./m4a/" + selaudio + ".m4a";
+audio.id = "audio";
+$(message).html(audio);
+
+}
+function skip(seconds){document.getElementById("audio").currentTime += seconds;}
+function rateup(speed){document.getElementById("audio").playbackRate = speed;}
+
+</script>
+</head>
+<body>
+<nav class="navbar navbar-fixed-top">
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12">
+			<h4>ひたち光教会app</h4>
+		</div>
+	</div>
+</div>
+</nav>
+
+<div class="container">
+	<br><br><br><br>
+	<form>
+	<label for="messageSelect">日付を選んでください</label>
+	<select class="form-control" id="messageSelect">
+		<option>20170514 ほんとうの子ではないのです。</option>
+		<option>20170507 わたしが与える水を飲む者はだれでも、</option>
+		<option>20170430 あなたは、どこにいるのか。</option>
+		<option>20170423 もしあなたが知っていたなら、</option>
+		<option>20170416 【イースター】死者の復活のことを聞くと、</option>
+		<option>20170409 【受難週】エリ、エリ、レマ、サバクタニ</option>
+		<option>20170402 神である主の御顔を避けて</option>
+		<option>20170326 わたしに水を飲ませてください。</option>
+		<option>20170319 このようにして、ふたりの目は開かれ、</option>
+		<option>20170312 イエスは旅の疲れで、</option>
+		<option>20170305 それで女はその実を取って食べ、</option>
+		<option>20170226 それを主が知られたとき、</option>
+		<option>20170219 神は知っているのです。</option>
+		<option>20170212 御子を信じる者は</option>
+		<option>20170205 あなたがたは決して死にません。</option>
+		<option>20170129 あの方は盛んになり私は</option>
+		<option>20170122 と神は、ほんとうに2</option>
+		<option>20170115 バプテスマを授けて</option>
+		<option>20170108 と神は、ほんとうに1</option>
+		<option>20170101 【新年】</option>
+		<option>----------------------------------------------</option>
+		<option>20161225 【クリスマス】ダビデの子ヨセフ。</option>
+		<option>20161218 そのさばきというのは、</option>
+		<option>20161211 蛇は女に言った。あなた方は</option>
+		<option>20161204 神は実に、世を愛された。</option>
+		<option>20161127 蛇が一番狡猾であったⅣ</option>
+		<option>20161120 それは、信じるものがみな、</option>
+		<option>20161113 蛇が一番狡猾であったⅢ</option>
+		<option>20161106 人は、新しく生まれなければ、</option>
+		<option>20161030 蛇が一番狡猾であったⅡ</option>
+		<option>20161023 ニコデモという人</option>
+		<option>20161016 蛇が一番狡猾であったⅠ</option>
+		<option>20161009</option>
+		<option>20161002</option>
+		<option>20160925</option>
+		<option>20160918</option>
+		<option>20160911</option>
+		<option>20160904</option>
+		<option>20160828</option>
+		<option>20160821</option>
+		<option>20160814</option>
+		<option>20160807</option>
+		<option>20160731</option>
+		<option>20160724</option>
+		<option>20160717</option>
+		<option>20160710</option>
+		<option>20160703</option>
+		<option>20160626</option>
+		<option>20160619</option>
+		<option>20160612</option>
+		<option>20160605</option>
+		<option>20160529</option>
+		<option>20160522</option>
+		<option>20160515【ペンテコステ】</option>
+		<option>20160508</option>
+		<option>20160501</option>
+		<option>20160424</option>
+		<option>20160417</option>
+		<option>20160410</option>
+		<option>20160403</option>
+		<option>20160327【イースター】</option>
+		<option>20160313</option>
+		<option>20160306</option>
+		<option>20160228</option>
+		<option>20160221</option>
+		<option>20160214</option>
+		<option>20160207</option>
+		<option>20160131</option>
+		<option>20160124</option>
+		<option>20160110</option>
+		<option>20160103【新年】</option>
+	</select>
+	</form>
+	<div class="col-xs-12" id="message"></div>
+	
+	<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(-30)"	type="button" value="<<30秒"></div>
+	<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(-5)"	type="button" value="<<5秒"></div>
+	<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(5)"		type="button" value="5秒>>"></div>
+	<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(30)"	type="button" value="30秒>>"></div>
+	<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="rateup(0.5)"	type="button" value="x0.5"></div>
+	<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="rateup(1.0)"	type="button" value="x1.0"></div>
+	<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="rateup(1.5)"	type="button" value="x1.5"></div>
+	<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="rateup(2.0)"	type="button" value="x2.0"></div>
+	<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="rateup(2.5)"	type="button" value="x2.5"></div>
+	<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="rateup(3.0)"	type="button" value="x3.0"></div>
+
+	<div class="col-xs-6"><a href="./m4a/syuho.png" class="thumbnail"><img src="./m4a/syuho.png" alt=""></a></div>
+	<div class="col-xs-3"><a href="./m4a/yotei.png" class="thumbnail"><img src="./m4a/yotei.png" alt=""></a></div>
+	<div class="col-xs-3"><a href="./m4a/2017.jpg" class="thumbnail"><img src="./m4a/2017.jpg" alt=""></a></div>
+
+</div>
+</body>
+</html>
