@@ -17,26 +17,32 @@ audio { width: 100%; }
 </style>
 <script>
 window.onload = function(){
-audioset();
+	audioset();
+	val = window.localStorage.getItem("nowTime");
+	document.getElementById("audio").currentTime = val;
 }
+
+var get_nowTime = function(){
+	val = document.getElementById("audio").currentTime;
+	window.localStorage.setItem("nowTime", val);
+  } 
+
+setInterval(get_nowTime, 5000);
+
 
 $(function () {
 	$("select").change(audioset);
 });
 
 function audioset(){
-var selaudio;
-var audio = new Audio();
-
-selaudio = $(messageSelect).val().substr(0,8);
-
-console.log(selaudio);
-
-audio.controls = true;
-audio.src = "./m4a/" + selaudio + ".m4a";
-audio.id = "audio";
-$(message).html(audio);
-
+	var selaudio;
+	var audio = new Audio();
+	selaudio = $(messageSelect).val().substr(0,8);
+	console.log(selaudio);
+	audio.controls = true;
+	audio.src = "./m4a/" + selaudio + ".m4a";
+	audio.id = "audio";
+	$(message).html(audio);
 }
 function skip(seconds){document.getElementById("audio").currentTime += seconds;}
 function rateup(speed){document.getElementById("audio").playbackRate = speed;}
@@ -79,7 +85,7 @@ function rateup(speed){document.getElementById("audio").playbackRate = speed;}
 		<option>20170115 バプテスマを授けて</option>
 		<option>20170108 と神は、ほんとうに1</option>
 		<option>20170101 【新年】</option>
-		<option>----------------------------------------------</option>
+		<option>---</option>
 		<option>20161225 【クリスマス】ダビデの子ヨセフ。</option>
 		<option>20161218 そのさばきというのは、</option>
 		<option>20161211 蛇は女に言った。あなた方は</option>
