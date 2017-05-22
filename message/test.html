@@ -50,6 +50,20 @@ function audioset(){
 function skip(seconds){document.getElementById("audio").currentTime += seconds;}
 function rateup(speed){document.getElementById("audio").playbackRate = speed;}
 
+$('#test').click(function(e){
+                var now  = new Date();
+                var hour = now.getHours();
+                var min  = now.getMinutes();
+                var sec  = now.getSeconds();
+                
+                var m = 'test test test ' + hour+min+sec;
+                
+                var address = 'kosukesuzuki+test' + '@' +'gmail.com';
+                var subject = ["hhc app test"];
+                location.href = 'm'+'a'+'i'+'l'+'t'+'o'+':' + address + '?subject=' + subject[rand] + '&body=' + m + '';
+}
+	
+	
 </script>
 </head>
 <body>
