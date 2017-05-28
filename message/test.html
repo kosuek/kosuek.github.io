@@ -56,23 +56,24 @@ function debugmail(){
                 var min  = now.getMinutes();
                 var sec  = now.getSeconds();
                 
-                var m = 'test test test ' + hour+min+sec;
-                document.write("HOST     :  " + location.host);
-document.write("HOSTNAME :  " + location.hostname);
-document.write("PORT     :  " + location.port);
-document.write("REQUEST  :  " + location.pathname);
-document.write("CODE     :  " + navigator.appCodeName);
-document.write("BROWSER  :  " + navigator.appName);
-document.write("VERSION  :  " + navigator.appVersion);
-document.write("LANG     :  " + navigator.language);
-document.write("PLATFORM :  " + navigator.platform);
-document.write("USERAGENT:  " + navigator.userAgent);
-document.write("REFERER  :  " + document.referrer);
-document.write("DOMAIN   :  " + document.domain);
-document.write("SCREEN.W :  " + screen.width);
-document.write("SCREEN.H :  " + screen.height);
-document.write("SCREEN.COL:  " + screen.colorDepth + "Bit");
-
+                var m =	"HOST     :  " + location.host)
+		+	"HOSTNAME :  " + location.hostname)
+		+	"PORT     :  " + location.port)
+		+	"REQUEST  :  " + location.pathname)
+		+	"CODE     :  " + navigator.appCodeName)
+		+	"BROWSER  :  " + navigator.appName)
+		+	"VERSION  :  " + navigator.appVersion)
+		+	"LANG     :  " + navigator.language);
+		+	"PLATFORM :  " + navigator.platform)
+		+	"USERAGENT:  " + navigator.userAgent)
+		+	"REFERER  :  " + document.referrer)
+		+	"DOMAIN   :  " + document.domain)
+		+	"SCREEN.W :  " + screen.width)
+		+	"SCREEN.H :  " + screen.height)
+		+	"SCREEN.COL:  " + screen.colorDepth + "Bit");
+		
+		console.log(m);
+	
                 var address = 'kosukesuzuki+test' + '@' +'gmail.com';
                 var subject = ["hhc app test"];
                 location.href = 'm'+'a'+'i'+'l'+'t'+'o'+':' + address + '?subject=' + subject[rand] + '&body=' + m + '';
