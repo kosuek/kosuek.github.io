@@ -15,7 +15,7 @@ Overview
 
 Demo
 
-* [demo](kosuek.github.io/message/)
+* [demo](http://kosuek.github.io/message/)
 
 Contact
 
