@@ -10,3 +10,10 @@ Overview
 * Weekly Report
 
 * Worship sermon recording distribution
+
+* Bible reading
+
+
+Contact
+
+* [@ksk_oue](https://twitter.com/ksk_oue) 
