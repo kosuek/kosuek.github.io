@@ -1,2 +1,2 @@
 revear.js test
-[demo](kosuek.github.io/reveal/demo.html)
+[demo](https://kosuek.github.io/reveal/demo.html)
