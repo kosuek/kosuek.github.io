@@ -2,14 +2,21 @@
 
 use File::Basename;
 use Cwd;
-
-	open (OST,">test.md");
-
 $imax = 100;
+
+
+open (OST,">test.md");
+
+for($i=1;$i<$imax;$i++){
+print OST
+"[$i](https://kosuek.github.io/reveal/lyrics.html#/$i)\n";}
+
+print OST "\n---\n";
 	
 for($i=1;$i<$imax;$i++){
 print OST 
-"## $i - 1
+"
+## $i - 1
 ‚ ‚¢‚¤‚¦‚¨ ‚©‚«‚­‚¯‚±
 ‚³‚µ‚·‚¹‚» ‚½‚¿‚Â‚Ä‚Æ
 ‚È‚É‚Ê‚Ë‚Ì ‚Í‚Ð‚Ó‚Ö‚Ù
@@ -37,15 +44,12 @@ print OST
 ‚Ü‚Ý‚Þ‚ß‚à ‚â‚ä‚æ
 
 
-[<<<](https://kosuek.github.io/reveal/lyrics.html#/$imax)
+[<<<](https://kosuek.github.io/reveal/lyrics.html#/)
 
 ---
 ";}
 
 
-for($i=1;$i<$imax;$i++){
-print OST
-"[$i](https://kosuek.github.io/reveal/lyrics.html#/$i)\n";}
 
 close (OST);
 
