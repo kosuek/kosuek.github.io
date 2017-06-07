@@ -2,10 +2,10 @@
 
 use File::Basename;
 use Cwd;
-$imax = 100;
+$imax = 500;
 
 
-open (OST,">test.md");
+open (OST,">page.md");
 
 for($i=1;$i<$imax;$i++){
 print OST
