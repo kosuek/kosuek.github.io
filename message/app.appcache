@@ -3,6 +3,8 @@ CACHE MANIFEST
 
 CACHE:
 index.html
+m4a/*.png
+m4a/*.jpg
 
 NETWORK:
 *
