@@ -64,7 +64,8 @@ function rateup(speed){document.getElementById("audio").playbackRate = speed;}
 
 <div class="container">
 	<br><hr />
-	<form>
+	<div class="col-xs-9">
+		<form>
 	<label for="messageSelect">礼拝説教一覧：聞きたい日付を選んでください</label>
 	<select class="form-control" id="messageSelect">
 		<option>20170618 おまえが、こんな事をしたので、</option>
@@ -145,7 +146,8 @@ function rateup(speed){document.getElementById("audio").playbackRate = speed;}
 		<option>20160103【新年】</option>
 	</select>
 	</form>
-	<div class="col-xs-12"><input class="btn btn-block btn-info" onclick="window.location.reload();"type="button" value="礼拝説教一覧更新はここをクリック！"></div>
+	</div>
+	<div class="col-xs-3"><input class="btn btn-block btn-info" onclick="window.location.reload();"type="button" value="更新"></div>
  	<div class="col-xs-12" id="message"></div>
 	<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(-30)"	type="button" value="<<30秒"></div>
 	<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(-5)"	type="button" value="<<5秒"></div>
