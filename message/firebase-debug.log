@@ -1,0 +1,14 @@
+[debug] ----------------------------------------------------------------------
+[debug] Command:      /Users/kosuke/.nodebrew/node/v7.5.0/bin/node /Users/kosuke/.nodebrew/current/bin/firebase serve
+[debug] CLI Version:  3.4.0
+[debug] Platform:     darwin
+[debug] Node Version: v7.5.0
+[debug] Time:         Sat Jun 24 2017 06:52:22 GMT+0900 (JST)
+[debug] ----------------------------------------------------------------------
+[debug] 
+[info] Starting Firebase development server...
+[info] 
+[info] Project Directory: /Users/kosuke/Google ドライブ/kosuek.github.io/message
+[info] Public Directory: public
+[info] 
+[info] Server listening at: http://localhost:5000
