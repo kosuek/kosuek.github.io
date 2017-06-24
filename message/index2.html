@@ -192,11 +192,11 @@ function rateup(speed){document.getElementById("audio").playbackRate = speed;}
 
     <script>
       var db = firebase.database();
-      var myChatAll = db.ref("/my/chat/all");
+      var myChatAll = db.ref("/now");
 
       function changeData(){
         var text = document.getElementById("my_text").value;
-        myChatAll.set({title:"example", text:text});
+        myChatAll.set({title:text, text:"listening"});
       }
 
       myChatAll.on("value", function(snapshot) { 
