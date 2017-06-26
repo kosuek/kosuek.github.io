@@ -1,8 +1,7 @@
 CACHE MANIFEST
-# 20170625_0
-
+# 20170626_0
 CACHE:
-index.html
+#index.html
 m4a/*.png
 m4a/*.jpg
 m4a/20170625.m4a
