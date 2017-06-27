@@ -165,8 +165,14 @@ function rateup(speed){document.getElementById("audio").playbackRate = speed;}
 	</form>
 	</div>
 	<div class="col-xs-12" id="message0"></div>
+	<div　class="col-xs-12">
+		<ul>
+			<li id="chatText"></li>
+		</ul>
+	</div>
 	<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(-30)"	type="button" value="<<30秒"></div>
 	<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(-5)"	type="button" value="<<5秒"></div>
+	<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="changeData()"		type="button" value="▸"></div>
 	<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(5)"		type="button" value="5秒>>"></div>
 	<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(30)"	type="button" value="30秒>>"></div>
 	<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="rateup(0.5)"	type="button" value="x0.5"></div>
@@ -183,12 +189,7 @@ function rateup(speed){document.getElementById("audio").playbackRate = speed;}
 
 </div>
 
-<div　class="col-xs-12">
-      <ul>
-        <li id="chatText"></li>
-        <li><a onclick="changeData()">更新</a></li>
-      </ul>
-    </div>
+
 
     <script>
       var db = firebase.database();
