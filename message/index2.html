@@ -165,16 +165,14 @@ function rateup(speed){document.getElementById("audio").playbackRate = speed;}
 	</form>
 	</div>
 	<div class="col-xs-12" id="message0"></div>
-	<div　class="col-xs-12">
-		<ul>
-			<li id="chatText"></li>
-		</ul>
-	</div>
+	<div class="col-xs-12" id="chatText"></div>
+	
 	<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="skip(-30)"	type="button" value="<<30秒"></div>
 	<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="skip(-5)"	type="button" value="<<5秒"></div>
-	<div class="col-xs-4"><input class="btn btn-block btn-lg btn-default" onclick="changeData()"		type="button" value="▸"></div>
+	<div class="col-xs-4"><input class="btn btn-block btn-lg btn-default" onclick="changeData()"	type="button" value="▸"></div>
 	<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="skip(5)"		type="button" value="5秒>>"></div>
 	<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="skip(30)"	type="button" value="30秒>>"></div>
+	
 	<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="rateup(0.5)"	type="button" value="x0.5"></div>
 	<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="rateup(1.0)"	type="button" value="x1.0"></div>
 	<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="rateup(1.5)"	type="button" value="x1.5"></div>
@@ -189,9 +187,7 @@ function rateup(speed){document.getElementById("audio").playbackRate = speed;}
 
 </div>
 
-
-
-    <script>
+<script>
       var db = firebase.database();
       var myChatAll = db.ref("/now");
 
