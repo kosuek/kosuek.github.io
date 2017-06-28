@@ -1,10 +1,9 @@
 CACHE MANIFEST
 # 20170626_0
 CACHE:
-#index.html
+index.html
 m4a/*.png
 m4a/*.jpg
-m4a/20170625.m4a
 //netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
 https://code.jquery.com/jquery.js
 //netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js
