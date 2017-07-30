@@ -1,7 +1,7 @@
 CACHE MANIFEST
 # 20170716_0
 CACHE:
-index.html
+# index.html
 m4a/*.png
 m4a/*.jpg
 //netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
