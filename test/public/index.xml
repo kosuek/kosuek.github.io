@@ -1,20 +1,116 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>hitachi hikari church</title>
+    <title>Hitachi Hikari Church</title>
     <link>http://localhost:1313/hitachi_hikari/index.xml</link>
-    <description>Recent content on hitachi hikari church</description>
+    <description>Recent content on Hitachi Hikari Church</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>jp</language>
-    <lastBuildDate>Wed, 01 Mar 2017 00:00:00 +0000</lastBuildDate>
+    <language>jp-jp</language>
+    <lastBuildDate>Tue, 22 Aug 2017 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/hitachi_hikari/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>About</title>
-      <link>http://localhost:1313/hitachi_hikari/about%20-%20%E3%82%B3%E3%83%94%E3%83%BC%20%282%29/</link>
+      <title>3 生け花</title>
+      <link>http://localhost:1313/hitachi_hikari/flower/</link>
+      <pubDate>Tue, 22 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/hitachi_hikari/flower/</guid>
+      <description>
+
+&lt;p&gt;この世の中には、色々な流派の花の生け方があります。それぞれの個性を生かした素敵なものが沢山あり、私たちの日常生活の中で心を和ませるものとして有効に活用されています。&lt;/p&gt;
+
+&lt;h4 id=&#34;教会の生け花の聖書的な意味&#34;&gt;教会の生け花の聖書的な意味&lt;/h4&gt;
+
+&lt;p&gt;教会の生け花は、単に生けるテクニックがあって良し、とするものではなく、むしろ花を生ける者の信仰が求められ、クリスチャンの信仰の表現の一つであるところに意義があると言えます。ですから、花を生ける時には、神さまに対する心がまえと祈りが必要です。なぜなら、礼拝をささげる人々の心がもっと神さまに向けられるように、雰囲気を演出し、心の喜びと平安をもたらせるところに、教会の生け花の目的の一つがあるからです。&lt;/p&gt;
+
+&lt;p&gt;そして霊的面から見ますと、生けられている花が、生きているように見えても、実はその根本から切り離されているので死んでいることと同じように、2つの目的が考えられます。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;いのちの源である神さまから切り離され、自分の罪過と罪との中で、霊的に死んでいた私たちをただ恵みのゆえに、信仰によって救ってくださったこと（エペ2:1-10）、ただ神の恵みにより、キリスト・イエスによる贖いのゆえに、値なしに義と認められている（ローマ3:23-26）、この神さまの救いの恵みを思い起こさせ、感謝することができるようにすること【信仰義認】&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;また、花が香りをはなつように、私たちがこの地の塩と世界の光（マタ5:13-16）としての信仰と行ないの一致の生活をすること（ヤコ2:17-26）によって、キリストのかおりをはなつ（-コリ2:14-17）というクリスチャンとしての使命を、あらたに思い起こさせる【信行一致】&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;生け花の奉仕&lt;/p&gt;
+
+&lt;p&gt;このような目的を基として必要なのが、基本的なテクニックです。自然のままの状態から自分の個性を活かした作品を創る技術が必要です。そのために生け花のテクニックを身につける必要があります。&lt;/p&gt;
+
+&lt;p&gt;教会では、毎週土曜日に、生け花の学びがあります。今、12名の方が学びながら、毎主日（日曜日）の教会の生け花を担当しています。これからも、私たち一人一人に与えられている賜物が、【福音宣教】のために、心を一つにする交わりのために、また、天の御国の完成のために、活かされることを願うものです。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>1 お知らせ</title>
+      <link>http://localhost:1313/hitachi_hikari/info/</link>
       <pubDate>Wed, 01 Mar 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/hitachi_hikari/about%20-%20%E3%82%B3%E3%83%94%E3%83%BC%20%282%29/</guid>
+      <guid>http://localhost:1313/hitachi_hikari/info/</guid>
+      <description>&lt;p&gt;最新の情報をお知らせします。____________________________________________________&lt;/p&gt;
+
+&lt;p&gt;&lt;a class=&#34;twitter-timeline&#34; href=&#34;https://twitter.com/hitachi_hikari&#34;&gt;Tweets by hitachi_hikari&lt;/a&gt;
+&lt;script async src=&#34;//platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>2 はじめて</title>
+      <link>http://localhost:1313/hitachi_hikari/welcome/</link>
+      <pubDate>Wed, 01 Mar 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/hitachi_hikari/welcome/</guid>
+      <description>
+
+&lt;p&gt;はじめて教会に行ってみたい方はこちらからどうぞ&lt;/p&gt;
+
+&lt;h3 id=&#34;礼拝に出てみたい&#34;&gt;礼拝に出てみたい&lt;/h3&gt;
+
+&lt;p&gt;毎週日曜日 10:30-12:00に行われています。&lt;br /&gt;
+持ち物は、特に必要ありません。&lt;br /&gt;
+牧師のユン先生は日本に来て30年。&lt;br /&gt;
+礼拝は日本語です。韓国語での同時通訳も行っています。&lt;/p&gt;
+
+&lt;h3 id=&#34;教会への行き方は&#34;&gt;教会への行き方は？&lt;/h3&gt;
+
+&lt;p&gt;JR大甕(おおみか)駅からバスが出ています。&lt;br /&gt;
+敷地内に駐車場がありますのでお車で来られても大丈夫です。&lt;br /&gt;
+⇒詳しくはアクセスこちらをご覧ください。&lt;/p&gt;
+
+&lt;h3 id=&#34;教会に着いたら&#34;&gt;教会に着いたら&lt;/h3&gt;
+
+&lt;p&gt;ようこそ、ひたち光教会へ！お車でお越しの方は空いている駐車スペースへどうぞ。&lt;br /&gt;
+玄関よりお入りください。受付の者がおりますので、当日の予定やご連絡が書かれた週報をお受け取りください。&lt;br /&gt;
+聖書と聖歌をお持ちでない方はこちらで借りられます。&lt;/p&gt;
+
+&lt;h3 id=&#34;礼拝&#34;&gt;礼拝&lt;/h3&gt;
+
+&lt;p&gt;礼拝の前に賛美の練習、お祈りの時間があります。&lt;br /&gt;
+礼拝は週報のプログラムのように進みます。&lt;br /&gt;
+はじめての方には教会員がいろいろとお手伝いさせていただきます。お気軽に何でもご質問ください。&lt;/p&gt;
+
+&lt;h3 id=&#34;礼拝後&#34;&gt;礼拝後&lt;/h3&gt;
+
+&lt;p&gt;毎週、みんなでいっしょに昼食の時間を持っています。お時間ありましたら是非ごいっしょにどうぞ。無料です。&lt;br /&gt;
+牧師と個別にお話ししたい場合、牧師またはお近くの教会員にお知らせください。&lt;br /&gt;
+午後からもいろいろなプログラムが予定されています。ご興味ありましたら是非ご参加ください。&lt;/p&gt;
+
+&lt;h3 id=&#34;日曜日以外に教会へ行ってみたい&#34;&gt;日曜日以外に教会へ行ってみたい！&lt;/h3&gt;
+
+&lt;p&gt;ぜひお越しください！&lt;br /&gt;
+念のため教会へご連絡の上お越しください！&lt;/p&gt;
+
+&lt;h3 id=&#34;小さい子どもがいるのですが-教会に行っても大丈夫ですか&#34;&gt;小さい子どもがいるのですが、教会に行っても大丈夫ですか？&lt;/h3&gt;
+
+&lt;p&gt;はい。だいじょうぶ。大歓迎です。(^_^)/&lt;br /&gt;
+礼拝室隣の光室のTVに中継もしています。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>4 賛　美</title>
+      <link>http://localhost:1313/hitachi_hikari/sanbi/</link>
+      <pubDate>Wed, 01 Mar 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/hitachi_hikari/sanbi/</guid>
       <description>
 
 &lt;p&gt;Hugo is a static site engine written in Go.&lt;/p&gt;
@@ -48,230 +144,162 @@
     </item>
     
     <item>
-      <title>About</title>
-      <link>http://localhost:1313/hitachi_hikari/about%20-%20%E3%82%B3%E3%83%94%E3%83%BC%20%283%29/</link>
+      <title>7 光マナレストラン</title>
+      <link>http://localhost:1313/hitachi_hikari/mana/</link>
       <pubDate>Wed, 01 Mar 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/hitachi_hikari/about%20-%20%E3%82%B3%E3%83%94%E3%83%BC%20%283%29/</guid>
+      <guid>http://localhost:1313/hitachi_hikari/mana/</guid>
       <description>
 
-&lt;p&gt;Hugo is a static site engine written in Go.&lt;/p&gt;
+&lt;p&gt;光マナレストラン次回 2017年9月2日(土)！
+光健康朝市次回 2017年9月2日(土)！&lt;/p&gt;
 
-&lt;p&gt;It makes use of a variety of open source projects including:&lt;/p&gt;
+&lt;h3 id=&#34;礼拝に出てみたい&#34;&gt;礼拝に出てみたい&lt;/h3&gt;
 
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/cobra&#34;&gt;Cobra&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/viper&#34;&gt;Viper&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/jWalterWeatherman&#34;&gt;J Walter Weatherman&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/cast&#34;&gt;Cast&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;毎週日曜日 10:30-12:00に行われています。&lt;br /&gt;
+持ち物は、特に必要ありません。&lt;br /&gt;
+牧師のユン先生は日本に来て30年。&lt;br /&gt;
+礼拝は日本語です。韓国語での同時通訳も行っています。&lt;/p&gt;
 
-&lt;p&gt;Learn more and contribute on &lt;a href=&#34;https://github.com/spf13&#34;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;教会への行き方は&#34;&gt;教会への行き方は？&lt;/h3&gt;
 
-&lt;h2 id=&#34;setup&#34;&gt;Setup&lt;/h2&gt;
+&lt;p&gt;JR大甕(おおみか)駅からバスが出ています。&lt;br /&gt;
+敷地内に駐車場がありますのでお車で来られても大丈夫です。&lt;br /&gt;
+⇒詳しくはアクセスこちらをご覧ください。&lt;/p&gt;
 
-&lt;p&gt;Some fun facts about &lt;a href=&#34;http://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;:&lt;/p&gt;
+&lt;h3 id=&#34;教会に着いたら&#34;&gt;教会に着いたら&lt;/h3&gt;
 
-&lt;ul&gt;
-&lt;li&gt;Built in &lt;a href=&#34;http://golang.org/&#34;&gt;Go&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Loosely inspired by &lt;a href=&#34;http://jekyllrb.com/&#34;&gt;Jekyll&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Primarily developed by &lt;a href=&#34;http://spf13.com/&#34;&gt;spf13&lt;/a&gt; on the train while commuting to and from Manhattan.&lt;/li&gt;
-&lt;li&gt;Coded in &lt;a href=&#34;http://vim.org&#34;&gt;Vim&lt;/a&gt; using &lt;a href=&#34;http://vim.spf13.com/&#34;&gt;spf13-vim&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;ようこそ、ひたち光教会へ！お車でお越しの方は空いている駐車スペースへどうぞ。&lt;br /&gt;
+玄関よりお入りください。受付の者がおりますので、当日の予定やご連絡が書かれた週報をお受け取りください。&lt;br /&gt;
+聖書と聖歌をお持ちでない方はこちらで借りられます。&lt;/p&gt;
 
-&lt;p&gt;Have questions or suggestions? Feel free to &lt;a href=&#34;https://github.com/spf13/hugo/issues/new&#34;&gt;open an issue on GitHub&lt;/a&gt; or &lt;a href=&#34;https://twitter.com/spf13&#34;&gt;ask me on Twitter&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;礼拝&#34;&gt;礼拝&lt;/h3&gt;
 
-&lt;p&gt;Thanks for reading!&lt;/p&gt;
+&lt;p&gt;礼拝の前に賛美の練習、お祈りの時間があります。&lt;br /&gt;
+礼拝は週報のプログラムのように進みます。&lt;br /&gt;
+はじめての方には教会員がいろいろとお手伝いさせていただきます。お気軽に何でもご質問ください。&lt;/p&gt;
+
+&lt;h3 id=&#34;礼拝後&#34;&gt;礼拝後&lt;/h3&gt;
+
+&lt;p&gt;毎週、みんなでいっしょに昼食の時間を持っています。お時間ありましたら是非ごいっしょにどうぞ。無料です。&lt;br /&gt;
+牧師と個別にお話ししたい場合、牧師またはお近くの教会員にお知らせください。&lt;br /&gt;
+午後からもいろいろなプログラムが予定されています。ご興味ありましたら是非ご参加ください。&lt;/p&gt;
+
+&lt;h3 id=&#34;日曜日以外に教会へ行ってみたい&#34;&gt;日曜日以外に教会へ行ってみたい！&lt;/h3&gt;
+
+&lt;p&gt;ぜひお越しください！&lt;br /&gt;
+念のため教会へご連絡の上お越しください！&lt;/p&gt;
+
+&lt;h3 id=&#34;小さい子どもがいるのですが-教会に行っても大丈夫ですか&#34;&gt;小さい子どもがいるのですが、教会に行っても大丈夫ですか？&lt;/h3&gt;
+
+&lt;p&gt;はい。だいじょうぶ。大歓迎です。(^_^)/&lt;br /&gt;
+礼拝室隣の光室のTVに中継もしています。&lt;/p&gt;
 </description>
     </item>
     
     <item>
-      <title>About</title>
-      <link>http://localhost:1313/hitachi_hikari/about%20-%20%E3%82%B3%E3%83%94%E3%83%BC/</link>
+      <title>8 光カルチャーレッスン</title>
+      <link>http://localhost:1313/hitachi_hikari/culture/</link>
       <pubDate>Wed, 01 Mar 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/hitachi_hikari/about%20-%20%E3%82%B3%E3%83%94%E3%83%BC/</guid>
+      <guid>http://localhost:1313/hitachi_hikari/culture/</guid>
       <description>
 
-&lt;p&gt;Hugo is a static site engine written in Go.&lt;/p&gt;
+&lt;p&gt;はじめて教会に行ってみたい方はこちらからどうぞ&lt;/p&gt;
 
-&lt;p&gt;It makes use of a variety of open source projects including:&lt;/p&gt;
+&lt;h3 id=&#34;礼拝に出てみたい&#34;&gt;礼拝に出てみたい&lt;/h3&gt;
 
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/cobra&#34;&gt;Cobra&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/viper&#34;&gt;Viper&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/jWalterWeatherman&#34;&gt;J Walter Weatherman&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/cast&#34;&gt;Cast&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;毎週日曜日 10:30-12:00に行われています。&lt;br /&gt;
+持ち物は、特に必要ありません。&lt;br /&gt;
+牧師のユン先生は日本に来て30年。&lt;br /&gt;
+礼拝は日本語です。韓国語での同時通訳も行っています。&lt;/p&gt;
 
-&lt;p&gt;Learn more and contribute on &lt;a href=&#34;https://github.com/spf13&#34;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;教会への行き方は&#34;&gt;教会への行き方は？&lt;/h3&gt;
 
-&lt;h2 id=&#34;setup&#34;&gt;Setup&lt;/h2&gt;
+&lt;p&gt;JR大甕(おおみか)駅からバスが出ています。&lt;br /&gt;
+敷地内に駐車場がありますのでお車で来られても大丈夫です。&lt;br /&gt;
+⇒詳しくはアクセスこちらをご覧ください。&lt;/p&gt;
 
-&lt;p&gt;Some fun facts about &lt;a href=&#34;http://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;:&lt;/p&gt;
+&lt;h3 id=&#34;教会に着いたら&#34;&gt;教会に着いたら&lt;/h3&gt;
 
-&lt;ul&gt;
-&lt;li&gt;Built in &lt;a href=&#34;http://golang.org/&#34;&gt;Go&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Loosely inspired by &lt;a href=&#34;http://jekyllrb.com/&#34;&gt;Jekyll&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Primarily developed by &lt;a href=&#34;http://spf13.com/&#34;&gt;spf13&lt;/a&gt; on the train while commuting to and from Manhattan.&lt;/li&gt;
-&lt;li&gt;Coded in &lt;a href=&#34;http://vim.org&#34;&gt;Vim&lt;/a&gt; using &lt;a href=&#34;http://vim.spf13.com/&#34;&gt;spf13-vim&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;ようこそ、ひたち光教会へ！お車でお越しの方は空いている駐車スペースへどうぞ。&lt;br /&gt;
+玄関よりお入りください。受付の者がおりますので、当日の予定やご連絡が書かれた週報をお受け取りください。&lt;br /&gt;
+聖書と聖歌をお持ちでない方はこちらで借りられます。&lt;/p&gt;
 
-&lt;p&gt;Have questions or suggestions? Feel free to &lt;a href=&#34;https://github.com/spf13/hugo/issues/new&#34;&gt;open an issue on GitHub&lt;/a&gt; or &lt;a href=&#34;https://twitter.com/spf13&#34;&gt;ask me on Twitter&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;礼拝&#34;&gt;礼拝&lt;/h3&gt;
 
-&lt;p&gt;Thanks for reading!&lt;/p&gt;
+&lt;p&gt;礼拝の前に賛美の練習、お祈りの時間があります。&lt;br /&gt;
+礼拝は週報のプログラムのように進みます。&lt;br /&gt;
+はじめての方には教会員がいろいろとお手伝いさせていただきます。お気軽に何でもご質問ください。&lt;/p&gt;
+
+&lt;h3 id=&#34;礼拝後&#34;&gt;礼拝後&lt;/h3&gt;
+
+&lt;p&gt;毎週、みんなでいっしょに昼食の時間を持っています。お時間ありましたら是非ごいっしょにどうぞ。無料です。&lt;br /&gt;
+牧師と個別にお話ししたい場合、牧師またはお近くの教会員にお知らせください。&lt;br /&gt;
+午後からもいろいろなプログラムが予定されています。ご興味ありましたら是非ご参加ください。&lt;/p&gt;
+
+&lt;h3 id=&#34;日曜日以外に教会へ行ってみたい&#34;&gt;日曜日以外に教会へ行ってみたい！&lt;/h3&gt;
+
+&lt;p&gt;ぜひお越しください！&lt;br /&gt;
+念のため教会へご連絡の上お越しください！&lt;/p&gt;
+
+&lt;h3 id=&#34;小さい子どもがいるのですが-教会に行っても大丈夫ですか&#34;&gt;小さい子どもがいるのですが、教会に行っても大丈夫ですか？&lt;/h3&gt;
+
+&lt;p&gt;はい。だいじょうぶ。大歓迎です。(^_^)/&lt;br /&gt;
+礼拝室隣の光室のTVに中継もしています。&lt;/p&gt;
 </description>
     </item>
     
     <item>
-      <title>About</title>
-      <link>http://localhost:1313/hitachi_hikari/about/</link>
+      <title>9 光韓国料理教室</title>
+      <link>http://localhost:1313/hitachi_hikari/ryouri/</link>
       <pubDate>Wed, 01 Mar 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/hitachi_hikari/about/</guid>
+      <guid>http://localhost:1313/hitachi_hikari/ryouri/</guid>
       <description>
 
-&lt;p&gt;Hugo is a static site engine written in Go.&lt;/p&gt;
+&lt;p&gt;はじめて教会に行ってみたい方はこちらからどうぞ&lt;/p&gt;
 
-&lt;p&gt;It makes use of a variety of open source projects including:&lt;/p&gt;
+&lt;h3 id=&#34;礼拝に出てみたい&#34;&gt;礼拝に出てみたい&lt;/h3&gt;
 
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/cobra&#34;&gt;Cobra&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/viper&#34;&gt;Viper&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/jWalterWeatherman&#34;&gt;J Walter Weatherman&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/cast&#34;&gt;Cast&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;毎週日曜日 10:30-12:00に行われています。&lt;br /&gt;
+持ち物は、特に必要ありません。&lt;br /&gt;
+牧師のユン先生は日本に来て30年。&lt;br /&gt;
+礼拝は日本語です。韓国語での同時通訳も行っています。&lt;/p&gt;
 
-&lt;p&gt;Learn more and contribute on &lt;a href=&#34;https://github.com/spf13&#34;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;教会への行き方は&#34;&gt;教会への行き方は？&lt;/h3&gt;
 
-&lt;h2 id=&#34;setup&#34;&gt;Setup&lt;/h2&gt;
+&lt;p&gt;JR大甕(おおみか)駅からバスが出ています。&lt;br /&gt;
+敷地内に駐車場がありますのでお車で来られても大丈夫です。&lt;br /&gt;
+⇒詳しくはアクセスこちらをご覧ください。&lt;/p&gt;
 
-&lt;p&gt;Some fun facts about &lt;a href=&#34;http://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;:&lt;/p&gt;
+&lt;h3 id=&#34;教会に着いたら&#34;&gt;教会に着いたら&lt;/h3&gt;
 
-&lt;ul&gt;
-&lt;li&gt;Built in &lt;a href=&#34;http://golang.org/&#34;&gt;Go&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Loosely inspired by &lt;a href=&#34;http://jekyllrb.com/&#34;&gt;Jekyll&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Primarily developed by &lt;a href=&#34;http://spf13.com/&#34;&gt;spf13&lt;/a&gt; on the train while commuting to and from Manhattan.&lt;/li&gt;
-&lt;li&gt;Coded in &lt;a href=&#34;http://vim.org&#34;&gt;Vim&lt;/a&gt; using &lt;a href=&#34;http://vim.spf13.com/&#34;&gt;spf13-vim&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;ようこそ、ひたち光教会へ！お車でお越しの方は空いている駐車スペースへどうぞ。&lt;br /&gt;
+玄関よりお入りください。受付の者がおりますので、当日の予定やご連絡が書かれた週報をお受け取りください。&lt;br /&gt;
+聖書と聖歌をお持ちでない方はこちらで借りられます。&lt;/p&gt;
 
-&lt;p&gt;Have questions or suggestions? Feel free to &lt;a href=&#34;https://github.com/spf13/hugo/issues/new&#34;&gt;open an issue on GitHub&lt;/a&gt; or &lt;a href=&#34;https://twitter.com/spf13&#34;&gt;ask me on Twitter&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;礼拝&#34;&gt;礼拝&lt;/h3&gt;
 
-&lt;p&gt;Thanks for reading!&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>blog1</title>
-      <link>http://localhost:1313/hitachi_hikari/blog/blog1/</link>
-      <pubDate>Wed, 01 Mar 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://localhost:1313/hitachi_hikari/blog/blog1/</guid>
-      <description>
+&lt;p&gt;礼拝の前に賛美の練習、お祈りの時間があります。&lt;br /&gt;
+礼拝は週報のプログラムのように進みます。&lt;br /&gt;
+はじめての方には教会員がいろいろとお手伝いさせていただきます。お気軽に何でもご質問ください。&lt;/p&gt;
 
-&lt;p&gt;Hugo is a static site engine written in Go.&lt;/p&gt;
+&lt;h3 id=&#34;礼拝後&#34;&gt;礼拝後&lt;/h3&gt;
 
-&lt;p&gt;It makes use of a variety of open source projects including:&lt;/p&gt;
+&lt;p&gt;毎週、みんなでいっしょに昼食の時間を持っています。お時間ありましたら是非ごいっしょにどうぞ。無料です。&lt;br /&gt;
+牧師と個別にお話ししたい場合、牧師またはお近くの教会員にお知らせください。&lt;br /&gt;
+午後からもいろいろなプログラムが予定されています。ご興味ありましたら是非ご参加ください。&lt;/p&gt;
 
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/cobra&#34;&gt;Cobra&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/viper&#34;&gt;Viper&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/jWalterWeatherman&#34;&gt;J Walter Weatherman&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/cast&#34;&gt;Cast&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;h3 id=&#34;日曜日以外に教会へ行ってみたい&#34;&gt;日曜日以外に教会へ行ってみたい！&lt;/h3&gt;
 
-&lt;p&gt;Learn more and contribute on &lt;a href=&#34;https://github.com/spf13&#34;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;ぜひお越しください！&lt;br /&gt;
+念のため教会へご連絡の上お越しください！&lt;/p&gt;
 
-&lt;h2 id=&#34;setup&#34;&gt;Setup&lt;/h2&gt;
+&lt;h3 id=&#34;小さい子どもがいるのですが-教会に行っても大丈夫ですか&#34;&gt;小さい子どもがいるのですが、教会に行っても大丈夫ですか？&lt;/h3&gt;
 
-&lt;p&gt;Some fun facts about &lt;a href=&#34;http://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Built in &lt;a href=&#34;http://golang.org/&#34;&gt;Go&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Loosely inspired by &lt;a href=&#34;http://jekyllrb.com/&#34;&gt;Jekyll&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Primarily developed by &lt;a href=&#34;http://spf13.com/&#34;&gt;spf13&lt;/a&gt; on the train while commuting to and from Manhattan.&lt;/li&gt;
-&lt;li&gt;Coded in &lt;a href=&#34;http://vim.org&#34;&gt;Vim&lt;/a&gt; using &lt;a href=&#34;http://vim.spf13.com/&#34;&gt;spf13-vim&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Have questions or suggestions? Feel free to &lt;a href=&#34;https://github.com/spf13/hugo/issues/new&#34;&gt;open an issue on GitHub&lt;/a&gt; or &lt;a href=&#34;https://twitter.com/spf13&#34;&gt;ask me on Twitter&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Thanks for reading!&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>blog2</title>
-      <link>http://localhost:1313/hitachi_hikari/blog/blog1%20-%20%E3%82%B3%E3%83%94%E3%83%BC/</link>
-      <pubDate>Wed, 01 Mar 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://localhost:1313/hitachi_hikari/blog/blog1%20-%20%E3%82%B3%E3%83%94%E3%83%BC/</guid>
-      <description>
-
-&lt;p&gt;Hugo is a static site engine written in Go.&lt;/p&gt;
-
-&lt;p&gt;It makes use of a variety of open source projects including:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/cobra&#34;&gt;Cobra&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/viper&#34;&gt;Viper&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/jWalterWeatherman&#34;&gt;J Walter Weatherman&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/cast&#34;&gt;Cast&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Learn more and contribute on &lt;a href=&#34;https://github.com/spf13&#34;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;setup&#34;&gt;Setup&lt;/h2&gt;
-
-&lt;p&gt;Some fun facts about &lt;a href=&#34;http://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Built in &lt;a href=&#34;http://golang.org/&#34;&gt;Go&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Loosely inspired by &lt;a href=&#34;http://jekyllrb.com/&#34;&gt;Jekyll&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Primarily developed by &lt;a href=&#34;http://spf13.com/&#34;&gt;spf13&lt;/a&gt; on the train while commuting to and from Manhattan.&lt;/li&gt;
-&lt;li&gt;Coded in &lt;a href=&#34;http://vim.org&#34;&gt;Vim&lt;/a&gt; using &lt;a href=&#34;http://vim.spf13.com/&#34;&gt;spf13-vim&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Have questions or suggestions? Feel free to &lt;a href=&#34;https://github.com/spf13/hugo/issues/new&#34;&gt;open an issue on GitHub&lt;/a&gt; or &lt;a href=&#34;https://twitter.com/spf13&#34;&gt;ask me on Twitter&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Thanks for reading!&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>blog3</title>
-      <link>http://localhost:1313/hitachi_hikari/blog/blog1%20-%20%E3%82%B3%E3%83%94%E3%83%BC%20%282%29/</link>
-      <pubDate>Wed, 01 Mar 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://localhost:1313/hitachi_hikari/blog/blog1%20-%20%E3%82%B3%E3%83%94%E3%83%BC%20%282%29/</guid>
-      <description>
-
-&lt;p&gt;Hugo is a static site engine written in Go.&lt;/p&gt;
-
-&lt;p&gt;It makes use of a variety of open source projects including:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/cobra&#34;&gt;Cobra&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/viper&#34;&gt;Viper&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/jWalterWeatherman&#34;&gt;J Walter Weatherman&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/cast&#34;&gt;Cast&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Learn more and contribute on &lt;a href=&#34;https://github.com/spf13&#34;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;setup&#34;&gt;Setup&lt;/h2&gt;
-
-&lt;p&gt;Some fun facts about &lt;a href=&#34;http://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Built in &lt;a href=&#34;http://golang.org/&#34;&gt;Go&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Loosely inspired by &lt;a href=&#34;http://jekyllrb.com/&#34;&gt;Jekyll&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Primarily developed by &lt;a href=&#34;http://spf13.com/&#34;&gt;spf13&lt;/a&gt; on the train while commuting to and from Manhattan.&lt;/li&gt;
-&lt;li&gt;Coded in &lt;a href=&#34;http://vim.org&#34;&gt;Vim&lt;/a&gt; using &lt;a href=&#34;http://vim.spf13.com/&#34;&gt;spf13-vim&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Have questions or suggestions? Feel free to &lt;a href=&#34;https://github.com/spf13/hugo/issues/new&#34;&gt;open an issue on GitHub&lt;/a&gt; or &lt;a href=&#34;https://twitter.com/spf13&#34;&gt;ask me on Twitter&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Thanks for reading!&lt;/p&gt;
+&lt;p&gt;はい。だいじょうぶ。大歓迎です。(^_^)/&lt;br /&gt;
+礼拝室隣の光室のTVに中継もしています。&lt;/p&gt;
 </description>
     </item>
     
