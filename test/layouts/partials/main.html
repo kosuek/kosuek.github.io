@@ -1,0 +1,36 @@
+﻿<main>
+<div class="container-fluid">
+	<div class="row">
+		{{ partial "main_side.html" . }}
+		<div class="col">
+			<div class="row">
+			{{ range first 6 .Data.Pages }}
+				<div class="col-md-2">
+					<a href={{.URL | absURL  }}>
+						<img src="http://placeimg.com/500/500/tech/grayscale" class="img-fluid" alt="Responsive image">
+						<h3>{{.Title}}</h3>
+					</a>
+					<p>***</p>
+				</div>
+			{{ end }}
+			</div>
+			<div class="row">
+				<div class="col">
+						<img src="http://placeimg.com/2000/500/tech/grayscale" class="img-fluid" alt="Responsive image">
+				</div>
+			</div>
+			<div class="row">
+			{{ range last 3 .Data.Pages }}
+				<div class="col-md-4">
+					<a href={{.URL | absURL  }}>
+						<img src="http://placeimg.com/500/400/tech/grayscale" class="img-fluid" alt="Responsive image">
+						<h3>{{.Title}}</h3>
+					</a>
+					<p>***</p>
+				</div>
+			{{ end }}
+			</div>
+		</div>
+	</div>
+</div>
+</main>

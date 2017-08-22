@@ -1,0 +1,9 @@
+baseurl = "http://www4.plala.or.jp/hitachi_hikari/"
+languageCode = "jp"
+title = "hitachi hikari church"
+theme = ""
+ 
+[Params]
+description = "ÉTÉCÉgÇÃê‡ñæ"
+twitter_account = "xxxxxx"
+analytics = "UA-01234567-8"
