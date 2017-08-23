@@ -1,30 +1,29 @@
-﻿		<div class="col">
-			<div class="row">
-			{{ range first 6 .Data.Pages.ByTitle }}
-				<div class="col-md-2">
-					<a href={{.URL | absURL  }}>
-						<img src="http://placeimg.com/500/400/tech/grayscale" class="img-fluid" alt="Responsive image">
-					</a>
-					<h5>{{.Title}}</h5>
-					<p><small>{{first 80 .Content }}</small></p>
-				</div>
-			{{ end }}
-			</div>
-			<div class="row">
-				<div class="col">
-					<img src="http://placeimg.com/2000/500/tech/grayscale" class="img-fluid" alt="Responsive image">
-					<p>***</p>
-				</div>
-			</div>
-			<div class="row">
-			{{ range last 3 .Data.Pages.ByTitle }}
-				<div class="col-md-4">
-					<a href={{.URL | absURL  }}>
-						<img src="http://placeimg.com/500/400/tech/grayscale" class="img-fluid" alt="Responsive image">
-						<h3>{{.Title}}</h3>
-					</a>
-					<p><small>{{first 160 .Content }}</small></p>
-				</div>
-			{{ end }}
-			</div>
+﻿<div class="col">
+	<div class="row">
+	{{ range first 6 .Data.Pages}}
+		<div class="col-md-2">
+			<a href={{.URL | absURL  }}>
+				<img src="http://placeimg.com/500/300/tech/grayscale" class="img-fluid" alt="Responsive image">
+			</a>
+			<h5>{{.Title}}</h5>
+			<p><small>{{ .Params.comment }}</small></p>
 		</div>
+	{{ end }}
+	</div>
+	<div class="row">
+		<div class="col">
+			<img src="{{ .Site.BaseURL }}img/top.png" class="img-fluid" alt="Responsive image">
+		</div>
+	</div>
+	<div class="row">
+	{{ range last 3 .Data.Pages}}
+		<div class="col-md-4">
+			<a href={{.URL | absURL  }}>
+				<img src="http://placeimg.com/500/300/tech/grayscale" class="img-fluid" alt="Responsive image">
+				<h3>{{.Title}}</h3>
+			</a>
+			<p><small>{{ .Params.comment }}</small></p>
+		</div>
+	{{ end }}
+	</div>
+</div>

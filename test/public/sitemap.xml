@@ -2,54 +2,53 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://localhost:1313/hitachi_hikari/flower/</loc>
+    <loc>http://www4.plala.or.jp/hitachi_hikari/1_info/</loc>
+    <lastmod>2017-03-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www4.plala.or.jp/hitachi_hikari/2_welcome/</loc>
+    <lastmod>2017-03-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www4.plala.or.jp/hitachi_hikari/3_K/</loc>
+    <lastmod>2017-03-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www4.plala.or.jp/hitachi_hikari/4_D/</loc>
+    <lastmod>2017-03-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www4.plala.or.jp/hitachi_hikari/5_K/</loc>
+    <lastmod>2017-03-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www4.plala.or.jp/hitachi_hikari/6_D/</loc>
     <lastmod>2017-08-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/hitachi_hikari/info/</loc>
+    <loc>http://www4.plala.or.jp/hitachi_hikari/7_culture/</loc>
     <lastmod>2017-03-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/hitachi_hikari/welcome/</loc>
+    <loc>http://www4.plala.or.jp/hitachi_hikari/8_mana/</loc>
     <lastmod>2017-03-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/hitachi_hikari/sanbi/</loc>
+    <loc>http://www4.plala.or.jp/hitachi_hikari/9_ryouri/</loc>
     <lastmod>2017-03-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://localhost:1313/hitachi_hikari/mana/</loc>
+    <loc>http://www4.plala.or.jp/hitachi_hikari/</loc>
     <lastmod>2017-03-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://localhost:1313/hitachi_hikari/culture/</loc>
-    <lastmod>2017-03-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://localhost:1313/hitachi_hikari/ryouri/</loc>
-    <lastmod>2017-03-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://localhost:1313/hitachi_hikari/tags/</loc>
-    <lastmod>2017-08-22T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://localhost:1313/hitachi_hikari/</loc>
-    <lastmod>2017-08-22T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://localhost:1313/hitachi_hikari/tags/</loc>
     <priority>0</priority>
   </url>
   

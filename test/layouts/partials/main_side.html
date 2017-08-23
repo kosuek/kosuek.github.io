@@ -1,20 +1,19 @@
-﻿		<div class="col-2">
-			<h6>{{ .Site.Title }}</h6>
-			<a href={{ .Site.BaseURL }}>
-				<img src="http://placeimg.com/500/500/tech/grayscale" class="img-fluid" alt="Responsive image">
-			</a>
-			
-			<b>new!</b>
-			<ul class="list-group">
-				{{ range first 3 .Pages.ByDate }}
-				<li class="list-group-item"><a href={{.URL}}><small>{{.Title}}</small></a></li>
-				{{ end }}
-			</ul>
-
-			<b>menu</b>
-			<ul class="list-group">
-				{{ range .Pages.ByTitle}}
-				<li class="list-group-item"><a href={{.URL}}><small>{{.Title}}</small></a></li>
-				{{ end }}
-			</ul>
-		</div>
+﻿<div class="col-2">
+	<h6>{{ .Site.Title }}</h6>
+	<a href={{ .Site.BaseURL }}>
+		<img src="{{ .Site.BaseURL }}img/logo.png" class="img-fluid" alt="Responsive image">
+	</a>
+	
+	<b>new</b>
+	<ul class="list-group">
+		{{ range first 3 .Pages}}
+		<li class="list-group-item list-group-item-success"><a href={{.URL | absURL  }}><small>{{.Title}} <br><small>{{.Date.Format "2006/01/02"}}更新</small></small></a></li>
+		{{ end }}
+	</ul>
+	<br>
+	<ul class="list-group">
+		{{ range .Pages}}
+		<li class="list-group-item list-group-item-success"><a href={{.URL | absURL  }}><small>{{.Title}}</small></a></li>
+		{{ end }}
+	</ul>
+</div>
