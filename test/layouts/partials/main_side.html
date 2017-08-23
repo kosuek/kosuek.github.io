@@ -6,13 +6,14 @@
 	
 	<b>new</b>
 	<ul class="list-group">
-		{{ range first 3 .Pages}}
+		{{ range first 3 .Site.Pages}}
 		<li class="list-group-item list-group-item-success"><a href={{.URL | absURL  }}><small>{{.Title}} <br><small>{{.Date.Format "2006/01/02"}}更新</small></small></a></li>
 		{{ end }}
 	</ul>
-	<br>
+
+	<b>menu</b>
 	<ul class="list-group">
-		{{ range .Pages}}
+		{{ range first 9 .Site.Pages}}
 		<li class="list-group-item list-group-item-success"><a href={{.URL | absURL  }}><small>{{.Title}}</small></a></li>
 		{{ end }}
 	</ul>
