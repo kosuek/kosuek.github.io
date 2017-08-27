@@ -1,0 +1,14 @@
+{{ partial "header.html" . }}
+ <div class="col">
+
+{{.Title}}
+<article>
+    <ul class="list-group">
+    {{ range (.Paginator).Pages }}
+        <li class="list-group-item">{{ .Render "list" }}</li>
+    {{ end }}
+    </ul>
+</article>
+ 
+ </div>
+{{ partial "footer.html" . }}
