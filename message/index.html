@@ -31,7 +31,7 @@ var get_nowTime = function(){
 	window.localStorage.setItem("nowTime", val);
   } 
 
-setInterval(get_nowTime, 3000);
+setInterval(get_nowTime, 5000);
 
 
 $(function () {
@@ -69,6 +69,7 @@ function rateup(speed){document.getElementById("audio").playbackRate = speed;}
 	<label for="messageSelect">礼拝説教一覧：日付を選んでください</label>
 	<form>
 	<select class="form-control" id="messageSelect">
+		<option>20170910 しかし、だれも、言わなかった。</option>
 		<option>20170903 ついに、あなたは土に帰る。</option>
 		<option>20170827 わたしがそれです。</option>
 		<option>20170820 一生、苦しんで食を得</option>
