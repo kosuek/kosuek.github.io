@@ -3,8 +3,8 @@ CACHE MANIFEST
 CACHE:
 # index.html
 m4a/201708*.m4a
-m4a/*.png
-m4a/*.jpg
+# m4a/*.png
+# m4a/*.jpg
 //netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
 https://code.jquery.com/jquery.js
 //netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js
