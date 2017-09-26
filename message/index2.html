@@ -1,5 +1,23 @@
+Skip to content
+Features
+Business
+Explore
+Marketplace
+Pricing
+This repository
+Search
+Sign in or Sign up
+ Watch 1  Star 0  Fork 0 kosuek/kosuek.github.io
+ Code  Issues 0  Pull requests 0  Projects 0 Insights 
+Branch: master Find file Copy pathkosuek.github.io/message/index.html
+aa2218b  2 days ago
+@kosuek kosuek message
+1 contributor
+RawBlameHistory     
+187 lines (177 sloc)  8.48 KB
 <!DOCTYPE html>
-<!--<html lang="ja" manifest="app.appcache">-->
+<html lang="ja" manifest="app.appcache">
+<!--<html lang="ja">-->
 <head>
 <title>ひたち光教会</title>
 <meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=1" name="viewport">
@@ -19,23 +37,19 @@ audio { width: 100%; }
 </style>
 <script>
 window.onload = function(){
+	//window.applicationCache.update();
 	audioset();
 	val = window.localStorage.getItem("nowTime");
 	document.getElementById("audio").currentTime = val;
 }
-
 var get_nowTime = function(){
 	val = document.getElementById("audio").currentTime;
 	window.localStorage.setItem("nowTime", val);
   } 
-
-setInterval(get_nowTime, 3000);
-
-
+setInterval(get_nowTime, 5000);
 $(function () {
 	$("select").change(audioset);
 });
-
 function audioset(){
 	var selaudio;
 	var audio = new Audio();
@@ -44,48 +58,44 @@ function audioset(){
 	audio.controls = true;
 	audio.src = "./m4a/" + selaudio + ".m4a";
 	audio.id = "audio";
-	$(message0).html(audio);
+	$(message).html(audio);
+	console.log(src.length);
 }
 function skip(seconds){document.getElementById("audio").currentTime += seconds;}
 function rateup(speed){document.getElementById("audio").playbackRate = speed;}
-
 </script>
-
-
-<script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyAKAFugccva4YFDBe8s5RzFh9BW--tjsiA",
-    authDomain: "hhcapps-f32da.firebaseapp.com",
-    databaseURL: "https://hhcapps-f32da.firebaseio.com",
-    projectId: "hhcapps-f32da",
-    storageBucket: "hhcapps-f32da.appspot.com",
-    messagingSenderId: "754967545335"
-  };
-  firebase.initializeApp(config);
-</script>
-
-
 </head>
 <body>
 <nav class="navbar navbar-fixed-top">
 <div class="container">
 	<div class="row">
-		<div class="col-xs-6"><h4 class="text-center">ひたち光教会app</h4></div>
-		<div class="col-xs-4"><input type="text" name="" id="my_text" value="名前"></div>
+		<div class="col-xs-10"><h4 class="text-center">ひたち光教会app</h4></div>
 		<div class="col-xs-2"><input class="btn btn-block btn-info" onclick="window.location.reload();"type="button" value="更新"></div>
 	</div>
 </div>
 </nav>
-
 <div class="container">
 	<br><hr />
 	<div class="col-xs-12">
 	<label for="messageSelect">礼拝説教一覧：日付を選んでください</label>
 	<form>
 	<select class="form-control" id="messageSelect">
-		<option>20170312 イエスは旅の疲れで、(3/12)</option>
+		<option>20170924 女は、自分の水がめを</option>
+		<option>20170917 皮の衣</option>
+		<option>20170910 しかし、だれも、言わなかった。</option>
+		<option>20170903 ついに、あなたは土に帰る。</option>
+		<option>20170827 わたしがそれです。</option>
+		<option>20170820 一生、苦しんで食を得</option>
+		<option>20170813 神を礼拝する者は、</option>
+		<option>20170811 <b>修養会の学び2</b></option>
+		<option>20170810 <b>修養会の学び1</b></option>
+		<option>20170806 夫を恋い慕うが、彼は、</option>
+		<option>20170730 神は霊ですから</option>
+		<option>20170723 彼は、おまえの頭を踏み砕き、</option>
+		<option>20170716 しかし、真の礼拝者たちが</option>
+		<option>20170709 おまえの子孫と女の子孫との間に</option>
+		<option>20170702 礼拝すべき場所は、</option>
+		<option>20170625 イエスは旅の疲れで、(3/12)</option>
 		<option>20170618 おまえが、こんな事をしたので、</option>
 		<option>20170611 行って、あなたの夫をここに呼んで来なさい。</option>
 		<option>20170604 【ペンテコステ】お遣わしになる聖霊は、</option>
@@ -165,15 +175,11 @@ function rateup(speed){document.getElementById("audio").playbackRate = speed;}
 	</select>
 	</form>
 	</div>
-	<div class="col-xs-12" id="message0"></div>
-	<div class="col-xs-12" id="chatText"></div>
-	
-	<div class="col-xs-12"><input class="btn btn-block btn-lg btn-default" onclick="changeData()"	type="button" value="▸"></div>
+	<div class="col-xs-12" id="message"></div>
 	<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(-30)"	type="button" value="<<30秒"></div>
 	<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(-5)"	type="button" value="<<5秒"></div>
 	<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(5)"		type="button" value="5秒>>"></div>
 	<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(30)"	type="button" value="30秒>>"></div>
-	
 	<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="rateup(0.5)"	type="button" value="x0.5"></div>
 	<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="rateup(1.0)"	type="button" value="x1.0"></div>
 	<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="rateup(1.5)"	type="button" value="x1.5"></div>
@@ -184,25 +190,19 @@ function rateup(speed){document.getElementById("audio").playbackRate = speed;}
 	<div class="col-xs-12"><br><br><hr /><label>週報・月予定表：クリックすると大きくなります</label></div>
 	<div class="col-xs-6"><a href="./m4a/syuho.png" class="thumbnail"><img src="./m4a/syuho.png" alt=""></a></div>
 	<div class="col-xs-3"><a href="./m4a/yotei.png" class="thumbnail"><img src="./m4a/yotei.png" alt=""></a></div>
-	<div class="col-xs-3"><a href="./m4a/2017.jpg" class="thumbnail"><img src="./m4a/2017.jpg" alt=""></a></div>
-
+	<div class="col-xs-3"><a href="./m4a/2017.png" class="thumbnail"><img src="./m4a/2017.png" alt=""></a></div>
 </div>
-
-<script>
-      var db = firebase.database();
-      var myChatAll = db.ref("/now");
-	
-      document.getElementById("audio").play();
-      
-      function changeData(){
-        var text = document.getElementById("my_text").value;
-        myChatAll.set({title:text, text:"listening"});
-      }
-
-      myChatAll.on("value", function(snapshot) { 
-        document.getElementById("chatText").innerText = snapshot.val().title;
-      });
-    </script>
-
 </body>
 </html>
+© 2017 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+API
+Training
+Shop
+Blog
+About
