@@ -42,7 +42,7 @@ function audioset(){
 	audio.src = "./m4a/" + selaudio + ".m4a";
 	audio.id = "audio";
 	$(message).html(audio);
-	console.log(src.length);
+	console.log(audio.src.length);
 }
 function skip(seconds){document.getElementById("audio").currentTime += seconds;}
 function rateup(speed){document.getElementById("audio").playbackRate = speed;}
