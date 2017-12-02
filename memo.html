@@ -119,6 +119,8 @@ Error message and password prompt
 
 <li>$:/config/AnimationDuration</li>
 
+<li>$:/config/AutoSave</li>
+
 <li>$:/config/DefaultSidebarTab</li>
 
 <li>$:/config/NewJournal/Title</li>
@@ -126,6 +128,8 @@ Error message and password prompt
 <li>$:/config/PageControlButtons/Visibility/$:/core/ui/Buttons/tag-manager</li>
 
 <li>$:/config/Tiddlers/TitleLinks</li>
+
+<li>$:/config/Toolbar/Text</li>
 
 <li>$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/clone</li>
 
@@ -146,6 +150,8 @@ Error message and password prompt
 <li>$:/state/showeditpreview</li>
 
 <li>$:/state/sidebar</li>
+
+<li>$:/state/tab--1498284803</li>
 
 <li>$:/state/tab--1963855381</li>
 
@@ -575,6 +581,10 @@ Error message and password prompt
 
 <li>2017/11/26 inori</li>
 
+<li>2017/11/26 詩篇73:18-20</li>
+
+<li>2017/12/03 inori</li>
+
 <li>2017聖化入門クラス</li>
 
 <li>DefaultTiddlers</li>
@@ -638,6 +648,9 @@ Error message and password prompt
 <div created="20170416011708926" creator="kosuke" modified="20170416011709045" modifier="kosuke" title="$:/config/AnimationDuration">
 <pre>100</pre>
 </div>
+<div modified="20171126010518403" modifier="kosuke" title="$:/config/AutoSave">
+<pre>yes</pre>
+</div>
 <div modified="20150712024820844" title="$:/config/DefaultSidebarTab">
 <pre>$:/core/ui/SideBar/Recent</pre>
 </div>
@@ -649,6 +662,9 @@ Error message and password prompt
 </div>
 <div modified="20160312010952356" modifier="kosuke" title="$:/config/Tiddlers/TitleLinks">
 <pre>yes</pre>
+</div>
+<div modified="20171126010507079" modifier="kosuke" title="$:/config/Toolbar/Text">
+<pre>no</pre>
 </div>
 <div modified="20150809014816789" modifier="kosuke" title="$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/clone">
 <pre>show</pre>
@@ -6419,11 +6435,14 @@ Error message and password prompt
 <div created="20150712074350600" modified="20150712074352077" title="$:/SiteTitle">
 <pre>memo</pre>
 </div>
-<div modified="20171124012530536" modifier="kosuke" title="$:/state/showeditpreview">
+<div modified="20171202152821735" modifier="kosuke" title="$:/state/showeditpreview">
 <pre>no</pre>
 </div>
-<div modified="20171112080541483" modifier="kosuke" title="$:/state/sidebar">
+<div modified="20171126030752811" modifier="kosuke" title="$:/state/sidebar">
 <pre>yes</pre>
+</div>
+<div modified="20171126014820148" modifier="kosuke" title="$:/state/tab--1498284803">
+<pre>$:/core/ui/AdvancedSearch/Filter</pre>
 </div>
 <div modified="20170416011636005" modifier="kosuke" title="$:/state/tab--1963855381">
 <pre>$:/core/ui/ControlPanel/Palette</pre>
@@ -6437,8 +6456,8 @@ Error message and password prompt
 <div modified="20170416011806965" modifier="kosuke" title="$:/state/tab--959111941">
 <pre>$:/core/ui/ControlPanel/TiddlerFields</pre>
 </div>
-<div modified="20170416011826102" modifier="kosuke" title="$:/state/tab-1749438307">
-<pre>$:/core/ui/ControlPanel/Settings</pre>
+<div modified="20171126014746951" modifier="kosuke" title="$:/state/tab-1749438307">
+<pre>$:/core/ui/ControlPanel/Info</pre>
 </div>
 <div modified="20160703011007710" modifier="kosuke" title="$:/state/tab/moresidebar-401116514">
 <pre>$:/core/ui/MoreSideBar/Recent</pre>
@@ -6452,11 +6471,11 @@ Error message and password prompt
 <div created="20150712074357220" creator="k" modified="20150712074357860" modifier="kosuk" title="$:/status/UserName">
 <pre>kosuke</pre>
 </div>
-<div list="" title="$:/StoryList">
+<div list="[[message template]]" title="$:/StoryList">
 <pre></pre>
 </div>
-<div modified="20150719023418072" modifier="kosuke" title="$:/temp/advancedsearch">
-<pre>sidebar</pre>
+<div modified="20171126014820148" modifier="kosuke" title="$:/temp/advancedsearch">
+<pre>[!is[system]sort[title]]</pre>
 </div>
 <div plugin-type="info" title="$:/temp/info-plugin" type="application/json">
 <pre>{
@@ -6475,7 +6494,7 @@ Error message and password prompt
 <div created="20150712075445622" creator="kosuke" modified="20160605010031069" modifier="kosuke" title="$:/temp/NewTagName">
 <pre></pre>
 </div>
-<div created="20150719023351485" creator="kosuke" modified="20171124012542452" modifier="kosuke" title="$:/temp/search">
+<div created="20150719023351485" creator="kosuke" modified="20171202152714760" modifier="kosuke" title="$:/temp/search">
 <pre></pre>
 </div>
 <div author="JeremyRuston" core-version="&gt;=5.0.0" dependents="$:/themes/tiddlywiki/vanilla" description="Emphasises individual tiddlers" name="Snow White" plugin-type="theme" title="$:/themes/tiddlywiki/snowwhite" type="application/json" version="5.1.9">
@@ -20639,6 +20658,159 @@ I am
 街に留まったイエスキリストを多くの人が見て驚き歓迎しましたが、全ての人が救い主として受け入れることはできませんでした。それは、イエスの子供の頃からの時を知っていたり、大工の息子であることを知っていたり、自分の常識と高ぶりの性質によって、目の前の出来事を正しく見ることができなかったためでした。私たちも同じように自分の常識と高ぶりによって自分や周りに起こっていることを正しく見えないことがあります。また、それらが自分の目的を果たすために有効かどうかとしか考えす神のみこころを見ることができないことがあります。どうかそのような群衆でなく、信仰によって弟子として生きることができますように助けてください。
 
 私たちは、このようなことを時に忘れ、高ぶり、神のみこころを求めるよりも、自分のことを優先し、感謝少なく、不平不満とつぶやくことの多いものであります。今一切の罪を告白し、悔い改めます。 今、忘れている罪もそれぞれに思い起こさせ、悔い改めさせてください。 そして礼拝を捧げる者としてふさわしくきよめてください。
+
+この礼拝のためにユン先生を立ててくださり、 その礼拝の準備を守ってくださいましたことを心から感謝いたします。 ユン先生を聖霊で満たし、今、語られるべき、聖書のみことばをふさわしく語ることができますように導いてください。 また、色々なものでふさがっているわたしたち目と耳ですが、 霊の目と耳を持って、みことばを正しく悟ることができますように整えてください。 新たに神のみことばを聞き、その意味をより深く正しく悟ることができるように助けて下さい。
+
+この礼拝が神さまのみこころにかない、喜ばれるものとなりますように助けてください。
+感謝して、主イエスキリストの御名によってお祈りいたします。
+
+アーメン</pre>
+</div>
+<div created="20171126005722607" creator="kosuke" modified="20171202154714519" modifier="kosuke" tags="" title="2017/11/26 詩篇73:18-20" type="text/x-markdown">
+<pre>目ざめの夢のように、主よ
+----
+
+夢
+
+* 睡眠中あたかも現実の経験であるかのように感じる、一連の観念や心像のこと[1]。睡眠中にもつ幻覚のこと[2]。
+* 将来実現させたいと思っていること[2][1]。願望。願い。
+
+誰もが寝ているときに夢を見ている
+
+
+一場春夢
+
+* 人生の栄華が、きわめてはかなく消えてしまうことのたとえ。ひとときだけの短い春の夜に見る夢の意から。▽「一場」はその場かぎり、ほんのわずかの短い間の意。
+
+
+アサフは悪者たちを見た
+
+* わがままな人たち
+* 高ぶり、残酷
+* 神との約束を守らない人たち
+* など
+
+その悪者たちが裁かれずに祝福されている現実を見た
+
+* いつまでも安らかで富を増している
+* 栄えている
+
+自分は日々耐え難い苦痛の中に生きているという現実を見た
+
+* 苦役
+
+満足できる答えを得ることができなかった
+
+信仰と現実の間に矛盾が見える
+
+必然的な悩み
+
+人、自分に目を留める時に見える
+
+
+&gt;ピリピ4:6-7  
+5 あなた がた の 寛容 な 心 を、 すべて の 人 に 知らせ なさい。 主 は 近い の です。   
+6 何 も 思い煩わ ない で、 あらゆる 場合 に、 感謝 を もっ て ささげる 祈り と 願い によって、 あなた がた の 願い事 を 神 に 知っ て いただき なさい。   
+7 そう すれ ば、 人 の すべて の 考え に まさる 神 の 平安 が、 あなた がた の 心 と 思い を キリスト・イエス に あっ て 守っ て くれ ます。
+
+思い煩いは喜びの敵である
+
+心が神を離れこの世に向けられているときに生じる
+
+思い煩い＝心配　とも訳されている
+
+心配するのはやめなさい
+
+あらゆる場合に感謝をもってささげる祈りと願いによってやめる
+
+* 感謝
+
+* 祈り　公的な祈り
+* 願い　個人的な祈り
+
+祈りは神を信じていることを表すしるし
+
+それによって神の平安が与えられる
+
+
+&gt;18 まことに、 あなた は 彼ら を すべり やすい 所 に 置き、 　 彼ら を 滅び に 突き落とさ れ ます。   
+
+アサフが悟った悪者の最後
+
+まことに＝確信して表している副詞
+
+すべりやすい所=非常に危ない状態の所
+
+霊の目で見ることで見える状況が逆転することがある
+
+&gt;19 まことに、 彼ら は、 また たくま に 滅ぼさ れ、 　 突然 の 恐怖 で 滅ぼし 尽くさ れ ましょ う。   
+
+再びまことにという言葉を使っているが18節の単語とは異なる
+
+こちらは感嘆詞　驚きを表している
+
+&gt;ルカ16:19-22  
+19 ある 金持ち が い た。 いつも 紫 の 衣 や 細布 を 着 て、 毎日 ぜいたく に 遊び 暮らし て い た。   
+20 ところが、 その 門前 に ラザロ という 全身 おでき の 貧しい 人 が 寝 て い て、   
+21 金持ち の 食卓 から 落ちる 物 で 腹 を 満たし たい と 思っ て い た。 犬 も やって来 ては、 彼 の おでき を なめ て い た。   
+22 さて、 この 貧しい 人 は 死ん で、 御 使い たち によって アブラハム の ふところ に 連れ て 行か れ た。 金持ち も 死ん で 葬ら れ た。   
+
+登場人物は
+
+* ある金持ち
+* ラザロ
+
+神から自分に与えられているものを必要以上に自分のためだけに用いていないか
+
+神から与えられているものをなんのために用いているのか
+
+
+
+&gt;ルカ16:23-26  
+23 その 金持ち は、 ハデス で 苦しみ ながら 目 を 上げる と、 アブラハム が、 はるか かなた に 見え た。 しかも、 その ふところ に ラザロ が 見え た。   
+24 彼 は 叫ん で 言っ た。『 父 アブラハム さま。 私 を あわれん で ください。 ラザロ が 指先 を 水 に 浸し て 私 の 舌 を 冷やす よう に、 ラザロ を よこし て ください。 私 は この 炎 の 中 で、 苦しく て たまり ませ ん。』   
+25 アブラハム は 言っ た。『 子 よ。 思い出し て み なさい。 おまえ は 生き て いる 間、 良い 物 を 受け、 ラザロ は 生き て いる 間、 悪い 物 を 受け て い まし た。 しかし、 今 ここ で 彼 は 慰め られ、 おまえ は 苦しみ もだえ て いる の です。   
+26 それ ばかりで なく、 私 たち と おまえ たち の 間 には、 大きな 淵 が あり ます。 ここ から そちら へ 渡ろ う として も、 渡れ ない し、 そこ から こちら へ 越え て 来る こと も でき ない の です。』
+
+
+金持ちとラザロの死後
+
+&gt;20 目ざめ の 夢 の よう に、 　 主 よ、 あなた は、 奮い立つ とき、 　 彼ら の 姿 を さげすま れ ましょ う。
+
+儚いものとなる
+
+初めて主よと呼びかけている
+
+神を個人的に受け入れ主観的に告白している
+
+神のしもべとして生きる
+
+神を主と告白する生き方
+
+
+
+
+</pre>
+</div>
+<div created="20171202152717992" creator="kosuke" modified="20171202154708006" modifier="kosuke" tags="" title="2017/12/03 inori" type="text/x-markdown">
+<pre>全知全能の父なる神さま。 神さまの聖なる御名を崇め褒め称えます。
+
+この聖なる主日に 私達ひとりひとりを招いてくださり、 愛する兄弟姉妹とともに、 神さまの前に集まり、礼拝を捧げることができますことを 心より感謝いたします。
+
+私たちは、かつて神さまの存在とそのみこころを知らず、永遠の死に向かって歩む者でした。
+しかし、神さまの愛によってイエスキリストによる十字架の贖いが、自分のためであると知り、信じ、受け入れる信仰を与えて下さり、 罪を許され、永遠に生きるものされています。 この救いの恵みを心より感謝いたします。
+
+また、神さまによって備えられた役割とまたそれに十分な備えと共に遣わされているこの世の中の生活の場においても、聖書のみことばと聖霊の導きによって、 みこころを示してくださり、この時まで守られたことを感謝いたします。
+
+先週の主日礼拝では、「目ざめの夢のように主よ」の説教題でアサフの信仰から学ぶことができました。感謝いたします。
+アサフは悪者たちがいつまでも安らかで富を増しているのを見、また自分は日々耐え難い苦痛の中に生きているという現実を見て、悩み苦しんでいました。
+しかしそれは神に目を向けす、この世や自分の願いに向けられているためでした
+そして信仰の目をもって悪者たちを見る時、それは非常に危うく、儚いものであることを悟りました。
+私たちも苦しみの中にある時、自分の願いを追い求め、それが叶えられずさらに苦しむことがあります。
+そのような時自分の願いを求めて物事を見るのではなく信仰の目、神を求める目によって物事を見て
+この世のことでなく永遠のものを見、求めることができるように助けてください
+
+私たちは、このように、時に見るべきをもを見失い、高ぶり、神のみこころを求めるよりも、自分のことを優先し、感謝少なく、不平不満とつぶやくことの多いものであります。今一切の罪を告白し、悔い改めます。 今、忘れている罪もそれぞれに思い起こさせ、悔い改めさせてください。 そして礼拝を捧げる者としてふさわしくきよめてください。
 
 この礼拝のためにユン先生を立ててくださり、 その礼拝の準備を守ってくださいましたことを心から感謝いたします。 ユン先生を聖霊で満たし、今、語られるべき、聖書のみことばをふさわしく語ることができますように導いてください。 また、色々なものでふさがっているわたしたち目と耳ですが、 霊の目と耳を持って、みことばを正しく悟ることができますように整えてください。 新たに神のみことばを聞き、その意味をより深く正しく悟ることができるように助けて下さい。
 
