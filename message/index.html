@@ -26,10 +26,10 @@ window.onload = function(){
 	audioset();
 	val = window.localStorage.getItem("nowTime");
 	document.getElementById("audio").currentTime = val;
-	Push.create('test！', {
-　　	body: '更新をお知らせtestです',
-　　	icon: 'icon.png',
-　　	timeout: 3000, // 通知が消えるタイミング
+	Push.create('更新しました！(test)', {
+　　	body: '更新お知らせtest中です。',
+　　	icon: './img/hhc.ico',
+　　	timeout: 000, // 通知が消えるタイミング
 　　	vibrate: [100, 100, 100], // モバイル端末でのバイブレーション秒数
 　　	onClick: function() {
 　　　　	// 通知がクリックされた場合の設定
