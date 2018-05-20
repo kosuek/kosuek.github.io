@@ -25,19 +25,7 @@ window.onload = function(){
 	//window.applicationCache.update();
 	audioset();
 	val = window.localStorage.getItem("nowTime");
-	document.getElementById("audio").currentTime = val;
-	
-	Push.create('2018/05/20 更新しました'', {
-　　body: '更新をお知らせします！',
-　　icon: './img/hhc.ico',
-　　timeout: 000, // 通知が消えるタイミング
-　　vibrate: [100, 100, 100], // モバイル端末でのバイブレーション秒数
-　　onClick: function() {
-　　　　// 通知がクリックされた場合の設定
-　　　　//console.log(this);
-　　}
-});
-	
+	document.getElementById("audio").currentTime = val;	
 }
 
 var get_nowTime = function(){
