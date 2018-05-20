@@ -26,16 +26,18 @@ window.onload = function(){
 	audioset();
 	val = window.localStorage.getItem("nowTime");
 	document.getElementById("audio").currentTime = val;
-	Push.create('2018/05/20 更新しました', {
-　　	body: '20180520 【ペンテコステ】そうすれば、賜物として聖霊を 使徒2:37-39',
-　　	icon: './img/hhc.ico',
-　　	timeout: 000, // 通知が消えるタイミング
-　　	vibrate: [100, 100, 100], // モバイル端末でのバイブレーション秒数
-　　	//onClick: function() {
-　　　　	// 通知がクリックされた場合の設定
-　　　　	//console.log(this);
-　　//}
+	
+	Push.create('2018/05/20 更新しました'', {
+　　body: '更新をお知らせします！',
+　　icon: './img/hhc.ico',
+　　timeout: 000, // 通知が消えるタイミング
+　　vibrate: [100, 100, 100], // モバイル端末でのバイブレーション秒数
+　　onClick: function() {
+　　　　// 通知がクリックされた場合の設定
+　　　　//console.log(this);
+　　}
 });
+	
 }
 
 var get_nowTime = function(){
