@@ -17,6 +17,23 @@
 <!--
 .col-xs-12,.col-xs-6,.col-xs-4,.col-xs-3,.col-xs-2 {padding-right : 0px;padding-left : 0px;}
 audio { width: 100%; }
+	
+	
+.youtubelive{
+    position:relative;
+    width:100%;
+    height:0;
+    padding-top:75%;
+}
+.youtubelive iframe{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+}
+	
+	
 -->
 </style>
 <script>
@@ -230,7 +247,8 @@ function rateup(speed){document.getElementById("audio").playbackRate = speed;}
 	<div class="col-xs-6"><a href="./m4a/yotei05.png" class="thumbnail"><img src="./m4a/yotei05.png" alt=""></a></div>
 	<div class="col-xs-6"><a href="./m4a/yotei06.png" class="thumbnail"><img src="./m4a/yotei06.png" alt=""></a></div>
 </div>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/gijbNJZTWpA" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-
+<div class="youtubelive">
+	<iframe width="640" height="315" src="https://www.youtube.com/embed/gijbNJZTWpA" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</div>
 </body>
 </html>
