@@ -48,7 +48,10 @@ function audioset(){
 	$(message).html(audio);
 }
 function skip(seconds){document.getElementById("audio").currentTime += seconds;}
-function move(seconds){document.getElementById("audio").currentTime = seconds;}
+function move(seconds){
+	document.getElementById("audio").currentTime = seconds;
+	document.getElementById("audio").play();
+}
 function rateup(speed){document.getElementById("audio").playbackRate = speed;}
 
 </script>
