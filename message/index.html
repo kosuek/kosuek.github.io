@@ -49,13 +49,20 @@ function audioset(){
 	audio.id = "audio";
 	audio.preload = "auto";
 	$(message).html(audio);
+	document.getElementById("audio").play();
 }
-function skip(seconds){document.getElementById("audio").currentTime += seconds;}
+function skip(seconds){
+	document.getElementById("audio").currentTime += seconds;
+	document.getElementById("audio").play();
+}
 function move(seconds){
 	document.getElementById("audio").currentTime = seconds;
 	document.getElementById("audio").play();
 }
-function rateup(speed){document.getElementById("audio").playbackRate = speed;}
+function rateup(speed){
+	document.getElementById("audio").playbackRate = speed;
+	document.getElementById("audio").play();
+}
 
 </script>
 </head>
@@ -74,7 +81,7 @@ function rateup(speed){document.getElementById("audio").playbackRate = speed;}
 	<div class="row">
 	<div class="col-xs-12 col-lg-8">
 	<div class="col-xs-12">
-		<label for="messageSelect">礼拝説教一覧：日付を選んでください</label>
+		<label for="messageSelect">礼拝説教：聴きたいものを選んでください</label>
 		<form>
 		<select class="form-control" id="messageSelect">
 		<option>20190203 永遠のいのちに至る食べ物 ヨハネ6:27-29</option>
