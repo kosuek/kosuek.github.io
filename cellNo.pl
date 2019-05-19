@@ -1,29 +1,32 @@
 #! /usr/bin/perl
 
-
-
 open (OST,">cellNo.csv");
 
-	printf OST "No,Cell,n/45\n";
+$CM = 45;
+$N = 9;
 
-	$cycle = 1;
+for($i=1;$i<($CM*$N+1+1);$i++){
+	printf OST "Cell%d,",$i;
+}
+printf OST "\n";
 
-for($i=0;$i<20000;$i++){
 
-	$Cell = $i%406+1;
+$cycle = 1;
+for($i=0;$i<($CM*$N+1)*($CM-3-3)*5;$i++){
+
+	$Cell = $i%($CM*$N+1)+1;
+
 	$statusN = $i%45+1;
+	$status = "K" if($statusN<($CM+1));
+	$status = "G" if($statusN<($CM-3+1));
+	$status = "S" if($statusN<($CM-3-3+1));
+
+	printf OST "%d $status,",$i+1;
+#	printf OST "$status,",$i+1;
 	
-	$status = "kasoku" if($statusN<46);
-	$status = "gensoku" if($statusN<43);
-	$status = "sokutei" if($statusN<40);
-	
-	
-	printf OST "%d,$cycle,%d,%d,$status\n",$i+1,$Cell,$statusN;
-	
-	
-	$cycle = $cycle + 1 if($Cell == 406); 
+	printf OST "\n" if($Cell == ($CM*$N+1));
+	$cycle = $cycle + 1 if($Cell == ($CM*$N+1)); 
 	
 }
 
 close OST;
-
