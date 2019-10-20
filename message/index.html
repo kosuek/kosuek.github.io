@@ -16,7 +16,7 @@
 audio { width: 100%; }
 
 }
-	
+
 -->
 </style>
 <script>
@@ -24,7 +24,7 @@ window.onload = function(){
 	//window.applicationCache.update();
 	audioset();
 	val = window.localStorage.getItem("nowTime");
-	document.getElementById("audio").currentTime = val;	
+	document.getElementById("audio").currentTime = val;
 }
 
 var get_nowTime = function(){
@@ -71,7 +71,7 @@ function rateup(speed){
 	<div class="row">
 		<div class="col-xs-6">
 			<h4 class="text-center">ひたち光教会アプリ</h4>
-		</div>	
+		</div>
 		<div class="col-xs-4">
 			<table border="0" cellspacing="0" cellpadding="0"><tr><td align="center"><a href="http://www.rays-counter.com/"><img src="http://www.rays-counter.com/d420_f6_021/5bcbe3bc9f7b2/" alt="アクセスカウンター" border="0"></a></td></tr><tr><td align="center"><img src="http://www.rays-counter.com/images/counter_01.gif" border="0"><img src="http://www.rays-counter.com/images/counter_02.gif" border="0"><img src="http://www.rays-counter.com/images/counter_03.gif" border="0" alt=""><img src="http://www.rays-counter.com/images/counter_04.gif" border="0"><img src="http://www.rays-counter.com/images/counter_05.gif" border="0" ></td></tr></table>
 		</div>
@@ -84,6 +84,7 @@ function rateup(speed){
 			<label for="messageSelect">礼拝説教：聴きたいものを選んでください</label>
 			<form>
 			<select class="form-control" id="messageSelect">
+			<option>20191020 私にいつくしみのしるしを 詩篇86:14-17【録音説教】</option>
 			<option>20191013 私は心を尽くしてとこしえまでも 詩篇86:11-13【録音説教】</option>
 			<option>20191006 あなただけが神 詩篇86:8-10【録音説教】</option>
 			<option>20190929 苦難の日にあなたが私に 詩篇86:1-7【録音説教】</option>
@@ -294,21 +295,21 @@ function rateup(speed){
 			<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(-5)"	type="button" value="<<5秒"></div>
 			<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(5)"		type="button" value="5秒>>"></div>
 			<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(30)"	type="button" value="30秒>>"></div>
-			
+
 			<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="rateup(0.8)"	type="button" value="x0.8"></div>
 			<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="rateup(1.0)"	type="button" value="x1.0"></div>
 			<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="rateup(1.5)"	type="button" value="x1.5"></div>
 			<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="rateup(2.0)"	type="button" value="x2.0"></div>
 			<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="rateup(2.5)"	type="button" value="x2.5"></div>
 			<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="rateup(3.0)"	type="button" value="x3.0"></div>
-			
+
 			<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="move(600)"	type="button" value="10"></div>
 			<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="move(1200)"	type="button" value="20"></div>
 			<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="move(1800)"	type="button" value="30"></div>
 			<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="move(2400)"	type="button" value="40"></div>
 			<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="move(3000)"	type="button" value="50"></div>
 			<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="move(3600)"	type="button" value="60"></div>
-			
+
 			<div class="col-xs-12 col-lg-12"><iframe src="https://calendar.google.com/calendar/embed?showNav=0&amp;showDate=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;mode=AGENDA&amp;height=130&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=8d7re418k9cq1hoiep4r4icnic%40group.calendar.google.com&amp;color=%235229A3&amp;ctz=Asia%2FTokyo" style="border-width:0" width="100%" height="130" frameborder="0" scrolling="no"></iframe></div>
 		<!--	<div class="col-xs-12 col-lg-8"><a href="./m4a/syuho.png" class="thumbnail"><img src="./m4a/syuho.png" alt=""></a></div>
 			<div class="col-xs-12 col-lg-4"><a href="./m4a/yotei.png" class="thumbnail"><img src="./m4a/yotei.png" alt=""></a></div>-->
