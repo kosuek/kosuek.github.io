@@ -1,2 +1,2 @@
- for Hitachi Hikari Church
+ #for Hitachi Hikari Church
 
