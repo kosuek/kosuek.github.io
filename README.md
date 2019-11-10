@@ -1,1 +1,2 @@
-# kosuek.github.io
+ for Hitachi Hikari Church
+
