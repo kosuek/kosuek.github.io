@@ -41,7 +41,7 @@ function audioset(){
 	var audio = new Audio();
 	selaudio = $(messageSelect).val().substr(0,8);
 	console.log(selaudio);
-	audio.controls = true;
+	audio.controls = true;,
 	audio.src = "./m4a/" + selaudio + ".m4a";
 	audio.id = "audio";
 	audio.preload = "auto";
@@ -81,6 +81,7 @@ function rateup(speed){
 			<label for="messageSelect">礼拝説教：聴きたいものを選んでください</label>
 			<form>
 			<select class="form-control" id="messageSelect">
+			<option>20191215 【クリスマス】いのちのやりとり ヨハネ10:11,18</option>
 			<option>20191215 わたしのうちにとどまり、 ヨハネ6:56-59【録音説教】</option>
 			<option>20191208 まことの食べ物、まことの飲み物 ヨハネ6:52-55【録音説教】</option>
 			<option>20191201 信仰によって、彼は血を振りかけました。 へブル11:28【録音説教】</option>
