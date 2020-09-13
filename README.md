@@ -1,2 +1,3 @@
- # for Hitachi Hikari Church
+ # Hitachi Hikari Church
 
+## for hitachi hikari church member only
