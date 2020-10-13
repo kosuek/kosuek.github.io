@@ -24,8 +24,30 @@
   </style>
   <script>
     function kakusu(lv){
+      if ("lv0" == lv) {
+        document.getElementById("lv0").style.color = '#000000';
+        document.getElementById("lv1").style.color = '#000000';
+        document.getElementById("lv2").style.color = '#000000';
+        document.getElementById("lvMAX").style.color = '#000000';
+      }
       if ("lv1" == lv) {
+        document.getElementById("lv0").style.color = '#000000';
+        document.getElementById("lv1").style.color = '#000000';
+        document.getElementById("lv2").style.color = '#000000';
+        document.getElementById("lvMAX").style.color = '#000000';
+      }
+      if ("lv2" == lv) {
+        document.getElementById("lv0").style.color = '#000000';
+        document.getElementById("lv1").style.color = '#000000';
+        document.getElementById("lv2").style.color = '#000000';
+        document.getElementById("lvMAX").style.color = '#000000';
+      }
+      if ("lvMAX" == lv) {
+        document.getElementById("lv0").style.color = '#FFFFFF';
         document.getElementById("lv1").style.color = '#FFFFFF';
+        document.getElementById("lv2").style.color = '#FFFFFF';
+        document.getElementById("lvMAX").style.color = '#FFFFFF';
+      }
     }
   </script>
   </head>
@@ -38,7 +60,7 @@
         <div class="col-3"><button type="button" class="btn btn-info btn-lg btn-block">LvMAX</button></div>
       </div>
       <div class="row">
-        <ol>
+        <ol id="all">
       <li>あなたには、わたし以外に、<span id="lv1">ほかの神が</span>あってはならない。</li>
       <li>あなたは<span>自分のために偶像を</span>造ってはならない。上の天にあるものでも、下の地にあるものでも、地の下の水の中にあるものでも、いかなる形をも造ってはならない。それらを拝んではならない。それらに仕えてはならない。あなたの神、主であるわたしは、ねたみの神。わたしを憎む者には父の咎を子に報い、三代、四代にまで及ぼし、わたしを愛し、わたしの命令を守る者には、恵みを千代にまで施すからである。</li>
       <li>あなたは、あなたの神、<span id="lv1">主の名</span>をみだりに口にしてはならない。主は、<span id="lv1">主の名</span>をみだりに口にする者を罰せずにはおかない。</li>
