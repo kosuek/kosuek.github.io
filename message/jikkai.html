@@ -23,6 +23,8 @@
   </style>
   <script>
     function kakusu(lv){
+      console.log(lv);
+      
       if ("lv0" == lv) {
         document.getElementById("lv0").style.color = '#000000';
         document.getElementById("lv1").style.color = '#000000';
@@ -53,10 +55,10 @@
   <body>
     <div class="container">
       <div class="row">
-        <div class="col-3"><button type="button" class="btn btn-info btn-lg btn-block" onclick="skip('lv0')">Lv0</button></div>
-        <div class="col-3"><button type="button" class="btn btn-info btn-lg btn-block" onclick="skip('lv1')>Lv1</button></div>
-        <div class="col-3"><button type="button" class="btn btn-info btn-lg btn-block" onclick="skip('lv2')>Lv2</button></div>
-        <div class="col-3"><button type="button" class="btn btn-info btn-lg btn-block" onclick="skip('lvMAX')>LvMAX</button></div>
+        <div class="col-3"><button type="button" class="btn btn-info btn-lg btn-block" onclick="kakusu('lv0')">Lv0</button></div>
+        <div class="col-3"><button type="button" class="btn btn-info btn-lg btn-block" onclick="kakusu('lv1')>Lv1</button></div>
+        <div class="col-3"><button type="button" class="btn btn-info btn-lg btn-block" onclick="kakusu('lv2')>Lv2</button></div>
+        <div class="col-3"><button type="button" class="btn btn-info btn-lg btn-block" onclick="kakusu('lvMAX')>LvMAX</button></div>
       </div>
       <div class="row">
         <ol id="all">
