@@ -39,6 +39,16 @@ $(function () {
 	$("select").change(audioset);
 });
 
+function readFirst(){
+    //プルダウンリストをループ処理で値を取り出してセレクトボックスにセットする
+    for(var i=0;i<list.length;i++){
+      let opt = document.createElement("option");
+      opt.value = list[i].val;  //value値
+      opt.text = list[i].txt;   //テキスト値
+      document.getElementById("messageSelect").appendChild(opt);
+    }
+ };
+	
 function audioset(){
 	var selaudio;
 	var audio = new Audio();
@@ -50,23 +60,23 @@ function audioset(){
 	audio.preload = "auto";
 	$(message).html(audio);
 	document.getElementById("audio").play();
-}
+};
 function skip(seconds){
 	document.getElementById("audio").currentTime += seconds;
 	document.getElementById("audio").play();
-}
+};
 function move(seconds){
 	document.getElementById("audio").currentTime = seconds;
 	document.getElementById("audio").play();
-}
+};
 function rateup(speed){
 	document.getElementById("audio").playbackRate = speed;
 	document.getElementById("audio").play();
-}
+};
 
 </script>
 </head>
-<body>
+<body onload="readFirst()">
 <div class="container">
 	<div class="row">
 			<h4 class="text-center">ひたち光教会2019説教</h4>
@@ -78,56 +88,7 @@ function rateup(speed){
 			<label for="messageSelect">礼拝説教：聴きたいものを選んでください</label>
 			<form>
 			<select class="form-control" id="messageSelect">
-			<option>20161225 【クリスマス】ダビデの子ヨセフ。</option>
-			<option>20161218 そのさばきというのは、</option>
-			<option>20161211 蛇は女に言った。あなた方は</option>
-			<option>20161204 神は実に、世を愛された。</option>
-			<option>20161127 蛇が一番狡猾であったⅣ</option>
-			<option>20161120 それは、信じるものがみな、</option>
-			<option>20161113 蛇が一番狡猾であったⅢ</option>
-			<option>20161106 人は、新しく生まれなければ、</option>
-			<option>20161030 蛇が一番狡猾であったⅡ</option>
-			<option>20161023 ニコデモという人</option>
-			<option>20161016 蛇が一番狡猾であったⅠ</option>
-			<option>20161009</option>
-			<option>20161002</option>
-			<option>20160925</option>
-			<option>20160918</option>
-			<option>20160911</option>
-			<option>20160904</option>
-			<option>20160828</option>
-			<option>20160821</option>
-			<option>20160814</option>
-			<option>20160807</option>
-			<option>20160731</option>
-			<option>20160724</option>
-			<option>20160717</option>
-			<option>20160710</option>
-			<option>20160703</option>
-			<option>20160626</option>
-			<option>20160619</option>
-			<option>20160612</option>
-			<option>20160605</option>
-			<option>20160529</option>
-			<option>20160522</option>
-			<option>20160515【ペンテコステ】</option>
-			<option>20160508</option>
-			<option>20160501</option>
-			<option>20160424</option>
-			<option>20160417</option>
-			<option>20160410</option>
-			<option>20160403</option>
-			<option>20160327【イースター】</option>
-			<option>20160313</option>
-			<option>20160306</option>
-			<option>20160228</option>
-			<option>20160221</option>
-			<option>20160214</option>
-			<option>20160207</option>
-			<option>20160131</option>
-			<option>20160124</option>
-			<option>20160110</option>
-			<option>20160103【新年】</option>
+			
 			</select>
 			</form>
 		</div>
