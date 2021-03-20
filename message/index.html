@@ -25,7 +25,7 @@ select{ font-size:14px; border:1px;}
 window.onload = function(){
 	audioset();
 	val = window.localStorage.getItem("nowTime");
-	document.getElementById("audio").currentTime = val;
+	document.getElementById("audio").currentTime = val
 }
 
 var get_nowTime = function(){
@@ -46,8 +46,8 @@ function readFirst(){
       opt.value = list[i].val;  //value値
       opt.text = list[i].txt;   //テキスト値
       document.getElementById("messageSelect").appendChild(opt);
-    }	
-	$("select").change(audioset);
+    }
+	audioset;
   };
 
 function audioset(){
