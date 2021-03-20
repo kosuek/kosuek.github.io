@@ -46,7 +46,8 @@ function readFirst(){
       opt.value = list[i].val;  //value値
       opt.text = list[i].txt;   //テキスト値
       document.getElementById("messageSelect").appendChild(opt);
-    }
+    }	
+	$("select").change(audioset);
   };
 
 function audioset(){
