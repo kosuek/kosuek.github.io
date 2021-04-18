@@ -16,6 +16,24 @@
 .col-xs-12,.col-xs-6,.col-xs-4,.col-xs-3,.col-xs-2 {padding-right : 0px;padding-left : 0px;}
 audio { width: 100%; }
 select{ font-size:14px; border:1px;}
+	
+.movieWraper {
+    position: relative
+    width: calc(100% - 10px);
+    margin: 0 auto;
+}
+
+.iframeWrap{
+    height: 0;
+    padding-bottom: 62.5%;
+}
+
+iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+	
 }
 -->
 </style>
@@ -112,7 +130,11 @@ function rateup(speed){
 				<!--<iframe src="./m4a/reihai.pdf" width="100%" height="100%"></iframe>-->
 			</div>
 			<div class="col-xs-12 col-lg-12">
-				<iframe src="https://onedrive.live.com/embed?cid=DF8117155F580907&amp;resid=DF8117155F580907%211193&amp;authkey=ABEQaqKDb5GkMbE&amp;em=2&amp;wdAr=1.3333333333333333&amp;wdEaa=0" width="1026px" height="793px" frameborder="0">これは、<a target="_blank" href="https://office.com/webapps">Office</a> の機能を利用した、<a target="_blank" href="https://office.com">Microsoft Office</a> の埋め込み型のプレゼンテーションです。</iframe>			
+				<div class="movieWraper">
+					<div class="iframeWrap">
+						<iframe src="https://onedrive.live.com/embed?cid=DF8117155F580907&amp;resid=DF8117155F580907%211193&amp;authkey=ABEQaqKDb5GkMbE&amp;em=2&amp;wdAr=1.3333333333333333&amp;wdEaa=0" width="100%" height="100%"" frameborder="0"></iframe>			
+					</div>
+				</div>
 			</div>
 			<!--<div class="col-xs-12 col-lg-12"><iframe src="https://calendar.google.com/calendar/embed?showNav=0&amp;showDate=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;mode=AGENDA&amp;height=130&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=8d7re418k9cq1hoiep4r4icnic%40group.calendar.google.com&amp;color=%235229A3&amp;ctz=Asia%2FTokyo" style="border-width:0" width="100%" height="130" frameborder="0" scrolling="no"></iframe></div>-->
 			<!--<div class="col-xs-4 col-lg-4"><img src="./m4a/memo.png" class="img-responsive"></div>-->
