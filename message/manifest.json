@@ -1,0 +1,17 @@
+{
+  "name":"HHCapp",
+  "short_name":"HHCapp",
+  "icons": [{
+      "src": "/img/hhc.ico",
+      "sizes":"192x192",
+      "type": "image/png"
+    }, {
+      "src": "/img/hhc.ico",
+      "sizes":"512x512",
+      "type": "image/png"
+    }],
+  "start_url": "/index.html?utm_source=homescreen",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#FFFFFF"
+}
