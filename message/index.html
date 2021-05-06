@@ -22,7 +22,20 @@
 <meta name="apple-mobile-web-app-title" content="HHCapp">
 <!-- ホーム画面に表示されるアプリアイコン -->
 <link rel="apple-touch-icon" href="./img/hhc.ico">
-	
+
+<!-- for android -->
+<!-- ウェブアプリマニフェストの読み込み -->
+<link rel="manifest" href="manifest.json">
+<!-- ServiceWorkerの登録 -->
+<script>
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js')
+      .then((reg) => {
+        console.log('Service worker registered.', reg);
+      });
+}
+</script>
+
 	
 <!--
 .col-xs-12,.col-xs-6,.col-xs-4,.col-xs-3,.col-xs-2 {padding-right : 0px;padding-left : 0px;}
