@@ -1,6 +1,6 @@
 {
-  "name":"HHCapp",
-  "short_name":"HHCapp",
+  "name":"HHC_app",
+  "short_name":"HHC_app",
   "icons": [{
       "src": "/img/hhc.ico",
       "sizes":"192x192",
