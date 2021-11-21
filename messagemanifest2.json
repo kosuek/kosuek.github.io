@@ -1,0 +1,18 @@
+{
+  "name":"HHC_app",
+  "short_name":"ひたち光",
+  "icons": [{
+      "src": "/img/hhc192.png",
+      "sizes":"192x192",
+      "type": "image/png"
+    }, {
+      "src": "/img/hhc512.png",
+      "sizes":"512x512",
+      "type": "image/png"
+    }],
+  "start_url": "/message/index2.html?utm_source=homescreen",
+  "orientation": "any",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#FFFFFF"
+}
