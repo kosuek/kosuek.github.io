@@ -101,14 +101,17 @@ function audioset(){
 	document.getElementById("audio").play();
 };
 function skip(seconds){
+	document.getElementById("audio").pause();
 	document.getElementById("audio").currentTime += seconds;
 	document.getElementById("audio").play();
 };
 function move(seconds){
+	document.getElementById("audio").pause();
 	document.getElementById("audio").currentTime = seconds;
 	document.getElementById("audio").play();
 };
 function rateup(speed){
+	document.getElementById("audio").pause();
 	document.getElementById("audio").playbackRate = speed;
 	document.getElementById("audio").play();
 };
