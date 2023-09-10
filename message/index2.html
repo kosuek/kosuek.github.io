@@ -79,7 +79,6 @@ $(function () {
 function readFirst(){
     for(var i=0;i<list.length;i++){
       let opt = document.createElement("option");
-      opt.value = list[i].val;  //value値
       opt.text = list[i].txt;   //テキスト値
       document.getElementById("messageSelect").appendChild(opt);
     }
@@ -91,7 +90,7 @@ function readFirst(){
 function audioset(){
 	var selaudio;
 	var audio = new Audio();
-	selaudio = $(messageSelect).txt.substr(0,8);
+	selaudio = document.getElementById("messageSelect").text.substr(0,8);
 	console.log(selaudio);
 	audio.controls = true;
 	audio.src = "./m4a/" + selaudio + ".m4a";
