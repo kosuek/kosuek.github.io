@@ -3,45 +3,8 @@
 <head>
 <title>shio</title>
 <meta name="robots" content="noindex,nofollow,noarchive" />
-<meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=10.0,user-scalable=yes" name="viewport">
 <meta charset="utf-8">
-<link href="./img/hhc.ico" rel="shortcut icon">
-<link href="./img/hhc.ico" rel="apple-touch-icon">
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery.js"></script>
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="list.js"></script>
-		
-<!-- for iphone -->
-<!-- アドレスバー等のブラウザのUIを非表示 -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<!-- default（Safariと同じ） / black（黒） / black-translucent（ステータスバーをコンテンツに含める） -->
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<!-- ホーム画面に表示されるアプリ名 -->
-<meta name="apple-mobile-web-app-title" content="HHCapp">
-<!-- ホーム画面に表示されるアプリアイコン -->
-<link rel="apple-touch-icon" href="./img/hhc.ico">
 
-<!-- for android -->
-<link rel="manifest" href="./manifest.json" />
-    <script>
-        window.addEventListener('load', function () {
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register("./serviceWorker.js")
-                    .then(function (registration) {
-                        console.log("serviceWorker registed.");
-                    }).catch(function (error) {
-                        console.warn("serviceWorker error.", error);
-                    });
-            }
-        });
-    </script>
-	
-<style type="text/css">
-<!--
-
--->
-</style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
   const ctx = document.getElementById('myChart');
@@ -67,10 +30,8 @@
 </script>
 </head>
 <body>
-	<div class="container">
-		<div class="row">
-			<canvas id="myChart"></canvas>
-		</div>
+	<div class="row">
+		<canvas id="myChart"></canvas>
 	</div>
 </body>
 </html>
