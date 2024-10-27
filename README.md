@@ -1,3 +1,2 @@
- # Hitachi Hikari Church
+# ひたち光教会ホームページ引っ越し先予定地
 
-## for hitachi hikari church member only
