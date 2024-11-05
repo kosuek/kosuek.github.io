@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お米料金計算アプリ</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input, button { margin: 10px 0; padding: 10px; }
+  </style>
+</head>
+<body>
+  <h1>お米料金計算アプリ</h1>
+
+  <label for="weight">お米の重量 (kg):</label>
+  <input type="number" id="weight" min="1" placeholder="例: 5">
+
+  <label for="price">お米の価格 (円/kg):</label>
+  <input type="number" id="price" min="1" placeholder="例: 500">
+
+  <button onclick="calculateTotal()">合計料金を計算する</button>
+
+  <h2 id="result"></h2>
+
+  <script>
+    function calculateShipping(weight) {
+      if (weight <= 5) return 500;
+      else if (weight <= 10) return 800;
+      else return 1200;
+    }
+
+    function calculateTotal() {
+      const weight = parseFloat(document.getElementById("weight").value);
+      const pricePerKg = parseFloat(document.getElementById("price").value);
+
+      if (isNaN(weight) || isNaN(pricePerKg)) {
+        document.getElementById("result").textContent = "重量と価格を正しく入力してください。";
+        return;
+      }
+
+      const riceCost = weight * pricePerKg;
+      const shippingCost = calculateShipping(weight);
+      const totalCost = riceCost + shippingCost;
+
+      document.getElementById("result").textContent = 
+        `お米の料金: ${riceCost} 円\n送料: ${shippingCost} 円\n合計: ${totalCost} 円`;
+    }
+  </script>
+</body>
+</html>
