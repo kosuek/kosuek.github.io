@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お米代金計算アプリ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>お米代金計算アプリ</h1>
+    <form id="riceForm">
+        <div id="peopleContainer">
+            <!-- 各人の入力フィールドがここに追加されます -->
+        </div>
+        <button type="button" onclick="addPerson()">人を追加</button>
+        <br><br>
+        <label for="shippingCost">配送料:</label>
+        <input type="number" id="shippingCost" required>
+        <br><br>
+        <button type="button" onclick="calculate()">計算</button>
+    </form>
+    <div id="result"></div>
+    <script>
+        let personCount = 0;
+
+        function addPerson() {
+            personCount++;
+            const container = document.getElementById('peopleContainer');
+            const personDiv = document.createElement('div');
+            personDiv.id = `person${personCount}`;
+            personDiv.innerHTML = `
+                <h3>人 ${personCount}</h3>
+                <label for="weight${personCount}">お米の重量 (kg):</label>
+                <input type="number" id="weight${personCount}" required>
+                <label for="totalPrice${personCount}">お米の総代金 (円):</label>
+                <input type="number" id="totalPrice${personCount}" required>
+            `;
+            container.appendChild(personDiv);
+        }
+
+        function roundToNearestTen(value) {
+            return Math.round(value / 10) * 10;
+        }
+
+        function calculate() {
+            let totalWeight = 0;
+            let totalCost = 0;
+            const shippingCost = parseFloat(document.getElementById('shippingCost').value);
+
+            for (let i = 1; i <= personCount; i++) {
+                const weight = parseFloat(document.getElementById(`weight${i}`).value);
+                const totalPrice = parseFloat(document.getElementById(`totalPrice${i}`).value);
+                totalWeight += weight;
+                totalCost += totalPrice;
+            }
+
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `<h2>計算結果</h2>`;
+            let grandTotal = 0;
+
+            for (let i = 1; i <= personCount; i++) {
+                const weight = parseFloat(document.getElementById(`weight${i}`).value);
+                const totalPrice = parseFloat(document.getElementById(`totalPrice${i}`).value);
+                const individualShippingCost = (weight / totalWeight) * shippingCost;
+                const totalIndividualCost = roundToNearestTen(totalPrice + individualShippingCost);
+                grandTotal += totalIndividualCost;
+
+                resultDiv.innerHTML += `
+                    <p>人 ${i}: お米代金: ${roundToNearestTen(totalPrice)} 円, 配送料: ${roundToNearestTen(individualShippingCost)} 円, 合計: ${totalIndividualCost} 円</p>
+                `;
+            }
+
+            resultDiv.innerHTML += `<h3>全員の合計金額: ${grandTotal} 円</h3>`;
+        }
+    </script>
+</body>
+</html>
