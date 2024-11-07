@@ -9,6 +9,9 @@
 </head>
 <body class="container my-4">
     <h1 class="text-center mb-4">お米代金計算するぜ</h1>
+    <div id="dates" class="text-center mb-4">
+        <p id="previousDate" class="text-muted"></p>
+    </div>
     <form id="riceForm">
         <div id="peopleContainer" class="mb-3">
             <!-- 各人の入力フィールドがここに追加されます -->
@@ -24,31 +27,28 @@
     <button id="copyButton" class="btn btn-primary mt-3" onclick="copyResult()">結果をコピー</button>
     <button id="shareButton" class="btn btn-primary mt-3" onclick="shareToLine()">LINEで共有</button>
 
-    <!-- 計算結果履歴 -->
-    <h2 class="mt-5">計算結果履歴</h2>
-    <div id="historyContainer">
-        <!-- 履歴アイテムがここに追加されます -->
-    </div>
-
-    <!-- 履歴をCSV形式でコピーするボタン -->
     <button id="copyCsvButton" class="btn btn-secondary mt-3" onclick="copyHistoryToCsv()">履歴をCSVとしてコピー</button>
+
+    <div id="historyContainer" class="mt-4">
+        <h3>計算結果履歴</h3>
+        <div id="historyList"></div>
+    </div>
 
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/service-worker.js')
-                .then(registration => {
-                    console.log('Service Worker登録成功: ', registration);
-                })
-                .catch(err => {
-                    console.log('Service Worker登録失敗: ', err);
-                });
+                    .then(registration => {
+                        console.log('Service Worker登録成功: ', registration);
+                    })
+                    .catch(err => {
+                        console.log('Service Worker登録失敗: ', err);
+                    });
             });
         }
 
         let personCount = 0;
 
-        // 人を追加する関数
         function addPerson(name = '', weight = '', totalPrice = '') {
             personCount++;
             const container = document.getElementById('peopleContainer');
@@ -73,14 +73,11 @@
             `;
             container.appendChild(personDiv);
 
-            // 入力された内容を保存するイベントをまとめて設定
-            const inputs = personDiv.querySelectorAll('input');
-            inputs.forEach(input => {
-                input.addEventListener('input', saveData);  // 各フィールドの入力を保存
-            });
+            document.getElementById(`name${personCount}`).addEventListener('input', saveData);
+            document.getElementById(`weight${personCount}`).addEventListener('input', saveData);
+            document.getElementById(`totalPrice${personCount}`).addEventListener('input', saveData);
         }
 
-        // 人を削除する関数
         function removePerson(id) {
             const personDiv = document.getElementById(`person${id}`);
             if (personDiv) {
@@ -89,19 +86,15 @@
             }
         }
 
-        // 100円単位で丸める関数
         function roundToNearestHundred(value) {
             return Math.round(value / 100) * 100;
         }
 
-        // 計算を行う関数
         function calculate() {
             let totalWeight = 0;
             let totalCost = 0;
             const shippingCost = parseFloat(document.getElementById('shippingCost').value);
-            const peopleData = [];
 
-            // 人ごとの情報を計算
             for (let i = 1; i <= personCount; i++) {
                 const personDiv = document.getElementById(`person${i}`);
                 if (personDiv) {
@@ -109,13 +102,6 @@
                     const totalPrice = parseFloat(document.getElementById(`totalPrice${i}`).value);
                     totalWeight += weight;
                     totalCost += totalPrice;
-
-                    // 各人のデータを配列に格納
-                    peopleData.push({
-                        name: document.getElementById(`name${i}`).value,
-                        weight: weight,
-                        totalPrice: totalPrice
-                    });
                 }
             }
 
@@ -127,63 +113,129 @@
             const formattedDate = currentDate.toLocaleDateString('ja-JP');
             const formattedTime = currentDate.toLocaleTimeString('ja-JP');
             const dateTimeString = `${formattedDate} ${formattedTime}`;
+            localStorage.setItem('lastCalculationDate', dateTimeString);
 
-            let individualResults = '';
+            const peopleData = [];
 
-            peopleData.forEach(person => {
-                const individualShippingCost = roundToNearestHundred((person.weight / totalWeight) * shippingCost);
-                const totalIndividualCost = roundToNearestHundred(person.totalPrice + individualShippingCost);
-                grandTotal += totalIndividualCost;
+            for (let i = 1; i <= personCount; i++) {
+                const personDiv = document.getElementById(`person${i}`);
+                if (personDiv) {
+                    const name = document.getElementById(`name${i}`).value;
+                    const weight = parseFloat(document.getElementById(`weight${i}`).value);
+                    const totalPrice = parseFloat(document.getElementById(`totalPrice${i}`).value);
+                    const individualShippingCost = roundToNearestHundred((weight / totalWeight) * shippingCost);
+                    const totalIndividualCost = roundToNearestHundred(totalPrice + individualShippingCost);
+                    grandTotal += totalIndividualCost;
 
-                individualResults += `
-                    <p>${person.name}: お米代金: ${roundToNearestHundred(person.totalPrice)} 円, 配送料: ${individualShippingCost} 円, 合計: ${totalIndividualCost} 円</p>
-                `;
-            });
+                    peopleData.push({
+                        name,
+                        totalPrice,
+                        weight,
+                        individualShippingCost,
+                        totalIndividualCost
+                    });
 
-            resultDiv.innerHTML += individualResults;
+                    resultDiv.innerHTML += `
+                        <p>${name}: お米代金: ${roundToNearestHundred(totalPrice)} 円, 配送料: ${individualShippingCost} 円, 合計: ${totalIndividualCost} 円</p>
+                    `;
+                }
+            }
+
             resultDiv.innerHTML += `<h3>全員の合計金額: ${grandTotal} 円</h3>`;
             resultDiv.innerHTML += `<p>計算日: ${dateTimeString}</p>`;
 
-            // 計算結果を履歴に追加
+            // 履歴をlocalStorageに保存
+            saveHistory(dateTimeString, grandTotal, peopleData);
+        }
+
+        function saveData() {
+            const data = {
+                shippingCost: document.getElementById('shippingCost').value,
+                people: []
+            };
+
+            for (let i = 1; i <= personCount; i++) {
+                const personDiv = document.getElementById(`person${i}`);
+                if (personDiv) {
+                    const personData = {
+                        name: document.getElementById(`name${i}`).value,
+                        weight: document.getElementById(`weight${i}`).value,
+                        totalPrice: document.getElementById(`totalPrice${i}`).value
+                    };
+                    data.people.push(personData);
+                }
+            }
+
+            localStorage.setItem('riceAppData', JSON.stringify(data));
+        }
+
+        function loadData() {
+            const savedData = JSON.parse(localStorage.getItem('riceAppData'));
+            if (savedData) {
+                document.getElementById('shippingCost').value = savedData.shippingCost;
+                savedData.people.forEach(person => {
+                    addPerson(person.name, person.weight, person.totalPrice);
+                });
+            }
+
+            const lastCalculationDate = localStorage.getItem('lastCalculationDate');
+            if (lastCalculationDate) {
+                document.getElementById('previousDate').innerText = `前回の計算日: ${lastCalculationDate}`;
+            }
+        }
+
+        function saveHistory(dateTimeString, grandTotal, peopleData) {
+            const history = JSON.parse(localStorage.getItem('history')) || [];
+            history.unshift({ dateTimeString, grandTotal, peopleData });
+            localStorage.setItem('history', JSON.stringify(history));
             addToHistory(dateTimeString, grandTotal, peopleData);
         }
 
-        // 履歴に計算結果を追加する関数
         function addToHistory(dateTimeString, grandTotal, peopleData) {
-            const historyContainer = document.getElementById('historyContainer');
-            const historyDiv = document.createElement('div');
-            historyDiv.className = 'mb-3 border p-3';
-            
-            let historyContent = `<p>${dateTimeString}: 合計金額: ${grandTotal} 円</p>`;
-            peopleData.forEach(person => {
-                historyContent += `
-                    <p>${person.name}: お米代金: ${roundToNearestHundred(person.totalPrice)} 円, 配送料: ${roundToNearestHundred((person.weight / grandTotal) * totalWeight)} 円</p>
-                `;
+            const historyList = document.getElementById('historyList');
+            const historyItem = document.createElement('div');
+            historyItem.className = 'border p-3 mb-2';
+            historyItem.innerHTML = `
+                <p><strong>${dateTimeString}</strong></p>
+                <p>合計金額: ${grandTotal} 円</p>
+                <button class="btn btn-danger" onclick="removeHistoryItem('${dateTimeString}')">削除</button>
+            `;
+            historyList.appendChild(historyItem);
+        }
+
+        function removeHistoryItem(dateTimeString) {
+            let history = JSON.parse(localStorage.getItem('history')) || [];
+            history = history.filter(item => item.dateTimeString !== dateTimeString);
+            localStorage.setItem('history', JSON.stringify(history));
+            loadHistory();
+        }
+
+        function loadHistory() {
+            const history = JSON.parse(localStorage.getItem('history')) || [];
+            const historyList = document.getElementById('historyList');
+            historyList.innerHTML = '';
+            history.forEach(({ dateTimeString, grandTotal, peopleData }) => {
+                addToHistory(dateTimeString, grandTotal, peopleData);
             });
-
-            historyContent += `<button class="btn btn-danger" onclick="removeHistory(this)">削除</button>`;
-            historyDiv.innerHTML = historyContent;
-            historyContainer.insertBefore(historyDiv, historyContainer.firstChild);  // 新しい履歴を先頭に追加
-
-            // 履歴をlocalStorageに保存 (新しいものが先に来るように配列の先頭に追加)
-            const history = JSON.parse(localStorage.getItem('history')) || [];
-            history.unshift({ dateTimeString, grandTotal, peopleData });  // 配列の先頭に追加
-            localStorage.setItem('history', JSON.stringify(history));
         }
 
-        // 履歴を削除する関数
-        function removeHistory(button) {
-            const historyDiv = button.parentElement;
-            historyDiv.remove();
-
-            // 履歴をlocalStorageから削除
-            const history = JSON.parse(localStorage.getItem('history')) || [];
-            const index = Array.from(historyDiv.parentElement.children).indexOf(historyDiv);
-            history.splice(index, 1);
-            localStorage.setItem('history', JSON.stringify(history));
+        function copyResult() {
+            const result = document.getElementById('result').innerText;
+            const textArea = document.createElement('textarea');
+            textArea.value = result;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert('計算結果をコピーしました！');
         }
 
-        // 履歴をCSV形式でコピーする関数
+        function shareToLine() {
+            const result = document.getElementById('result').innerText;
+            const lineUrl = `https://line.me/R/msg/text/?${encodeURIComponent(result)}`;
+            window.open(lineUrl, '_blank');
+        }
+
         function copyHistoryToCsv() {
             const history = JSON.parse(localStorage.getItem('history')) || [];
             let csvContent = '日付, 名前, お米代金, 配送料, 合計金額\n';
@@ -194,7 +246,6 @@
                 });
             });
 
-            // CSVをクリップボードにコピーする
             const textArea = document.createElement('textarea');
             textArea.value = csvContent;
             document.body.appendChild(textArea);
@@ -205,13 +256,9 @@
             alert('履歴をCSV形式でコピーしました！');
         }
 
-        // ページ読み込み時に履歴を読み込み、表示する
-        window.onload = function() {
-            const history = JSON.parse(localStorage.getItem('history')) || [];
-            history.forEach(({ dateTimeString, grandTotal, peopleData }) => {
-                addToHistory(dateTimeString, grandTotal, peopleData);
-            });
-        };
+        // 初期化
+        loadData();
+        loadHistory();
     </script>
 </body>
 </html>
