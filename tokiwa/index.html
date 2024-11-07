@@ -72,11 +72,10 @@
 
     <div id="result" class="mt-4"></div>
     <button id="copyButton" class="btn btn-custom mt-3" onclick="copyResult()">結果をコピー</button>
-    <button id="shareButton" class="btn btn-custom mt-3" onclick="shareToLine()">LINEで共有</button>
 
     <h2 class="mt-5">計算結果履歴</h2>
     <div id="historyList"></div>
-    <button id="copyHistoryButton" class="btn btn-custom mt-3" onclick="copyHistoryToCsv()">履歴をCSVでコピー</button>
+    <button id="copyHistoryButton" class="btn btn-custom mt-3" onclick="copyHistoryToText()">履歴をテキストでコピー</button>
 
     <script>
         let personCount = 0;
@@ -190,54 +189,59 @@
             localStorage.setItem('history', JSON.stringify(history));
         }
 
-        // 履歴を表示する関数
+        // 履歴をロードして表示
         function loadHistory() {
-            const history = JSON.parse(localStorage.getItem('history')) || [];
             const historyList = document.getElementById('historyList');
-            historyList.innerHTML = '';
+            historyList.innerHTML = ''; // 履歴リストを初期化
 
-            history.forEach(item => {
+            const history = JSON.parse(localStorage.getItem('history')) || [];
+
+            history.forEach((historyItem, index) => {
                 const historyDiv = document.createElement('div');
                 historyDiv.className = 'history-item';
                 historyDiv.innerHTML = `
-                    <p><strong>計算日時:</strong> ${item.dateTimeString}</p>
-                    <p><strong>合計金額:</strong> ${item.grandTotal} 円</p>
-                    ${item.peopleData.map(person => `
-                        <p><strong>${person.name}</strong>: ${person.totalPrice} 円 (配送料: ${person.individualShippingCost} 円)</p>
-                    `).join('')}
-                    <button class="btn btn-danger" onclick="deleteHistory('${item.dateTimeString}')">削除</button>
+                    <h4>計算日: ${historyItem.dateTimeString}</h4>
+                    <p>合計金額: ${historyItem.grandTotal} 円</p>
+                    <ul>
+                        ${historyItem.peopleData.map(person => `
+                            <li>${person.name}: ${person.totalIndividualCost} 円</li>
+                        `).join('')}
+                    </ul>
+                    <button class="btn btn-danger" onclick="deleteHistory(${index})">削除</button>
                 `;
                 historyList.appendChild(historyDiv);
             });
         }
 
-        // 履歴を削除する関数
-        function deleteHistory(dateTimeString) {
-            let history = JSON.parse(localStorage.getItem('history')) || [];
-            history = history.filter(item => item.dateTimeString !== dateTimeString);
-            localStorage.setItem('history', JSON.stringify(history));
-            loadHistory();  // 履歴を再読み込み
-        }
-
-        // 全履歴をCSV形式でコピー
-        function copyHistoryToCsv() {
+        // 履歴をテキストとしてコピー
+        function copyHistoryToText() {
             const history = JSON.parse(localStorage.getItem('history')) || [];
-            let csvContent = "計算日時,合計金額,名前,お米代金\n";
+            let historyText = '';
+
             history.forEach(item => {
+                historyText += `計算日: ${item.dateTimeString}\n合計金額: ${item.grandTotal} 円\n`;
                 item.peopleData.forEach(person => {
-                    csvContent += `${item.dateTimeString},${item.grandTotal},${person.name},${person.totalPrice}\n`;
+                    historyText += `${person.name}: ${person.totalIndividualCost} 円\n`;
                 });
+                historyText += '\n';
             });
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = '履歴.csv';
-            link.click();
+
+            // テキストをコピー
+            navigator.clipboard.writeText(historyText).then(() => {
+                alert('履歴がコピーされました');
+            });
         }
 
-        // 初期化
-        window.onload = loadHistory;
+        // 履歴を削除する関数
+        function deleteHistory(index) {
+            const history = JSON.parse(localStorage.getItem('history')) || [];
+            history.splice(index, 1); // 指定したインデックスの履歴を削除
+            localStorage.setItem('history', JSON.stringify(history));
+            loadHistory();  // 履歴を再表示
+        }
+
+        // 初期化して履歴を表示
+        loadHistory();
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
