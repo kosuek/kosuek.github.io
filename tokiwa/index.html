@@ -30,6 +30,9 @@
         <!-- 履歴アイテムがここに追加されます -->
     </div>
 
+    <!-- 履歴をCSV形式でコピーするボタン -->
+    <button id="copyCsvButton" class="btn btn-secondary mt-3" onclick="copyHistoryToCsv()">履歴をCSVとしてコピー</button>
+
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -180,68 +183,35 @@
             localStorage.setItem('history', JSON.stringify(history));
         }
 
-        // 履歴をロードする関数
-        function loadHistory() {
+        // 履歴をCSV形式でコピーする関数
+        function copyHistoryToCsv() {
             const history = JSON.parse(localStorage.getItem('history')) || [];
-            const historyContainer = document.getElementById('historyContainer');
-            historyContainer.innerHTML = '';  // 既存の履歴をクリア
+            let csvContent = '日付, 名前, お米代金, 配送料, 合計金額\n';
 
             history.forEach(({ dateTimeString, grandTotal, peopleData }) => {
-                const historyDiv = document.createElement('div');
-                historyDiv.className = 'mb-3 border p-3';
-
-                let historyContent = `<p>${dateTimeString}: 合計金額: ${grandTotal} 円</p>`;
                 peopleData.forEach(person => {
-                    historyContent += `
-                        <p>${person.name}: お米代金: ${roundToNearestHundred(person.totalPrice)} 円, 配送料: ${roundToNearestHundred((person.weight / grandTotal) * totalWeight)} 円</p>
-                    `;
+                    csvContent += `${dateTimeString}, ${person.name}, ${roundToNearestHundred(person.totalPrice)}, ${roundToNearestHundred((person.weight / grandTotal) * totalWeight)}, ${roundToNearestHundred(person.totalPrice + (person.weight / grandTotal) * totalWeight)}\n`;
                 });
-
-                historyContent += `<button class="btn btn-danger" onclick="removeHistory(this)">削除</button>`;
-                historyDiv.innerHTML = historyContent;
-                historyContainer.appendChild(historyDiv);
             });
+
+            // CSVをクリップボードにコピーする
+            const textArea = document.createElement('textarea');
+            textArea.value = csvContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+
+            alert('履歴をCSV形式でコピーしました！');
         }
 
-        window.onload = loadHistory;
-
-        document.getElementById('shippingCost').addEventListener('input', saveData);
-
-        function saveData() {
-            const data = {
-                shippingCost: document.getElementById('shippingCost').value,
-                people: []
-            };
-
-            for (let i = 1; i <= personCount; i++) {
-                const personDiv = document.getElementById(`person${i}`);
-                if (personDiv) {
-                    const personData = {
-                        name: document.getElementById(`name${i}`).value,
-                        weight: document.getElementById(`weight${i}`).value,
-                        totalPrice: document.getElementById(`totalPrice${i}`).value
-                    };
-                    data.people.push(personData);
-                }
-            }
-
-            localStorage.setItem('riceAppData', JSON.stringify(data));
-        }
-
-        function loadData() {
-            const savedData = JSON.parse(localStorage.getItem('riceAppData'));
-            if (savedData) {
-                document.getElementById('shippingCost').value = savedData.shippingCost;
-                savedData.people.forEach(person => {
-                    addPerson(person.name, person.weight, person.totalPrice);
-                });
-            }
-        }
-
-        window.onload = loadData;
+        // ページ読み込み時に履歴を読み込み、表示する
+        window.onload = function() {
+            const history = JSON.parse(localStorage.getItem('history')) || [];
+            history.forEach(({ dateTimeString, grandTotal, peopleData }) => {
+                addToHistory(dateTimeString, grandTotal, peopleData);
+            });
+        };
     </script>
-
-    <!-- Bootstrap JS (オプション、必要なら追加) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
