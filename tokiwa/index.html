@@ -27,6 +27,12 @@
     <button id="copyButton" class="btn btn-primary mt-3" onclick="copyResult()">結果をコピー</button>
     <button id="shareButton" class="btn btn-primary mt-3" onclick="shareToLine()">LINEで共有</button>
 
+    <!-- 計算結果履歴 -->
+    <h2 class="mt-5">計算結果履歴</h2>
+    <div id="historyContainer">
+        <!-- 履歴アイテムがここに追加されます -->
+    </div>
+
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -40,7 +46,6 @@
             });
         }
 
-        
         let personCount = 0;
 
         function addPerson(name = '', weight = '', totalPrice = '') {
@@ -67,9 +72,11 @@
             `;
             container.appendChild(personDiv);
 
-            document.getElementById(`name${personCount}`).addEventListener('input', saveData);
-            document.getElementById(`weight${personCount}`).addEventListener('input', saveData);
-            document.getElementById(`totalPrice${personCount}`).addEventListener('input', saveData);
+            // 入力された内容を保存するイベントをまとめて設定
+            const inputs = personDiv.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('input', saveData);  // 各フィールドの入力を保存
+            });
         }
 
         function removePerson(id) {
@@ -127,30 +134,58 @@
 
             resultDiv.innerHTML += `<h3>全員の合計金額: ${grandTotal} 円</h3>`;
             resultDiv.innerHTML += `<p>計算日: ${dateTimeString}</p>`;
+
+            // 計算結果を履歴に追加
+            addToHistory(dateTimeString, grandTotal);
         }
 
-        function copyResult() {
-            const resultDiv = document.getElementById('result');
-            const range = document.createRange();
-            range.selectNode(resultDiv);
-            window.getSelection().removeAllRanges();
-            window.getSelection().addRange(range);
-            try {
-                document.execCommand('copy');
-                alert('計算結果をコピーしました！');
-            } catch (err) {
-                alert('コピーに失敗しました。');
-            }
-            window.getSelection().removeAllRanges();
+        function addToHistory(dateTimeString, grandTotal) {
+            const historyContainer = document.getElementById('historyContainer');
+            const historyDiv = document.createElement('div');
+            historyDiv.className = 'mb-3 border p-3';
+            historyDiv.innerHTML = `
+                <p>${dateTimeString}: 合計金額: ${grandTotal} 円</p>
+                <button class="btn btn-danger" onclick="removeHistory(this)">削除</button>
+            `;
+            historyContainer.appendChild(historyDiv);
+
+            // 履歴をlocalStorageに保存
+            const history = JSON.parse(localStorage.getItem('history')) || [];
+            history.push({ dateTimeString, grandTotal });
+            localStorage.setItem('history', JSON.stringify(history));
         }
 
-        function shareToLine() {
-            const resultDiv = document.getElementById('result');
-            const resultText = resultDiv.innerText;
-            const encodedText = encodeURIComponent(resultText);
-            const lineShareUrl = `https://social-plugins.line.me/lineit/share?text=${encodedText}`;
-            window.open(lineShareUrl, '_blank');
+        function removeHistory(button) {
+            const historyDiv = button.parentElement;
+            historyDiv.remove();
+
+            // 履歴をlocalStorageから削除
+            const history = JSON.parse(localStorage.getItem('history')) || [];
+            const index = Array.from(historyDiv.parentElement.children).indexOf(historyDiv);
+            history.splice(index, 1);
+            localStorage.setItem('history', JSON.stringify(history));
         }
+
+        function loadHistory() {
+            const history = JSON.parse(localStorage.getItem('history')) || [];
+            const historyContainer = document.getElementById('historyContainer');
+            history.forEach(item => {
+                const historyDiv = document.createElement('div');
+                historyDiv.className = 'mb-3 border p-3';
+                historyDiv.innerHTML = `
+                    <p>${item.dateTimeString}: 合計金額: ${item.grandTotal} 円</p>
+                    <button class="btn btn-danger" onclick="removeHistory(this)">削除</button>
+                `;
+                historyContainer.appendChild(historyDiv);
+            });
+        }
+
+        window.onload = function() {
+            loadData();
+            loadHistory();
+        };
+
+        document.getElementById('shippingCost').addEventListener('input', saveData);
 
         function saveData() {
             const data = {
@@ -187,10 +222,6 @@
                 document.getElementById('previousDate').innerText = `前回の計算日: ${lastCalculationDate}`;
             }
         }
-
-        window.onload = loadData;
-
-        document.getElementById('shippingCost').addEventListener('input', saveData);
     </script>
     <!-- Bootstrap JS (オプション、必要なら追加) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
