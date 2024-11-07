@@ -95,13 +95,17 @@
             let totalCost = 0;
             const shippingCost = parseFloat(document.getElementById('shippingCost').value);
 
+            const peopleData = [];
+
             for (let i = 1; i <= personCount; i++) {
                 const personDiv = document.getElementById(`person${i}`);
                 if (personDiv) {
+                    const name = document.getElementById(`name${i}`).value;
                     const weight = parseFloat(document.getElementById(`weight${i}`).value);
                     const totalPrice = parseFloat(document.getElementById(`totalPrice${i}`).value);
                     totalWeight += weight;
                     totalCost += totalPrice;
+                    peopleData.push({ name, weight, totalPrice });
                 }
             }
 
@@ -115,30 +119,15 @@
             const dateTimeString = `${formattedDate} ${formattedTime}`;
             localStorage.setItem('lastCalculationDate', dateTimeString);
 
-            const peopleData = [];
+            for (let i = 0; i < peopleData.length; i++) {
+                const { name, weight, totalPrice } = peopleData[i];
+                const individualShippingCost = roundToNearestHundred((weight / totalWeight) * shippingCost);
+                const totalIndividualCost = roundToNearestHundred(totalPrice + individualShippingCost);
+                grandTotal += totalIndividualCost;
 
-            for (let i = 1; i <= personCount; i++) {
-                const personDiv = document.getElementById(`person${i}`);
-                if (personDiv) {
-                    const name = document.getElementById(`name${i}`).value;
-                    const weight = parseFloat(document.getElementById(`weight${i}`).value);
-                    const totalPrice = parseFloat(document.getElementById(`totalPrice${i}`).value);
-                    const individualShippingCost = roundToNearestHundred((weight / totalWeight) * shippingCost);
-                    const totalIndividualCost = roundToNearestHundred(totalPrice + individualShippingCost);
-                    grandTotal += totalIndividualCost;
-
-                    peopleData.push({
-                        name,
-                        totalPrice,
-                        weight,
-                        individualShippingCost,
-                        totalIndividualCost
-                    });
-
-                    resultDiv.innerHTML += `
-                        <p>${name}: お米代金: ${roundToNearestHundred(totalPrice)} 円, 配送料: ${individualShippingCost} 円, 合計: ${totalIndividualCost} 円</p>
-                    `;
-                }
+                resultDiv.innerHTML += `
+                    <p>${name}: お米代金: ${roundToNearestHundred(totalPrice)} 円, 配送料: ${individualShippingCost} 円, 合計: ${totalIndividualCost} 円</p>
+                `;
             }
 
             resultDiv.innerHTML += `<h3>全員の合計金額: ${grandTotal} 円</h3>`;
@@ -188,77 +177,58 @@
             const history = JSON.parse(localStorage.getItem('history')) || [];
             history.unshift({ dateTimeString, grandTotal, peopleData });
             localStorage.setItem('history', JSON.stringify(history));
-            addToHistory(dateTimeString, grandTotal, peopleData);
-        }
-
-        function addToHistory(dateTimeString, grandTotal, peopleData) {
-            const historyList = document.getElementById('historyList');
-            const historyItem = document.createElement('div');
-            historyItem.className = 'border p-3 mb-2';
-            historyItem.innerHTML = `
-                <p><strong>${dateTimeString}</strong></p>
-                <p>合計金額: ${grandTotal} 円</p>
-                <button class="btn btn-danger" onclick="removeHistoryItem('${dateTimeString}')">削除</button>
-            `;
-            historyList.appendChild(historyItem);
-        }
-
-        function removeHistoryItem(dateTimeString) {
-            let history = JSON.parse(localStorage.getItem('history')) || [];
-            history = history.filter(item => item.dateTimeString !== dateTimeString);
-            localStorage.setItem('history', JSON.stringify(history));
-            loadHistory();
+            loadHistory();  // 履歴の再読み込み
         }
 
         function loadHistory() {
             const history = JSON.parse(localStorage.getItem('history')) || [];
             const historyList = document.getElementById('historyList');
-            historyList.innerHTML = '';
+            historyList.innerHTML = '';  // 履歴リストをクリア
+
             history.forEach(({ dateTimeString, grandTotal, peopleData }) => {
-                addToHistory(dateTimeString, grandTotal, peopleData);
+                const historyItem = document.createElement('div');
+                historyItem.className = 'mb-2';
+                historyItem.innerHTML = `
+                    <p><strong>計算日時: ${dateTimeString}</strong></p>
+                    <p>合計金額: ${grandTotal} 円</p>
+                    <ul>
+                        ${peopleData.map(person => `<li>${person.name}: ${person.totalPrice}円</li>`).join('')}
+                    </ul>
+                `;
+                historyList.appendChild(historyItem);
             });
         }
 
         function copyResult() {
-            const result = document.getElementById('result').innerText;
-            const textArea = document.createElement('textarea');
-            textArea.value = result;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-            alert('計算結果をコピーしました！');
+            const resultText = document.getElementById('result').innerText;
+            navigator.clipboard.writeText(resultText).then(() => {
+                alert("結果がコピーされました！");
+            });
         }
 
         function shareToLine() {
-            const result = document.getElementById('result').innerText;
-            const lineUrl = `https://line.me/R/msg/text/?${encodeURIComponent(result)}`;
-            window.open(lineUrl, '_blank');
+            const resultText = document.getElementById('result').innerText;
+            const url = `https://line.me/R/msg/text/?${encodeURIComponent(resultText)}`;
+            window.open(url, '_blank');
         }
 
         function copyHistoryToCsv() {
             const history = JSON.parse(localStorage.getItem('history')) || [];
-            let csvContent = '日付, 名前, お米代金, 配送料, 合計金額\n';
-
+            let csvContent = "日時, 合計金額, 人物\n";
+            
             history.forEach(({ dateTimeString, grandTotal, peopleData }) => {
-                peopleData.forEach(person => {
-                    csvContent += `${dateTimeString}, ${person.name}, ${roundToNearestHundred(person.totalPrice)}, ${roundToNearestHundred((person.weight / grandTotal) * totalWeight)}, ${roundToNearestHundred(person.totalPrice + (person.weight / grandTotal) * totalWeight)}\n`;
-                });
+                const people = peopleData.map(person => `${person.name}: ${person.totalPrice}円`).join('; ');
+                csvContent += `"${dateTimeString}", "${grandTotal}円", "${people}"\n`;
             });
 
-            const textArea = document.createElement('textarea');
-            textArea.value = csvContent;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-
-            alert('履歴をCSV形式でコピーしました！');
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'history.csv';
+            link.click();
         }
 
-        // 初期化
-        loadData();
-        loadHistory();
+        window.onload = loadData;
     </script>
 </body>
 </html>
