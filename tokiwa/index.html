@@ -28,6 +28,19 @@
     <button id="shareButton" class="btn btn-primary mt-3" onclick="shareToLine()">LINEで共有</button>
 
     <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                .then(registration => {
+                    console.log('Service Worker登録成功: ', registration);
+                })
+                .catch(err => {
+                    console.log('Service Worker登録失敗: ', err);
+                });
+            });
+        }
+
+        
         let personCount = 0;
 
         function addPerson(name = '', weight = '', totalPrice = '') {
