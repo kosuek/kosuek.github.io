@@ -5,28 +5,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>お米代金</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f4f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        h1 {
+            color: #4e73df;
+        }
+        .container {
+            max-width: 900px;
+        }
+        .form-control, .btn {
+            border-radius: 0.5rem;
+        }
+        .history-item {
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .history-item p {
+            font-size: 1.1rem;
+        }
+        .history-item button {
+            margin-top: 1rem;
+        }
+        .btn-custom {
+            background-color: #4e73df;
+            color: white;
+            border: none;
+        }
+        .btn-custom:hover {
+            background-color: #2e59d9;
+        }
+        .result-item {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background-color: #ffffff;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .result-item h5 {
+            font-size: 1.25rem;
+            color: #333;
+        }
+    </style>
 </head>
-<body class="container my-4">
+<body class="container my-5">
     <h1 class="text-center mb-4">お米代金計算するぜ</h1>
+
     <div id="dates" class="text-center mb-4">
         <p id="previousDate" class="text-muted"></p>
     </div>
-    <form id="riceForm">
+
+    <form id="riceForm" class="mb-4">
         <div id="peopleContainer" class="mb-3"></div>
-        <button type="button" class="btn btn-primary mb-3" onclick="addPerson()">人を追加</button>
+        <button type="button" class="btn btn-custom mb-3" onclick="addPerson()">人を追加</button>
         <div class="mb-3">
             <label for="shippingCost" class="form-label">配送料:</label>
             <input type="number" id="shippingCost" class="form-control" required>
         </div>
-        <button type="button" class="btn btn-primary" onclick="calculate()">計算</button>
+        <button type="button" class="btn btn-custom" onclick="calculate()">計算</button>
     </form>
-    <div id="result" class="mt-4"></div>
-    <button id="copyButton" class="btn btn-primary mt-3" onclick="copyResult()">結果をコピー</button>
-    <button id="shareButton" class="btn btn-primary mt-3" onclick="shareToLine()">LINEで共有</button>
 
-    <h2>計算結果履歴</h2>
+    <div id="result" class="mt-4"></div>
+    <button id="copyButton" class="btn btn-custom mt-3" onclick="copyResult()">結果をコピー</button>
+    <button id="shareButton" class="btn btn-custom mt-3" onclick="shareToLine()">LINEで共有</button>
+
+    <h2 class="mt-5">計算結果履歴</h2>
     <div id="historyList"></div>
-    <button id="copyHistoryButton" class="btn btn-primary mt-3" onclick="copyHistoryToCsv()">履歴をCSVでコピー</button>
+    <button id="copyHistoryButton" class="btn btn-custom mt-3" onclick="copyHistoryToCsv()">履歴をCSVでコピー</button>
 
     <script>
         let personCount = 0;
@@ -39,7 +89,6 @@
             personDiv.className = 'mb-4 border p-3';
             personDiv.id = `person${personCount}`;
             personDiv.innerHTML = `
-                <h3 class="mt-3">人 ${personCount}</h3>
                 <div class="mb-2">
                     <label for="name${personCount}" class="form-label">名前:</label>
                     <input type="text" id="name${personCount}" class="form-control" value="${name}" required>
@@ -89,7 +138,7 @@
             }
 
             const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = `<h2>計算結果</h2>`;
+            resultDiv.innerHTML = `<h2 class="result-item">計算結果</h2>`;
             let grandTotal = 0;
 
             const currentDate = new Date();
@@ -117,7 +166,12 @@
                     });
 
                     resultDiv.innerHTML += `
-                        <p>${name}: お米代金: ${Math.round(totalPrice)} 円, 配送料: ${individualShippingCost} 円, 合計: ${totalIndividualCost} 円</p>
+                        <div class="result-item">
+                            <h5>${name}</h5>
+                            <p>お米代金: ${Math.round(totalPrice)} 円</p>
+                            <p>配送料: ${individualShippingCost} 円</p>
+                            <p>合計: ${totalIndividualCost} 円</p>
+                        </div>
                     `;
                 }
             }
@@ -132,55 +186,40 @@
         // 計算結果を履歴として保存
         function saveHistory(dateTimeString, grandTotal, peopleData) {
             const history = JSON.parse(localStorage.getItem('history')) || [];
-            history.unshift({ dateTimeString, grandTotal, peopleData });
+            history.unshift({ dateTimeString, grandTotal, peopleData }); // 新しい履歴を先頭に追加
             localStorage.setItem('history', JSON.stringify(history));
         }
 
-        // 履歴を画面に表示
+        // 履歴を表示する関数
         function loadHistory() {
             const history = JSON.parse(localStorage.getItem('history')) || [];
             const historyList = document.getElementById('historyList');
-            historyList.innerHTML = '';  // 履歴リストをクリア
+            historyList.innerHTML = '';
 
-            history.forEach((item, index) => {
-                const historyItem = document.createElement('div');
-                historyItem.className = 'mb-2';
-                historyItem.innerHTML = `
-                    <p><strong>計算日時: ${item.dateTimeString}</strong></p>
-                    <p>合計金額: ${item.grandTotal} 円</p>
-                    <ul>
-                        ${item.peopleData.map(person => `<li>${person.name}: ${person.totalPrice}円</li>`).join('')}
-                    </ul>
-                    <button class="btn btn-danger" onclick="deleteHistory(${index})">削除</button>
+            history.forEach(item => {
+                const historyDiv = document.createElement('div');
+                historyDiv.className = 'history-item';
+                historyDiv.innerHTML = `
+                    <p><strong>計算日時:</strong> ${item.dateTimeString}</p>
+                    <p><strong>合計金額:</strong> ${item.grandTotal} 円</p>
+                    ${item.peopleData.map(person => `
+                        <p><strong>${person.name}</strong>: ${person.totalPrice} 円 (配送料: ${person.individualShippingCost} 円)</p>
+                    `).join('')}
+                    <button class="btn btn-danger" onclick="deleteHistory('${item.dateTimeString}')">削除</button>
                 `;
-                historyList.appendChild(historyItem);
+                historyList.appendChild(historyDiv);
             });
         }
 
-        // 履歴の削除
-        function deleteHistory(index) {
-            const history = JSON.parse(localStorage.getItem('history')) || [];
-            history.splice(index, 1);  // 履歴を削除
+        // 履歴を削除する関数
+        function deleteHistory(dateTimeString) {
+            let history = JSON.parse(localStorage.getItem('history')) || [];
+            history = history.filter(item => item.dateTimeString !== dateTimeString);
             localStorage.setItem('history', JSON.stringify(history));
-            loadHistory();  // 履歴を再表示
+            loadHistory();  // 履歴を再読み込み
         }
 
-        // 計算結果をコピー
-        function copyResult() {
-            const resultText = document.getElementById('result').innerText;
-            navigator.clipboard.writeText(resultText).then(() => {
-                alert("結果がコピーされました！");
-            });
-        }
-
-        // LINEで共有
-        function shareToLine() {
-            const resultText = document.getElementById('result').innerText;
-            const url = `https://line.me/R/msg/text/?${encodeURIComponent(resultText)}`;
-            window.open(url, '_blank');
-        }
-
-        // 履歴をCSV形式でコピー
+        // 全履歴をCSV形式でコピー
         function copyHistoryToCsv() {
             const history = JSON.parse(localStorage.getItem('history')) || [];
             let csvContent = "計算日時,合計金額,名前,お米代金\n";
@@ -196,7 +235,7 @@
             link.click();
         }
 
-        // ページ読み込み時に履歴を表示
+        // 初期化
         window.onload = loadHistory;
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
