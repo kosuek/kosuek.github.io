@@ -3,8 +3,6 @@ const CACHE_NAME = 'rice-calculator-cache-v1';
 const urlsToCache = [
     '/',
     '/index.html', // アプリのHTMLファイル名
-    '/style.css',  // CSSファイル（存在する場合）
-    '/script.js',  // メインJavaScript（存在する場合）
     'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css',
     'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js'
 ];
