@@ -4,81 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>お米代金</title>
+    <!-- Bootstrap CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            background-color: #f4f4f9;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        h1 {
-            color: #4e73df;
-        }
-        .container {
-            max-width: 900px;
-        }
-        .form-control, .btn {
-            border-radius: 0.5rem;
+        .result-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
         }
         .history-item {
-            background-color: #fff;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .history-item p {
-            font-size: 1.1rem;
-        }
-        .history-item button {
-            margin-top: 1rem;
-        }
-        .btn-custom {
-            background-color: #4e73df;
-            color: white;
-            border: none;
-        }
-        .btn-custom:hover {
-            background-color: #2e59d9;
-        }
-        .result-item {
-            padding: 1rem;
-            margin-bottom: 1rem;
-            background-color: #ffffff;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .result-item h5 {
-            font-size: 1.25rem;
-            color: #333;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
-<body class="container my-5">
+<body class="container my-4">
     <h1 class="text-center mb-4">お米代金計算するぜ</h1>
-
     <div id="dates" class="text-center mb-4">
         <p id="previousDate" class="text-muted"></p>
     </div>
-
-    <form id="riceForm" class="mb-4">
-        <div id="peopleContainer" class="mb-3"></div>
-        <button type="button" class="btn btn-custom mb-3" onclick="addPerson()">人を追加</button>
+    <form id="riceForm">
+        <div id="peopleContainer" class="mb-3">
+            <!-- 各人の入力フィールドがここに追加されます -->
+        </div>
+        <button type="button" class="btn btn-primary mb-3" onclick="addPerson()">人を追加</button>
         <div class="mb-3">
             <label for="shippingCost" class="form-label">配送料:</label>
             <input type="number" id="shippingCost" class="form-control" required>
         </div>
-        <button type="button" class="btn btn-custom" onclick="calculate()">計算</button>
+        <button type="button" class="btn btn-primary" onclick="calculate()">計算</button>
     </form>
 
     <div id="result" class="mt-4"></div>
-    <button id="copyButton" class="btn btn-custom mt-3" onclick="copyResult()">結果をコピー</button>
+    <button id="copyButton" class="btn btn-primary mt-3" onclick="copyHistoryToText()">履歴をコピー</button>
 
-    <h2 class="mt-5">計算結果履歴</h2>
+    <h2 class="mt-4">計算結果履歴</h2>
     <div id="historyList"></div>
-    <button id="copyHistoryButton" class="btn btn-custom mt-3" onclick="copyHistoryToText()">履歴をテキストでコピー</button>
 
     <script>
         let personCount = 0;
+
+        // ページが読み込まれたときに入力内容を復元
+        window.onload = function() {
+            loadHistory();  // 履歴を読み込む
+            loadFormData(); // フォームのデータを復元
+        }
 
         // 人を追加する関数
         function addPerson(name = '', weight = '', totalPrice = '') {
@@ -88,6 +59,7 @@
             personDiv.className = 'mb-4 border p-3';
             personDiv.id = `person${personCount}`;
             personDiv.innerHTML = `
+                <h3 class="mt-3">人 ${personCount}</h3>
                 <div class="mb-2">
                     <label for="name${personCount}" class="form-label">名前:</label>
                     <input type="text" id="name${personCount}" class="form-control" value="${name}" required>
@@ -100,11 +72,10 @@
                     <label for="totalPrice${personCount}" class="form-label">お米の総代金 (円):</label>
                     <input type="number" id="totalPrice${personCount}" class="form-control" value="${totalPrice}" required>
                 </div>
-                <button type="button" class="btn btn-danger" onclick="removePerson(${personCount})">削除</button>
+                <button type="button" class="btn btn-primary" onclick="removePerson(${personCount})">削除</button>
             `;
             container.appendChild(personDiv);
 
-            // 各フォーム項目に変更イベントを追加
             document.getElementById(`name${personCount}`).addEventListener('input', saveData);
             document.getElementById(`weight${personCount}`).addEventListener('input', saveData);
             document.getElementById(`totalPrice${personCount}`).addEventListener('input', saveData);
@@ -119,13 +90,20 @@
             }
         }
 
-        // 計算ボタンが押された時の処理
+        // 配送料を100の位で四捨五入する関数
+        function roundToNearestHundred(value) {
+            return Math.round(value / 100) * 100;
+        }
+
+        // 計算する関数
         function calculate() {
             let totalWeight = 0;
             let totalCost = 0;
             const shippingCost = parseFloat(document.getElementById('shippingCost').value);
 
-            // 各人のデータを計算
+            // 配送料を100の位で四捨五入
+            const roundedShippingCost = Math.round(shippingCost / 100) * 100;
+
             for (let i = 1; i <= personCount; i++) {
                 const personDiv = document.getElementById(`person${i}`);
                 if (personDiv) {
@@ -153,7 +131,7 @@
                     const name = document.getElementById(`name${i}`).value;
                     const weight = parseFloat(document.getElementById(`weight${i}`).value);
                     const totalPrice = parseFloat(document.getElementById(`totalPrice${i}`).value);
-                    const individualShippingCost = Math.round((weight / totalWeight) * shippingCost);
+                    const individualShippingCost = Math.round((weight / totalWeight) * roundedShippingCost);
                     const totalIndividualCost = Math.round(totalPrice + individualShippingCost);
                     grandTotal += totalIndividualCost;
 
@@ -182,25 +160,24 @@
             loadHistory();  // 履歴を再読み込み
         }
 
-        // 計算結果を履歴として保存
+        // 履歴を保存する関数
         function saveHistory(dateTimeString, grandTotal, peopleData) {
             const history = JSON.parse(localStorage.getItem('history')) || [];
             history.unshift({ dateTimeString, grandTotal, peopleData }); // 新しい履歴を先頭に追加
             localStorage.setItem('history', JSON.stringify(history));
         }
 
-        // 履歴をロードして表示
+        // 履歴を読み込む関数
         function loadHistory() {
-            const historyList = document.getElementById('historyList');
-            historyList.innerHTML = ''; // 履歴リストを初期化
-
             const history = JSON.parse(localStorage.getItem('history')) || [];
+            const historyList = document.getElementById('historyList');
+            historyList.innerHTML = ''; // 履歴をクリア
 
             history.forEach((historyItem, index) => {
                 const historyDiv = document.createElement('div');
                 historyDiv.className = 'history-item';
                 historyDiv.innerHTML = `
-                    <h4>計算日: ${historyItem.dateTimeString}</h4>
+                    <p>計算日: ${historyItem.dateTimeString}</p>
                     <p>合計金額: ${historyItem.grandTotal} 円</p>
                     <ul>
                         ${historyItem.peopleData.map(person => `
@@ -216,18 +193,12 @@
         // 履歴をテキストとしてコピー
         function copyHistoryToText() {
             const history = JSON.parse(localStorage.getItem('history')) || [];
-            let historyText = '';
-
-            history.forEach(item => {
-                historyText += `計算日: ${item.dateTimeString}\n合計金額: ${item.grandTotal} 円\n`;
-                item.peopleData.forEach(person => {
-                    historyText += `${person.name}: ${person.totalIndividualCost} 円\n`;
-                });
-                historyText += '\n';
-            });
-
-            // テキストをコピー
-            navigator.clipboard.writeText(historyText).then(() => {
+            const text = history.map(item => {
+                return `計算日: ${item.dateTimeString}\n合計金額: ${item.grandTotal} 円\n` +
+                    item.peopleData.map(person => `${person.name}: ${person.totalIndividualCost} 円`).join('\n') +
+                    '\n';
+            }).join('\n---\n');
+            navigator.clipboard.writeText(text).then(() => {
                 alert('履歴がコピーされました');
             });
         }
@@ -235,13 +206,36 @@
         // 履歴を削除する関数
         function deleteHistory(index) {
             const history = JSON.parse(localStorage.getItem('history')) || [];
-            history.splice(index, 1); // 指定したインデックスの履歴を削除
+            history.splice(index, 1);
             localStorage.setItem('history', JSON.stringify(history));
-            loadHistory();  // 履歴を再表示
+            loadHistory();
         }
 
-        // 初期化して履歴を表示
-        loadHistory();
+        // フォームデータを保存する関数
+        function saveData() {
+            const formData = {
+                people: []
+            };
+            for (let i = 1; i <= personCount; i++) {
+                const name = document.getElementById(`name${i}`).value;
+                const weight = document.getElementById(`weight${i}`).value;
+                const totalPrice = document.getElementById(`totalPrice${i}`).value;
+                formData.people.push({ name, weight, totalPrice });
+            }
+            formData.shippingCost = document.getElementById('shippingCost').value;
+            localStorage.setItem('formData', JSON.stringify(formData));
+        }
+
+        // フォームデータを復元する関数
+        function loadFormData() {
+            const formData = JSON.parse(localStorage.getItem('formData')) || { people: [] };
+            formData.people.forEach(person => {
+                addPerson(person.name, person.weight, person.totalPrice);
+            });
+            document.getElementById('shippingCost').value = formData.shippingCost || '';
+        }
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
