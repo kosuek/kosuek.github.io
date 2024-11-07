@@ -21,11 +21,11 @@
             <label for="shippingCost" class="form-label">配送料:</label>
             <input type="number" id="shippingCost" class="form-control" required>
         </div>
-        <button type="button" class="btn btn-success" onclick="calculate()">計算</button>
+        <button type="button" class="btn btn-primary" onclick="calculate()">計算</button>
     </form>
     <div id="result" class="mt-4"></div>
-    <button id="copyButton" class="btn btn-secondary mt-3" onclick="copyResult()">結果をコピー</button>
-    <button id="shareButton" class="btn btn-info mt-3" onclick="shareToLine()">LINEで共有</button>
+    <button id="copyButton" class="btn btn-primary mt-3" onclick="copyResult()">結果をコピー</button>
+    <button id="shareButton" class="btn btn-primary mt-3" onclick="shareToLine()">LINEで共有</button>
 
     <script>
         let personCount = 0;
@@ -34,7 +34,7 @@
             personCount++;
             const container = document.getElementById('peopleContainer');
             const personDiv = document.createElement('div');
-            personDiv.className = 'mb-4';
+            personDiv.className = 'mb-4 border p-3';
             personDiv.id = `person${personCount}`;
             personDiv.innerHTML = `
                 <h3 class="mt-3">人 ${personCount}</h3>
@@ -50,12 +50,21 @@
                     <label for="totalPrice${personCount}" class="form-label">お米の総代金 (円):</label>
                     <input type="number" id="totalPrice${personCount}" class="form-control" value="${totalPrice}" required>
                 </div>
+                <button type="button" class="btn btn-primary" onclick="removePerson(${personCount})">削除</button>
             `;
             container.appendChild(personDiv);
 
             document.getElementById(`name${personCount}`).addEventListener('input', saveData);
             document.getElementById(`weight${personCount}`).addEventListener('input', saveData);
             document.getElementById(`totalPrice${personCount}`).addEventListener('input', saveData);
+        }
+
+        function removePerson(id) {
+            const personDiv = document.getElementById(`person${id}`);
+            if (personDiv) {
+                personDiv.remove();
+                saveData();
+            }
         }
 
         function roundToNearestHundred(value) {
@@ -68,10 +77,13 @@
             const shippingCost = parseFloat(document.getElementById('shippingCost').value);
 
             for (let i = 1; i <= personCount; i++) {
-                const weight = parseFloat(document.getElementById(`weight${i}`).value);
-                const totalPrice = parseFloat(document.getElementById(`totalPrice${i}`).value);
-                totalWeight += weight;
-                totalCost += totalPrice;
+                const personDiv = document.getElementById(`person${i}`);
+                if (personDiv) {
+                    const weight = parseFloat(document.getElementById(`weight${i}`).value);
+                    const totalPrice = parseFloat(document.getElementById(`totalPrice${i}`).value);
+                    totalWeight += weight;
+                    totalCost += totalPrice;
+                }
             }
 
             const resultDiv = document.getElementById('result');
@@ -85,16 +97,19 @@
             localStorage.setItem('lastCalculationDate', dateTimeString);
 
             for (let i = 1; i <= personCount; i++) {
-                const name = document.getElementById(`name${i}`).value;
-                const weight = parseFloat(document.getElementById(`weight${i}`).value);
-                const totalPrice = parseFloat(document.getElementById(`totalPrice${i}`).value);
-                const individualShippingCost = roundToNearestHundred((weight / totalWeight) * shippingCost);
-                const totalIndividualCost = roundToNearestHundred(totalPrice + individualShippingCost);
-                grandTotal += totalIndividualCost;
+                const personDiv = document.getElementById(`person${i}`);
+                if (personDiv) {
+                    const name = document.getElementById(`name${i}`).value;
+                    const weight = parseFloat(document.getElementById(`weight${i}`).value);
+                    const totalPrice = parseFloat(document.getElementById(`totalPrice${i}`).value);
+                    const individualShippingCost = roundToNearestHundred((weight / totalWeight) * shippingCost);
+                    const totalIndividualCost = roundToNearestHundred(totalPrice + individualShippingCost);
+                    grandTotal += totalIndividualCost;
 
-                resultDiv.innerHTML += `
-                    <p>${name}: お米代金: ${roundToNearestHundred(totalPrice)} 円, 配送料: ${individualShippingCost} 円, 合計: ${totalIndividualCost} 円</p>
-                `;
+                    resultDiv.innerHTML += `
+                        <p>${name}: お米代金: ${roundToNearestHundred(totalPrice)} 円, 配送料: ${individualShippingCost} 円, 合計: ${totalIndividualCost} 円</p>
+                    `;
+                }
             }
 
             resultDiv.innerHTML += `<h3>全員の合計金額: ${grandTotal} 円</h3>`;
@@ -131,12 +146,15 @@
             };
 
             for (let i = 1; i <= personCount; i++) {
-                const personData = {
-                    name: document.getElementById(`name${i}`).value,
-                    weight: document.getElementById(`weight${i}`).value,
-                    totalPrice: document.getElementById(`totalPrice${i}`).value
-                };
-                data.people.push(personData);
+                const personDiv = document.getElementById(`person${i}`);
+                if (personDiv) {
+                    const personData = {
+                        name: document.getElementById(`name${i}`).value,
+                        weight: document.getElementById(`weight${i}`).value,
+                        totalPrice: document.getElementById(`totalPrice${i}`).value
+                    };
+                    data.people.push(personData);
+                }
             }
 
             localStorage.setItem('riceAppData', JSON.stringify(data));
