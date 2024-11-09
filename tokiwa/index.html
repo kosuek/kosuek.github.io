@@ -61,11 +61,11 @@
             history.forEach((item, index) => {
                 const historyItemDiv = document.createElement('div');
                 historyItemDiv.className = 'history-item';
-                historyItemDiv.innerHTML = `
+                historyItemDiv.innerHTML += `
                     <p>計算日: ${item.dateTimeString}</p>
                     <p>合計金額: ${item.grandTotal} 円</p>
                     ${item.peopleData.map(person => `
-                        <p>${person.name}: ${person.totalIndividualCost} 円</p>
+                    <p>${person.name}: お米代金: ${person.totalPrice} 円, 配送料: ${person.individualShippingCost} 円, 合計: ${person.totalIndividualCost} 円</p>
                     `).join('')}
                     <button class="btn btn-danger" onclick="deleteHistory(${index})">削除</button>
                 `;
@@ -134,7 +134,12 @@
             history.push({
                 dateTimeString,
                 grandTotal,
-                peopleData
+                peopleData: peopleData.map(person => ({
+                    name: person.name,
+                    weight: person.weight,
+                    totalPrice: person.totalPrice,
+                    individualShippingCost: person.individualShippingCost // 配送料を追加
+                }))
             });
             localStorage.setItem('history', JSON.stringify(history));
 
