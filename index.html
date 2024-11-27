@@ -61,7 +61,7 @@
                         <a class="nav-link" href="#">お問合せ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><small>教会員用ページ</small></a>
+                        <a class="nav-link" href="#" onclick="gate();">教会員用</a>
                     </li>
                 </ul>
             </div>
@@ -253,6 +253,14 @@
     <script src="/docs/4.3/assets/js/src/application.js"></script>
     <script src="/docs/4.3/assets/js/src/search.js"></script>
     <script src="/docs/4.3/assets/js/src/ie-emulation-modes-warning.js"></script>
+
+    <script type="text/javascript">
+        function gate() {
+           var UserInput = prompt("パスワードを入力して下さい:","");
+           location.href = UserInput + ".html";
+        }
+     </script>
+
 </body>
 
 </html>
