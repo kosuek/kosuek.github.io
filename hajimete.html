@@ -8,61 +8,16 @@
     <link href="carousel.css" rel="stylesheet">
 </head>
 
-<body>
+<body onLoad="HTML_Load('navbar.html','nav');">
+
     <a id="skippy" class="sr-only sr-only-focusable" href="#content">
         <div class="container">
             <span class="skiplink-text">Skip to main content</span>
         </div>
     </a>
 
-    <header>
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <a class="navbar-brand" href="index.html">ひたち光教会</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav mr-auto">
-                    <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-toggle="dropdown">
-                            集会案内
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="syukaiannai.html">集会案内</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="reihei.html">礼拝</a>
-                            <a class="dropdown-item" href="#">主日午後</a>
-                            <a class="dropdown-item" href="#">聖歌歌詞学び会</a>
-                            <a class="dropdown-item" href="#">ハンドベル</a>
-                            <a class="dropdown-item" href="#">祈祷会</a>
-                            <a class="dropdown-item" href="#">十分の一早天祈祷会</a>
-                            <a class="dropdown-item" href="#">早天祈祷会</a>
-                        </div>
-                    </div>
-                    <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-toggle="dropdown">
-                            教会紹介
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">初めての方へ</a>
-                            <a class="dropdown-item" href="#">牧師紹介</a>
-                            <a class="dropdown-item" href="#">理念</a>
-                            <a class="dropdown-item" href="#">歴史</a>
-                            <a class="dropdown-item" href="#">施設・聖具</a>
-                        </div>
-                    </div>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">お問合せ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><small>教会員用ページ</small></a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+    <header id="nav">
+
     </header>
 
     <main role="main">
@@ -135,8 +90,59 @@
 
             <hr class="featurette-divider">
 
-
+            <div class="row featurette">
+                <a name="bokushi"></a>
+                <div class="col-md-8">
+                    <h2 class="featurette-heading">牧師紹介</h2>
+                </div>
+                <div class="col-md-4">
+                    <img class="featurette-image img-fluid mx-auto"
+                        src="https://lh3.googleusercontent.com/pw/AP1GczNXur9toHfHqkUzKDJO4w-Oz5DneEzWcEO2B4Rli_9T36bZoyXfK5d_pEgvNZaXAo9fVwGYI8NfJqeHO8Dv_86EzHyh8OTn5U523AQzCAQsX4AVI83v=w2400"
+                        alt="Generic placeholder image">
+                </div>
+            </div>
+            <hr class="featurette-divider">
         </div><!-- /.container -->
+
+        <div class="row featurette">
+            <a name="rinen"></a>
+            <div class="col-md-8">
+                <h2 class="featurette-heading">ひたち光教会の理念</h2>
+            </div>
+            <div class="col-md-4">
+                <img class="featurette-image img-fluid mx-auto"
+                    src="https://lh3.googleusercontent.com/pw/AP1GczNXur9toHfHqkUzKDJO4w-Oz5DneEzWcEO2B4Rli_9T36bZoyXfK5d_pEgvNZaXAo9fVwGYI8NfJqeHO8Dv_86EzHyh8OTn5U523AQzCAQsX4AVI83v=w2400"
+                    alt="Generic placeholder image">
+            </div>
+        </div>
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <a name="rekishi"></a>
+            <div class="col-md-8">
+                <h2 class="featurette-heading">ひたち光教会の歴史</h2>
+            </div>
+            <div class="col-md-4">
+                <img class="featurette-image img-fluid mx-auto"
+                    src="https://lh3.googleusercontent.com/pw/AP1GczNXur9toHfHqkUzKDJO4w-Oz5DneEzWcEO2B4Rli_9T36bZoyXfK5d_pEgvNZaXAo9fVwGYI8NfJqeHO8Dv_86EzHyh8OTn5U523AQzCAQsX4AVI83v=w2400"
+                    alt="Generic placeholder image">
+            </div>
+        </div>
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <a name="shisetsu"></a>
+            <div class="col-md-8">
+                <h2 class="featurette-heading">施設・聖具</h2>
+            </div>
+            <div class="col-md-4">
+                <img class="featurette-image img-fluid mx-auto"
+                    src="https://lh3.googleusercontent.com/pw/AP1GczNXur9toHfHqkUzKDJO4w-Oz5DneEzWcEO2B4Rli_9T36bZoyXfK5d_pEgvNZaXAo9fVwGYI8NfJqeHO8Dv_86EzHyh8OTn5U523AQzCAQsX4AVI83v=w2400"
+                    alt="Generic placeholder image">
+            </div>
+        </div>
+        <hr class="featurette-divider">
+
 
 
         <!-- FOOTER -->
@@ -160,6 +166,27 @@
     <script src="/docs/4.3/assets/js/src/application.js"></script>
     <script src="/docs/4.3/assets/js/src/search.js"></script>
     <script src="/docs/4.3/assets/js/src/ie-emulation-modes-warning.js"></script>
-</body>
+    <script type="text/javascript">
+        function gate() {
+            var UserInput = prompt("パスワードを入力して下さい:", "");
+            location.href = UserInput + "/index.html";
+        }
+
+        function HTML_Load(_html, replace) {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("GET", _html, true);
+            xmlhttp.onreadystatechange = function () {
+                //とれた場合Idにそって入れ替え
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    var data = xmlhttp.responseText;
+                    var elem = document.getElementById(replace);
+                    elem.innerHTML = data;
+                    return data;
+                }
+            }
+            xmlhttp.send(null);
+        }
+
+    </script></body>
 
 </html>
