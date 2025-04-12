@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ひたち光教会アプリ</title>
+  <link rel="icon" href="./img/hhc.ico">
+  <link rel="apple-touch-icon" href="./img/hhc.ico">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+  <script src="list.js"></script>
+  <style>
+    .col-xs-12, .col-xs-6, .col-xs-4, .col-xs-3, .col-xs-2 {
+      padding: 0;
+    }
+    audio { width: 100%; }
+    select {
+      font-size: 14px;
+      border: 1px solid #ccc;
+    }
+    .movieWraper {
+      position: relative;
+      width: calc(100% - 10px);
+      margin: 0 auto;
+    }
+    .iframeWrap {
+      height: 0;
+      padding-bottom: 62.5%;
+      position: relative;
+    }
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <script>
+    const get_nowTime = () => {
+      const val = document.getElementById("audio")?.currentTime;
+      if (val !== undefined) {
+        window.localStorage.setItem("nowTime", val);
+      }
+    };
+    setInterval(get_nowTime, 15000);
+
+    $(function () {
+      $("select").change(audioset);
+    });
+
+    function readFirst() {
+      for (const item of list) {
+        const opt = document.createElement("option");
+        opt.value = item.val;
+        opt.text = item.txt;
+        document.getElementById("messageSelect").appendChild(opt);
+      }
+      audioset();
+      const val = window.localStorage.getItem("nowTime");
+      document.getElementById("audio").currentTime = val;
+    }
+
+    function audioset() {
+      const selaudio = $("#messageSelect").val().substr(0, 8);
+      const audio = new Audio(`./m4a/${selaudio}.m4a`);
+      audio.controls = true;
+      audio.id = "audio";
+      audio.preload = "auto";
+      $("#message").html(audio);
+      audio.play();
+    }
+
+    function skip(seconds) {
+      const audio = document.getElementById("audio");
+      if (audio) {
+        audio.play();
+        audio.currentTime += seconds;
+      }
+    }
+
+    function move(seconds) {
+      const audio = document.getElementById("audio");
+      if (audio) {
+        audio.play();
+        audio.currentTime = seconds;
+      }
+    }
+
+    function rateup(speed) {
+      const audio = document.getElementById("audio");
+      if (audio) {
+        audio.play();
+        audio.playbackRate = speed;
+      }
+    }
+  </script>
+</head>
+<body onload="readFirst()">
+  <div class="container">
+    <div class="row">
+      <h4 class="text-center">ひたち光教会アプリ</h4>
+      <div class="col-xs-12">
+        <button class="btn btn-block btn-lg btn-info" onclick="window.location.reload(true);">アプリ更新</button>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-xs-12">
+        <label for="messageSelect">礼拝説教：聴きたいものを選んでください</label>
+        <select class="form-control" id="messageSelect"></select>
+      </div>
+      <div class="col-xs-12" id="message"></div>
+
+      <div class="col-xs-3"><button class="btn btn-block btn-lg btn-default" onclick="skip(-30)"><<30秒</button></div>
+      <div class="col-xs-3"><button class="btn btn-block btn-lg btn-default" onclick="skip(-5)"><<5秒</button></div>
+      <div class="col-xs-3"><button class="btn btn-block btn-lg btn-default" onclick="skip(5)">5秒>></button></div>
+      <div class="col-xs-3"><button class="btn btn-block btn-lg btn-default" onclick="skip(30)">30秒>></button></div>
+
+      <div class="col-xs-2"><button class="btn btn-block btn-lg btn-default" onclick="rateup(0.5)">x0.5</button></div>
+      <div class="col-xs-2"><button class="btn btn-block btn-lg btn-default" onclick="rateup(0.8)">x0.8</button></div>
+      <div class="col-xs-2"><button class="btn btn-block btn-lg btn-default" onclick="rateup(1.0)">x1.0</button></div>
+      <div class="col-xs-2"><button class="btn btn-block btn-lg btn-default" onclick="rateup(1.5)">x1.5</button></div>
+      <div class="col-xs-2"><button class="btn btn-block btn-lg btn-default" onclick="rateup(2.0)">x2.0</button></div>
+      <div class="col-xs-2"><button class="btn btn-block btn-lg btn-default" onclick="rateup(3.0)">x3.0</button></div>
+
+      <div class="col-xs-2"><button class="btn btn-block btn-lg btn-default" onclick="move(600)">10</button></div>
+      <div class="col-xs-2"><button class="btn btn-block btn-lg btn-default" onclick="move(1200)">20</button></div>
+      <div class="col-xs-2"><button class="btn btn-block btn-lg btn-default" onclick="move(1800)">30</button></div>
+      <div class="col-xs-2"><button class="btn btn-block btn-lg btn-default" onclick="move(2400)">40</button></div>
+      <div class="col-xs-2"><button class="btn btn-block btn-lg btn-default" onclick="move(3000)">50</button></div>
+      <div class="col-xs-2"><button class="btn btn-block btn-lg btn-default" onclick="move(3600)">60</button></div>
+
+      <div class="col-xs-12">
+        <div class="movieWraper">
+          <div class="iframeWrap">
+            <iframe src="https://onedrive.live.com/embed?cid=DF8117155F580907&amp;resid=DF8117155F580907%211340&amp;authkey=AF6P8Ar7u7YupbA&amp;em=2&amp;wdAr=1.00&amp;wdEaa=0" frameborder="0"></iframe>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12">
+        <img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211927&authkey=%21AGrAIvgcSALoIlE" class="img-responsive">
+      </div>
+      <div class="col-xs-12">
+        <img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211348&authkey=%21AFqBOdaSYRks83Y" class="img-responsive">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <a class="btn btn-block btn-lg btn-success" href="https://hitachihikarichurch.tumblr.com">教会ホームページはこちら</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
