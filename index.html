@@ -116,6 +116,35 @@
     .social-media-container {
       text-align: center;
     }
+
+    .section-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 10px;
+  background: linear-gradient(90deg, #28a745, #a8e063); /* 緑のグラデーション */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  width: 60%;
+  height: 4px;
+  background-color: #28a745; /* 下線も緑に変更 */
+  bottom: 0;
+  left: 20%;
+  border-radius: 2px;
+}
+
+
+
   </style>
 </head>
 
@@ -157,8 +186,9 @@
     <div class="carousel-inner">
       <!-- 1番目のアイテム（初めのスライド） -->
       <div class="carousel-item active">
-        <img src="https://lh3.googleusercontent.com/pw/AP1GczOHHnvueeS8foZKximn28LJCbwDJ8J2qSgwAwknFl46dIVxpmVi7E0qqlqMzQz4HMk6UNZMgIi_PGBPQ9KrzvjosAYSHZ61gcUwuXyHn_QGmjEHAq4e=w2400"
-        class="d-block w-100" alt="教会の外観">
+        <img
+          src="https://lh3.googleusercontent.com/pw/AP1GczOHHnvueeS8foZKximn28LJCbwDJ8J2qSgwAwknFl46dIVxpmVi7E0qqlqMzQz4HMk6UNZMgIi_PGBPQ9KrzvjosAYSHZ61gcUwuXyHn_QGmjEHAq4e=w2400"
+          class="d-block w-100" alt="教会の屋上の十字架と空">
         <div class="overlay"></div> <!-- 半透明オーバーレイ -->
         <div class="carousel-caption content">
           <h1>聖書のことばを、ありのままに信じて歩む</h1>
@@ -183,8 +213,9 @@
 
       <!-- 2番目のスライド -->
       <div class="carousel-item">
-        <img src="https://lh3.googleusercontent.com/pw/AP1GczNXur9toHfHqkUzKDJO4w-Oz5DneEzWcEO2B4Rli_9T36bZoyXfK5d_pEgvNZaXAo9fVwGYI8NfJqeHO8Dv_86EzHyh8OTn5U523AQzCAQsX4AVI83v=w2400"
-        class="d-block w-100" alt="教会の外観">
+        <img
+          src="https://lh3.googleusercontent.com/pw/AP1GczNXur9toHfHqkUzKDJO4w-Oz5DneEzWcEO2B4Rli_9T36bZoyXfK5d_pEgvNZaXAo9fVwGYI8NfJqeHO8Dv_86EzHyh8OTn5U523AQzCAQsX4AVI83v=w2400"
+          class="d-block w-100" alt="教会からの景色">
         <div class="overlay"></div>
         <div class="carousel-caption content">
           <h1>共に過ごすひととき</h1>
@@ -196,8 +227,9 @@
 
       <!-- 3番目のスライド -->
       <div class="carousel-item">
-        <img                         src="https://lh3.googleusercontent.com/pw/AP1GczN17LOiAz6ViwNNtIxYUt6CbX3ZIHFROXVW5iEW3OJBxs8HNm0wKznNoSSJyExjFsGahkwZz2LPq1jmEPPZhxjJxIh_ZB0d88ghi2_-LbeNaVBiEKPp"
-        class="d-block w-100" alt="教会の外観">
+        <img
+          src="https://lh3.googleusercontent.com/pw/AP1GczN17LOiAz6ViwNNtIxYUt6CbX3ZIHFROXVW5iEW3OJBxs8HNm0wKznNoSSJyExjFsGahkwZz2LPq1jmEPPZhxjJxIh_ZB0d88ghi2_-LbeNaVBiEKPp"
+          class="d-block w-100" alt="教会の入口の外観">
         <div class="overlay"></div>
         <div class="carousel-caption content">
           <h1>神さまの愛を伝える</h1>
@@ -209,7 +241,9 @@
 
       <!-- 4番目のスライド -->
       <div class="carousel-item">
-        <img src="https://lh3.googleusercontent.com/pw/AP1GczP1IZ7FGzgJqFTr9omVIsbTbq1fMMBe40q0tX82spn1INRcfYcbdOgl7bA0JEUzH5pGNy8YDLYVXvAcAN4lCcCWOVZtfWKfesrupZRhhAX0GXw-PrWK=w2400" class="d-block w-100" alt="教会の外観">
+        <img
+          src="https://lh3.googleusercontent.com/pw/AP1GczP1IZ7FGzgJqFTr9omVIsbTbq1fMMBe40q0tX82spn1INRcfYcbdOgl7bA0JEUzH5pGNy8YDLYVXvAcAN4lCcCWOVZtfWKfesrupZRhhAX0GXw-PrWK=w2400"
+          class="d-block w-100" alt="教会の周りの木々">
         <div class="overlay"></div>
         <div class="carousel-caption content">
           <h1>どんな方も歓迎します</h1>
@@ -221,7 +255,9 @@
 
       <!-- 5番目のスライド -->
       <div class="carousel-item">
-        <img src="https://lh3.googleusercontent.com/pw/AP1GczPqu5hHxPczh30lQnb-DsP8eOmBPYBIvb0hCfi0nwToQLYCH_nlYEC--5SRW2ZPNWFrCCbkpuWTEkjzusa67xUqnscmh84bBf-FS6u-k-m4Xsev7KRq=w2400" class="d-block w-100" alt="教会の外観">
+        <img
+          src="https://lh3.googleusercontent.com/pw/AP1GczPqu5hHxPczh30lQnb-DsP8eOmBPYBIvb0hCfi0nwToQLYCH_nlYEC--5SRW2ZPNWFrCCbkpuWTEkjzusa67xUqnscmh84bBf-FS6u-k-m4Xsev7KRq=w2400"
+          class="d-block w-100" alt="教会の敷地入口の十字架塔">
         <div class="overlay"></div>
         <div class="carousel-caption content">
           <h1>神さまの導きに従って</h1>
@@ -247,7 +283,7 @@
 
   <!-- 教会紹介セクション -->
   <section id="about" class="container my-5">
-    <h2 class="text-center mb-4">教会紹介</h2>
+    <h2 class="text-center mb-4 section-title">教会紹介</h2>
     <div class="row">
       <div class="col-md-6">
         <h2 class="fw-bold">聖書のことばを、<br>ありのままに信じて歩む</h2>
@@ -259,7 +295,7 @@
             詩篇 119篇105節（新改訳2017）
           </figcaption>
         </figure>
-      
+
         <p>
           ひたち光教会は、<br>
           聖書のことばをシンプルに信じて、日々の生活の中で大切にしている教会です。
@@ -273,16 +309,19 @@
           聖書をもっと知りたい方、<br>
           信仰について話してみたい方、<br>
           どなたでも歓迎します。ぜひ気軽にお越しください。
-        </p>      </div>
+        </p>
+      </div>
       <div class="col-md-6">
-        <img src="https://lh3.googleusercontent.com/pw/AP1GczPbE8CQ3S4FKCm8dRc4LqeghcUNi8Cr3WalgoTDMaly_3pvM0yyA6qtbDNHOFIbsse1RX3yTQq3-Kn49nsOTuERCUHCEr6Sq8-NRuFrC7u54VSCKCcO=w2400" class="img-fluid" alt="教会の外観">
+        <img
+          src="https://lh3.googleusercontent.com/pw/AP1GczPbE8CQ3S4FKCm8dRc4LqeghcUNi8Cr3WalgoTDMaly_3pvM0yyA6qtbDNHOFIbsse1RX3yTQq3-Kn49nsOTuERCUHCEr6Sq8-NRuFrC7u54VSCKCcO=w2400"
+          class="img-fluid" alt="教会の外観">
       </div>
     </div>
   </section>
 
   <!-- 集会案内セクション -->
   <section id="service" class="container my-5">
-    <h2 class="text-center mb-4">集会案内</h2>
+    <h2 class="text-center mb-4 section-title">集会案内</h2>
     <div class="row">
       <div class="col-md-6">
         <p>毎週日曜日の礼拝は、神様の言葉を共に聞き、祈り、賛美を捧げる大切な時です。どなたでもご参加いただけます。</p>
@@ -293,14 +332,16 @@
         <p>礼拝後には、教会の仲間とともに交わりの時を持つことができます。</p>
       </div>
       <div class="col-md-6">
-        <img src="https://lh3.googleusercontent.com/pw/AP1GczM64kfuNquFPvo6wvNZcaqwzEqcFB0kyhzAJPAS-akTC3INkb6z3KjNHheUY9t5MREAfQajZyD3TYScy9Njeh5iQWhiyDgEOTMZj8VBVcsOsGDr6jkk=w2400" class="img-fluid" alt="礼拝の様子">
+        <img
+          src="https://lh3.googleusercontent.com/pw/AP1GczM64kfuNquFPvo6wvNZcaqwzEqcFB0kyhzAJPAS-akTC3INkb6z3KjNHheUY9t5MREAfQajZyD3TYScy9Njeh5iQWhiyDgEOTMZj8VBVcsOsGDr6jkk=w2400"
+          class="img-fluid" alt="礼拝の様子">
       </div>
     </div>
   </section>
 
   <!-- アクセスセクション -->
   <section id="access" class="container my-5">
-    <h2 class="text-center mb-4">アクセス</h2>
+    <h2 class="text-center mb-4 section-title">アクセス</h2>
     <div class="row">
       <div class="col-md-6">
         <h3>住所</h3>
@@ -317,9 +358,7 @@
       <div class="col-md-6">
         <!-- Google Map埋め込み -->
         <div class="embed-responsive embed-responsive-16by9">
-          <iframe class="embed-responsive-item"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11102.037824387331!2d140.58448597180373!3d36.51328767930642!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x602229f6c77214bb%3A0xfc2db517d5898c3c!2z44Gy44Gf44Gh5YWJ5pWZ5Lya!5e0!3m2!1sja!2sjp!4v1732324345547!5m2!1sja!2sjp"
-            width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.305284027849!2d140.5892873758254!3d36.51459037232997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x602229f6c77214bb%3A0xfc2db517d5898c3c!2z44Gy44Gf44Gh5YWJ5pWZ5Lya!5e1!3m2!1sja!2sjp!4v1745846219887!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
       </div>
     </div>
