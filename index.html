@@ -332,12 +332,21 @@
         </ul>
         <p>礼拝後には、教会の仲間とともに交わりの時を持つことができます。</p>
       </div>
+      <!-- ボタン：モーダルを開く -->
+      <div class="text-center my-4">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#welcomeModal">
+          初めての方へ
+        </button>
+      </div>
       <div class="col-md-6">
         <img
           src="https://lh3.googleusercontent.com/pw/AP1GczM64kfuNquFPvo6wvNZcaqwzEqcFB0kyhzAJPAS-akTC3INkb6z3KjNHheUY9t5MREAfQajZyD3TYScy9Njeh5iQWhiyDgEOTMZj8VBVcsOsGDr6jkk=w2400"
           class="img-fluid" alt="礼拝の様子">
       </div>
     </div>
+
+
+
   </section>
 
   <!-- アクセスセクション -->
@@ -361,7 +370,7 @@
         <div class="embed-responsive embed-responsive-16by9">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.305284027849!2d140.5892873758254!3d36.51459037232997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x602229f6c77214bb%3A0xfc2db517d5898c3c!2z44Gy44Gf44Gh5YWJ5pWZ5Lya!5e1!3m2!1sja!2sjp!4v1745846219887!5m2!1sja!2sjp"
-            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+            width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
       </div>
@@ -431,6 +440,53 @@
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+
+  <!-- モーダル本体 -->
+  <div class="modal fade" id="welcomeModal" tabindex="-1" aria-labelledby="welcomeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+      <div class="modal-content rounded-4 shadow">
+        <div class="modal-header bg-success text-white rounded-top-4">
+          <h5 class="modal-title" id="welcomeModalLabel">初めてお越しの方へ</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="閉じる"></button>
+        </div>
+        <div class="modal-body px-4 py-3" style="max-height: 75vh; overflow-y: auto;">
+          <p class="lead">ようこそ、ひたち光教会へ！ご不明点はお気軽にお問い合わせください。</p>
+
+          <h6 class="mt-4">礼拝に参加してみたい！</h6>
+          <p>毎週日曜日 10:30〜12:00に行われています。礼拝は日本語で行われ、韓国語での同時通訳もあります。</p>
+          <p>持ち物は特に必要ありません。ぜひ、教会にお越しください。</p>
+
+          <h6 class="mt-4">教会への行き方は？</h6>
+          <p>JR大甕（おおみか）駅からバスが出ています。敷地内に駐車場もございますので、お車でも大丈夫です。</p>
+          <p>詳しくは<a href="#access">⇒ アクセス</a>をご覧ください。</p>
+
+          <h6 class="mt-4">教会に着いたら</h6>
+          <p>ようこそ、ひたち光教会へ！お車の方は空いている駐車スペースへどうぞ。玄関よりお入りください。</p>
+          <p>受付で週報（当日の予定やお知らせ）をお渡しします。聖書や聖歌は貸出もあります。</p>
+
+          <h6 class="mt-4">礼拝</h6>
+          <p>礼拝の前に賛美の練習やお祈りの時間があります。礼拝は週報のプログラムに沿って進みます。</p>
+          <p>はじめての方には教会員がサポートしますので、安心してお越しください。</p>
+
+          <h6 class="mt-4">礼拝後</h6>
+          <p>毎週、皆さんと一緒に昼食の時間があります（無料）。お時間があれば、ぜひご一緒にどうぞ。</p>
+          <p>牧師と個別にお話したい場合は、お近くの教会員にお声がけください。</p>
+          <p>午後もさまざまなプログラムが予定されています。ご興味ありましたら、ぜひご参加ください。</p>
+
+          <h6 class="mt-4">日曜日以外に教会へ行ってみたい！</h6>
+          <p>大歓迎です。念のため、事前にご連絡いただけるとスムーズです。</p>
+
+          <h6 class="mt-4">小さいお子さま連れでも大丈夫？</h6>
+          <p>はい、大丈夫です。大歓迎です (^_^)/</p>
+          <p>礼拝室隣の光室ではTV中継も行っております。</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </body>
 
