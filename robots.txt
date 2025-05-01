@@ -1,0 +1,6 @@
+User-agent: *
+DisAllow: /bibleread/
+DisAllow: /kashi/
+DisAllow: /message/
+
+Sitemap:  https://hitachihikari.net/sitemap.xml
