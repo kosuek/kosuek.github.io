@@ -1,161 +1,691 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
-<title>ひたち光教会アプリ</title>
-<meta name="robots" content="noindex,nofollow,noarchive" />
-<meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=10.0,user-scalable=yes" name="viewport">
-<meta charset="utf-8">
-<link href="./img/hhc.ico" rel="shortcut icon">
-<link href="./img/hhc.ico" rel="apple-touch-icon">
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery.js"></script>
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="list.js"></script>
-	
-<style type="text/css">
-<!--
-.col-xs-12,.col-xs-6,.col-xs-4,.col-xs-3,.col-xs-2 {padding-right : 0px;padding-left : 0px;}
-audio { width: 100%; }
-select{ font-size:14px; border:1px;}
-	
-.movieWraper {
-    position: relative
-    width: calc(100% - 10px);
-    margin: 0 auto;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="hhc.ico" rel="icon">
+  <link href="hhc.ico" rel="shortcut icon">
+  <link href="hhc.ico" rel="apple-touch-icon">
+  <title>ひたち光教会</title>
 
-.iframeWrap{
-    height: 0;
-    padding-bottom: 62.5%;
-}
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
-iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-	
-}
--->
-</style>
-<script>
+  <!-- Google Fonts (Optional) -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 
-var get_nowTime = function(){
-	val = document.getElementById("audio").currentTime;
-	window.localStorage.setItem("nowTime", val);
-  }
-
-setInterval(get_nowTime, 15000);
-
-$(function () {
-	$("select").change(audioset);
-});
-
-function readFirst(){
-    for(var i=0;i<list.length;i++){
-      let opt = document.createElement("option");
-      opt.value = list[i].val;  //value値
-      opt.text = list[i].txt;   //テキスト値
-      document.getElementById("messageSelect").appendChild(opt);
+  <style>
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
     }
-	audioset();
-        val = window.localStorage.getItem("nowTime");
-	document.getElementById("audio").currentTime = val;
-  };
 
-function audioset(){
-	var selaudio;
-	var audio = new Audio();
-	selaudio = $(messageSelect).val().substr(0,8);
-	console.log(selaudio);
-	audio.controls = true;
-	audio.src = "./m4a/" + selaudio + ".m4a";
-	audio.id = "audio";
-	audio.preload = "auto";
-	$(message).html(audio);
-	document.getElementById("audio").play();
-};
-function skip(seconds){
-	document.getElementById("audio").play();
-	document.getElementById("audio").currentTime += seconds;
-};
-function move(seconds){
-	document.getElementById("audio").play();
-	document.getElementById("audio").currentTime = seconds;
-};
-function rateup(speed){
-	document.getElementById("audio").play();
-	document.getElementById("audio").playbackRate = speed;
-};
+    .carousel-item img {
+      object-fit: cover;
+      height: 500px;
+    }
 
-</script>
+    .carousel-caption {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      padding: 0 15px;
+    }
+
+    .carousel-caption h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .carousel-caption p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+    }
+
+    /* 半透明オーバーレイ */
+    .carousel-item .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      /* 半透明の黒 */
+      z-index: 1;
+    }
+
+    .carousel-item .content {
+      z-index: 2;
+      max-width: 800px;
+      margin: auto;
+      text-align: center;
+    }
+
+    /* スクリーンサイズが小さい場合にパディング調整 */
+    @media (max-width: 767px) {
+      .carousel-caption {
+        padding: 0 20px;
+      }
+
+      .carousel-caption h1 {
+        font-size: 1.5rem;
+      }
+
+      .carousel-caption p {
+        font-size: 1rem;
+      }
+    }
+
+    /* ロゴとテキストのスタイル */
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-brand img {
+      height: 50px;
+      margin-right: 10px;
+      /* ロゴとテキストの間に余白を追加 */
+    }
+
+    .navbar-brand span {
+      font-size: 1.5rem;
+      font-weight: normal;
+      /* 太字を解除 */
+    }
+
+    /* ソーシャルメディア画像サイズ調整 */
+    .social-media-img {
+      max-width: 180px;
+      /* 最大幅を指定 */
+      max-height: 180px;
+      /* 最大高さを指定 */
+      object-fit: cover;
+      /* 画像が枠にフィットするように */
+    }
+
+    /* ソーシャルメディアセクションのセンタリング */
+    .social-media-container {
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 2rem;
+      position: relative;
+      display: inline-block;
+      padding-bottom: 10px;
+      background: linear-gradient(90deg, #28a745, #a8e063);
+      /* 緑のグラデーション */
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .section-title::after {
+      content: "";
+      position: absolute;
+      width: 60%;
+      height: 4px;
+      background-color: #28a745;
+      /* 下線も緑に変更 */
+      bottom: 0;
+      left: 20%;
+      border-radius: 2px;
+    }
+
+    .bg-hhc-green {
+      background-color: #61A534 !important;
+      color: white;
+    }
+
+    .btn-hhc-red {
+      background-color: #D90000;
+      color: white;
+      border: none;
+    }
+
+    .btn-hhc-red:hover {
+      background-color: #b00000;
+    }
+  </style>
 </head>
-<body onload="readFirst()">
-<div class="container">
-	<div class="row">
-		<h4 class="text-center">ひたち光教会アプリ</h4>
-		<div class="col-xs-12"><input class="btn btn-block btn-lg btn-info" onclick="window.location.reload(true);"type="button" value="アプリ更新"></div>
-	</div>
-	<br><hr />
-	<div class="row">
-		<div class="col-xs-12">
-			<div class="col-xs-12">
-				<label for="messageSelect">礼拝説教：聴きたいものを選んでください </label>
-				<form><select class="form-control" id="messageSelect"></select></form>
-			</div>
-			<div class="col-xs-12" id="message">
-			</div>
-			<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(-30)"	type="button" value="<<30秒"></div>
-			<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(-5)"	type="button" value="<<5秒"></div>
-			<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(5)"		type="button" value="5秒>>"></div>
-			<div class="col-xs-3"><input class="btn btn-block btn-lg btn-default" onclick="skip(30)"	type="button" value="30秒>>"></div>
 
-			<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="rateup(0.5)"	type="button" value="x0.5"></div>
-			<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="rateup(0.8)"	type="button" value="x0.8"></div>
-			<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="rateup(1.0)"	type="button" value="x1.0"></div>
-			<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="rateup(1.5)"	type="button" value="x1.5"></div>
-			<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="rateup(2.0)"	type="button" value="x2.0"></div>
-			<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="rateup(3.0)"	type="button" value="x3.0"></div>
+<body>
 
-			<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="move(600)"	type="button" value="10"></div>
-			<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="move(1200)"	type="button" value="20"></div>
-			<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="move(1800)"	type="button" value="30"></div>
-			<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="move(2400)"	type="button" value="40"></div>
-			<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="move(3000)"	type="button" value="50"></div>
-			<div class="col-xs-2"><input class="btn btn-block btn-lg btn-default" onclick="move(3600)"	type="button" value="60"></div>
+  <!-- ナビゲーションバー -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="logo_sq_big.png" alt="教会ロゴ">
+        <span>ひたち光教会</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">ホーム</a> <!-- ホームページのリンク -->
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about">教会紹介</a> <!-- 教会紹介セクションにリンク -->
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#service">集会案内</a> <!-- 集会案内セクションにリンク -->
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#access">アクセス</a> <!-- アクセスセクションにリンク -->
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-			<!--<div class="col-xs-12">
-				<label>ライブ配信/今週の説教</label><a href = "https://www.youtube.com/playlist?list=PLwivCMGRkUmoUdDns6pyb31qikT4jlfE0">過去の配信はこちら</a>
-				<div class="movieWraper">
-					<div class="iframeWrap">
-						<iframe src="https://www.youtube.com/embed/Luqfm3dtUNk" width="100%" height="100%"  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-					</div>
-				</div>
-			</div>-->
-			<div class="col-xs-12">
-				<div class="movieWraper">
-				<div class="iframeWrap">
-				<iframe src="https://onedrive.live.com/embed?cid=DF8117155F580907&amp;resid=DF8117155F580907%211340&amp;authkey=AF6P8Ar7u7YupbA&amp;em=2&amp;wdAr=1.00&amp;wdEaa=0" width="100%" height="100%"" frameborder="0"></iframe>			
-				</div>
-				</div>
-			</div>
-			<!--<div class="col-xs-12 col-lg-12"><iframe src="https://calendar.google.com/calendar/embed?showNav=0&amp;showDate=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;mode=AGENDA&amp;height=130&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=8d7re418k9cq1hoiep4r4icnic%40group.calendar.google.com&amp;color=%235229A3&amp;ctz=Asia%2FTokyo" style="border-width:0" width="100%" height="130" frameborder="0" scrolling="no"></iframe></div>-->
-			<!--<div class="col-xs-4 col-lg-4"><img src="./m4a/memo.png" class="img-responsive"></div>-->
-			<!--<div class="col-xs-12 col-lg-4"><img src="./m4a/syuho.png" class="img-responsive"></div>-->
-			<div class="col-xs-12"><img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211927&authkey=%21AGrAIvgcSALoIlE" class="img-responsive"></div>
-			<!--<div class="col-xs-12 col-lg-4"><img src="./m4a/yotei.png" class="img-responsive"></div>-->
-			<div class="col-xs-12"><img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211348&authkey=%21AFqBOdaSYRks83Y" class="img-responsive"></div>
-		</div>
-	<div class="row">
-		<div class="col-xs-12" ><a class="btn btn-block btn-lg btn-success" href = "https://hitachihikarichurch.tumblr.com">教会ホームページはこちら</a></div>
-	</div>
-		<!--						       
-		<div class="col-xs-12 col-lg-3">
-			<a href="https://twitter.com/hitachi_hikari?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @hitachi_hikari</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-			<a class="twitter-timeline" href="https://twitter.com/hitachi_hikari?ref_src=twsrc%5Etfw" height="1500px" >Tweets by hitachi_hikari</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-		</div>
-		-->
-	</div>
-</div>
+
+  <!-- カルーセル -->
+  <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <!-- 1番目のアイテム（初めのスライド） -->
+      <div class="carousel-item active">
+        <img
+          src="https://lh3.googleusercontent.com/pw/AP1GczOHHnvueeS8foZKximn28LJCbwDJ8J2qSgwAwknFl46dIVxpmVi7E0qqlqMzQz4HMk6UNZMgIi_PGBPQ9KrzvjosAYSHZ61gcUwuXyHn_QGmjEHAq4e=w2400"
+          class="d-block w-100" alt="教会の屋上の十字架と空">
+        <div class="overlay"></div> <!-- 半透明オーバーレイ -->
+        <div class="carousel-caption content">
+          <h1>聖書のことばを、ありのままに信じて歩む</h1>
+          <div class="mx-auto">
+            <p>
+              ひたち光教会は、<br>
+              聖書のことばをシンプルに信じて、日々の生活の中で大切にしている教会です。
+            </p>
+            <p>
+              神さまが語ってくださることばに耳をすませて、<br>
+              そのことばに従って歩む――<br>
+              そんな信仰の歩みを、一緒にしてみませんか？
+            </p>
+            <p>
+              聖書をもっと知りたい方、<br>
+              信仰について話してみたい方、<br>
+              どなたでも歓迎します。ぜひ気軽にお越しください。
+            </p>
+          </div>
+          <div class="d-flex justify-content-center gap-3 my-4 flex-wrap">
+
+            <button type="button" class="btn btn-secondary text-white" data-bs-toggle="modal" data-bs-target="#">
+              new page<br>coming soon!
+            </button>
+            <button type="button" class="btn btn-secondary text-white" data-bs-toggle="modal" data-bs-target="#">
+              new page<br>coming soon!
+            </button>
+            <button type="button" class="btn btn-secondary text-white" data-bs-toggle="modal" data-bs-target="#">
+              new page<br>coming soon!
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2番目のスライド -->
+      <div class="carousel-item">
+        <img
+          src="https://lh3.googleusercontent.com/pw/AP1GczNXur9toHfHqkUzKDJO4w-Oz5DneEzWcEO2B4Rli_9T36bZoyXfK5d_pEgvNZaXAo9fVwGYI8NfJqeHO8Dv_86EzHyh8OTn5U523AQzCAQsX4AVI83v=w2400"
+          class="d-block w-100" alt="教会からの景色">
+        <div class="overlay"></div>
+        <div class="carousel-caption content">
+          <h1>共に過ごすひととき</h1>
+          <p>
+            礼拝や集会では、教会の仲間と一緒に過ごし、神さまと深い関係を築いていきます。
+          </p>
+        </div>
+      </div>
+
+      <!-- 3番目のスライド -->
+      <div class="carousel-item">
+        <img
+          src="https://lh3.googleusercontent.com/pw/AP1GczN17LOiAz6ViwNNtIxYUt6CbX3ZIHFROXVW5iEW3OJBxs8HNm0wKznNoSSJyExjFsGahkwZz2LPq1jmEPPZhxjJxIh_ZB0d88ghi2_-LbeNaVBiEKPp"
+          class="d-block w-100" alt="教会の入口の外観">
+        <div class="overlay"></div>
+        <div class="carousel-caption content">
+          <h1>神さまの愛を伝える</h1>
+          <p>
+            教会を通して神さまの愛を広めます。
+          </p>
+        </div>
+      </div>
+
+      <!-- 4番目のスライド -->
+      <div class="carousel-item">
+        <img
+          src="https://lh3.googleusercontent.com/pw/AP1GczP1IZ7FGzgJqFTr9omVIsbTbq1fMMBe40q0tX82spn1INRcfYcbdOgl7bA0JEUzH5pGNy8YDLYVXvAcAN4lCcCWOVZtfWKfesrupZRhhAX0GXw-PrWK=w2400"
+          class="d-block w-100" alt="教会の周りの木々">
+        <div class="overlay"></div>
+        <div class="carousel-caption content">
+          <h1>どんな方も歓迎します</h1>
+          <p>
+            ひたち光教会は、どなたでも参加できる温かい教会です。どんな背景を持つ方も、ここで一緒に信仰を深めましょう。
+          </p>
+        </div>
+      </div>
+
+      <!-- 5番目のスライド -->
+      <div class="carousel-item">
+        <img
+          src="https://lh3.googleusercontent.com/pw/AP1GczPqu5hHxPczh30lQnb-DsP8eOmBPYBIvb0hCfi0nwToQLYCH_nlYEC--5SRW2ZPNWFrCCbkpuWTEkjzusa67xUqnscmh84bBf-FS6u-k-m4Xsev7KRq=w2400"
+          class="d-block w-100" alt="教会の敷地入口の十字架塔">
+        <div class="overlay"></div>
+        <div class="carousel-caption content">
+          <h1>神さまの導きに従って</h1>
+          <p>
+            ひたち光教会では、神さまの導きに従って共に歩んでいきます。あなたもその歩みに参加しませんか？
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
+      data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying"
+      data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+  <!-- 教会紹介セクション -->
+  <section id="about" class="container my-5">
+    <h2 class="text-center mb-4 section-title">教会紹介</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <h2 class="fw-bold">聖書のことばを、<br>ありのままに信じて歩む</h2>
+        <figure class="text-center mb-5">
+          <blockquote class="blockquote">
+            <p>「あなたのみことばは、私の足のともしび、私の道の光です。」</p>
+          </blockquote>
+          <figcaption class="blockquote-footer">
+            詩篇 119篇105節（新改訳2017）
+          </figcaption>
+        </figure>
+
+        <p>
+          ひたち光教会は、<br>
+          聖書のことばをシンプルに信じて、日々の生活の中で大切にしている教会です。
+        </p>
+        <p>
+          神さまが語ってくださることばに耳をすませて、<br>
+          そのことばに従って歩む――<br>
+          そんな信仰の歩みを、一緒にしてみませんか？
+        </p>
+        <p>
+          聖書をもっと知りたい方、<br>
+          信仰について話してみたい方、<br>
+          どなたでも歓迎します。ぜひ気軽にお越しください。
+        </p>
+      </div>
+      <div class="col-md-6">
+        <img
+          src="https://lh3.googleusercontent.com/pw/AP1GczPbE8CQ3S4FKCm8dRc4LqeghcUNi8Cr3WalgoTDMaly_3pvM0yyA6qtbDNHOFIbsse1RX3yTQq3-Kn49nsOTuERCUHCEr6Sq8-NRuFrC7u54VSCKCcO=w2400"
+          class="img-fluid" alt="教会の外観">
+      </div>
+      <div class="col-md-12">
+        <!-- 横並びボタン：モーダルを開く -->
+        <div class="d-flex justify-content-center gap-3 my-4 flex-wrap">
+          <button type="button" class="btn btn-secondary text-white" data-bs-toggle="modal" data-bs-target="#">
+            new page<br>coming soon!
+          </button>
+          <button type="button" class="btn btn-secondary text-white" data-bs-toggle="modal" data-bs-target="#">
+            new page<br>coming soon!
+          </button>
+          <button type="button" class="btn btn-secondary text-white" data-bs-toggle="modal" data-bs-target="#">
+            new page<br>coming soon!
+          </button>
+        </div>
+
+      </div>
+  </section>
+
+  <!-- 集会案内セクション -->
+  <section id="service" class="container my-5">
+    <h2 class="text-center mb-4 section-title">集会案内</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <p>毎週日曜日の礼拝は、神様の言葉を共に聞き、祈り、賛美を捧げる大切な時です。どなたでもご参加いただけます。</p>
+        <ul>
+          <li>日曜日 午前10:30 - 礼拝</li>
+          <li>水曜日 午後7:00 - 祈祷会</li>
+        </ul>
+        <p>礼拝後には、教会の仲間とともに交わりの時を持つことができます。</p>
+      </div>
+
+      <!-- ボタン -->
+      <div class="col-md-6">
+        <img
+          src="https://lh3.googleusercontent.com/pw/AP1GczM64kfuNquFPvo6wvNZcaqwzEqcFB0kyhzAJPAS-akTC3INkb6z3KjNHheUY9t5MREAfQajZyD3TYScy9Njeh5iQWhiyDgEOTMZj8VBVcsOsGDr6jkk=w2400"
+          class="img-fluid" alt="礼拝の様子">
+      </div>
+      <div class="col-md-12">
+        <!-- 横並びボタン：モーダルを開く -->
+        <div class="d-flex justify-content-center gap-3 my-4 flex-wrap">
+          <button type="button" class="btn bg-hhc-green" data-bs-toggle="modal" data-bs-target="#welcomeModal">
+            初めての方へ
+          </button>
+          <button type="button" class="btn bg-hhc-green" data-bs-toggle="modal" data-bs-target="#kyousukuigaModal">
+            説教「きょう、救いがこの家に来ました」を読む
+          </button>
+          <button type="button" class="btn btn-secondary text-white" data-bs-toggle="modal" data-bs-target="#">
+            new page<br>coming soon!
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+
+  </section>
+
+  <!-- アクセスセクション -->
+  <section id="access" class="container my-5">
+    <h2 class="text-center mb-4 section-title">アクセス</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <h3>住所</h3>
+        <p>〒319-1225<br>茨城県日立市石名坂町2-51-15</p>
+
+        <h3>最寄り駅</h3>
+        <p>JR大甕(おおみか)駅から車で10分</p>
+        <h3>最寄り高速道路IC</h3>
+        <p>常磐自動車道日立南太田ICから車で7分</p>
+
+        <h3>連絡先</h3>
+        <p>電話番号: 0294-32-7773</p>
+      </div>
+      <div class="col-md-6">
+        <!-- Google Map埋め込み -->
+        <div class="embed-responsive embed-responsive-16by9">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.305284027849!2d140.5892873758254!3d36.51459037232997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x602229f6c77214bb%3A0xfc2db517d5898c3c!2z44Gy44Gf44Gh5YWJ5pWZ5Lya!5e1!3m2!1sja!2sjp!4v1745846219887!5m2!1sja!2sjp"
+            width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- フッターセクション -->
+  <footer class="bg-dark text-white py-4">
+    <div class="container text-center">
+
+      <!-- ソーシャルメディアリンク -->
+      <div class="mt-3 row justify-content-center">
+        <div class="d-flex flex-column align-items-center mx-3 col-12 col-md-2">
+          <a href="https://www.instagram.com/hitachihikari/" target="_blank" class="text-white">
+            <img src="https://lh3.googleusercontent.com/pw/AP1GczM459vxE_xzZO8DEMg-Y_HT3t7oYSdLh_VLl8j2UQf4WzPsGV2LJGRus1SC-BnQWC-9LmO8nIaLIBsIfRUKaO5bztUIMtsp93GHUFbcEDQhsqna0a9Z=w2400" 
+                 alt="Instagram" class="rounded-circle mb-2" style="width: 80px; height: 80px;">
+            <p>
+              <a href="https://www.instagram.com/hitachihikari/" target="_blank" class="text-white">教会情報</a><br>教会の情報を載せていきます!
+            </p>
+          </a>
+        </div>
+      
+        <div class="d-flex flex-column align-items-center mx-3 col-12 col-md-2">
+          <a href="https://www.instagram.com/hitachihikari_ohana/" target="_blank" class="text-white">
+            <img src="https://lh3.googleusercontent.com/pw/AP1GczNcGuazXamDxjZb7PcU5QFB9k9fsUybWv6V_mksjEz1jDOE_xjpP0WzmFqeZNJQVCUWrGs7ddUkz04KHLYJwcaThE8lXAkPrcq5EADnbVWqOZdoG4by=w2400" 
+                 alt="Instagram" class="rounded-circle mb-2" style="width: 80px; height: 80px;">
+            <p>
+              <a href="https://www.instagram.com/hitachihikari_ohana/" target="_blank" class="text-white">お花</a><br>教会のお花を載せていきます!
+            </p>
+          </a>
+        </div>
+      
+        <div class="d-flex flex-column align-items-center mx-3 col-12 col-md-2">
+          <a href="https://www.instagram.com/hitachihikari_oishii/" target="_blank" class="text-white">
+            <img src="https://lh3.googleusercontent.com/pw/AP1GczMQO7IF29sGH3ZcYY5Jrg5Pu7V0zqjcokvHNp1Rzy8FfCV7dwl3M1y_e4tb1tQTCFKDp16SPOK4d_K75w3LtmTOlrzf5Px6orYNw4_zFBDg39rlUzKz=w2400" 
+                 alt="Instagram" class="rounded-circle mb-2" style="width: 80px; height: 80px;">
+            <p>
+              <a href="https://www.instagram.com/hitachihikari_oishii/" target="_blank" class="text-white">愛餐会</a><br>教会の「おいしい」写真を載せていきます!
+            </p>
+          </a>
+        </div>
+      
+        <div class="d-flex flex-column align-items-center mx-3 col-12 col-md-2">
+          <a href="https://www.youtube.com/channel/UCwqc95wswE8wj1voDkejndA" target="_blank" class="text-white">
+            <img src="https://lh3.googleusercontent.com/pw/AP1GczNOmvJi3CPcXwnw6Zyp9GqjTp4jM14-GS515LKYTdrfb2rfL_YQacnXRM-AZg2omtfs9fVxpCiXhT67a-vlTxPV3f3sUZHZcltP2c2C_UKynIh0wbss=w2400" 
+                 alt="YouTube" class="rounded-circle mb-2" style="width: 80px; height: 80px;">
+            <p>
+              <a href="https://www.youtube.com/channel/UCwqc95wswE8wj1voDkejndA" target="_blank" class="text-white">YouTube</a><br>パイプオルガンやハンドベルでの賛美など！
+            </p>
+          </a>
+        </div>
+      
+        <div class="d-flex flex-column align-items-center mx-3 col-12 col-md-2">
+          <a href="https://photos.app.goo.gl/ESPV7T1gdWkd4iaX8" target="_blank" class="text-white">
+            <img src="https://lh3.googleusercontent.com/pw/AP1GczOI6z_ZhNlvmUdy2U2GAc8YYk2edBCS6QxL-nxePWCbME7SxCS-VlwT-3iorebvR-armHD7PsAW7jGiWTzqNA1WOlFBgToiwMpMtVLuWbduG0ahHARy=w2400" 
+                 alt="Google Photos" class="rounded-circle mb-2" style="width: 80px; height: 80px;">
+            <p>
+              <a href="https://photos.app.goo.gl/ESPV7T1gdWkd4iaX8" target="_blank" class="text-white">Photos</a><br>教会の様子を写真でお届けします！
+            </p>
+          </a>
+        </div>
+      </div>
+      
+
+      <!-- 連絡先情報 -->
+      <p>〒319-1225 茨城県日立市石名坂町2-51-15</p>
+      <p>℡ 0294-32-7773 </p>
+      <p>&copy; 2025 ひたち光教会 - All Rights Reserved.</p>
+    </div>
+  </footer>
+
+
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+
+  <!-- モーダル本体 -->
+  <div class="modal fade" id="welcomeModal" tabindex="-1" aria-labelledby="welcomeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+      <div class="modal-content rounded-4 shadow">
+        <div class="modal-header bg-hhc-green text-white rounded-top-4">
+          <h5 class="modal-title" id="welcomeModalLabel">初めてお越しの方へ</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="閉じる"></button>
+        </div>
+        <div class="modal-body px-4 py-3" style="max-height: 75vh; overflow-y: auto;">
+          <p class="lead">ようこそ、ひたち光教会へ！ご不明点はお気軽にお問い合わせください。</p>
+
+          <h6 class="mt-4">礼拝に参加してみたい！</h6>
+          <p>毎週日曜日 10:30〜12:00に行われています。礼拝は日本語で行われ、韓国語での同時通訳もあります。</p>
+          <p>持ち物は特に必要ありません。ぜひ、教会にお越しください。</p>
+
+          <h6 class="mt-4">教会への行き方は？</h6>
+          <p>JR大甕（おおみか）駅からバスが出ています。敷地内に駐車場もございますので、お車でも大丈夫です。</p>
+          <p>詳しくは<a href="#access">⇒ アクセス</a>をご覧ください。</p>
+
+          <h6 class="mt-4">教会に着いたら</h6>
+          <p>ようこそ、ひたち光教会へ！お車の方は空いている駐車スペースへどうぞ。玄関よりお入りください。</p>
+          <p>受付で週報（当日の予定やお知らせ）をお渡しします。聖書や聖歌は貸出もあります。</p>
+
+          <h6 class="mt-4">礼拝</h6>
+          <p>礼拝の前に賛美の練習やお祈りの時間があります。礼拝は週報のプログラムに沿って進みます。</p>
+          <p>はじめての方には教会員がサポートしますので、安心してお越しください。</p>
+
+          <h6 class="mt-4">礼拝後</h6>
+          <p>毎週、皆さんと一緒に昼食の時間があります（無料）。お時間があれば、ぜひご一緒にどうぞ。</p>
+          <p>牧師と個別にお話したい場合は、お近くの教会員にお声がけください。</p>
+          <p>午後もさまざまなプログラムが予定されています。ご興味ありましたら、ぜひご参加ください。</p>
+
+          <h6 class="mt-4">日曜日以外に教会へ行ってみたい！</h6>
+          <p>大歓迎です。念のため、事前にご連絡いただけるとスムーズです。</p>
+
+          <h6 class="mt-4">小さいお子さま連れでも大丈夫？</h6>
+          <p>はい、大丈夫です。大歓迎です (^_^)/</p>
+          <p>礼拝室隣の光室ではTV中継も行っております。</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- モーダル -->
+  <div class="modal fade" id="kyousukuigaModal" tabindex="-1" aria-labelledby="kyousukuigaModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-hhc-green text-white">
+          <h5 class="modal-title" id="kyousukuigaModalLabel">説教「今日、救いがこの家に来ました」</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="閉じる"></button>
+        </div>
+        <div class="modal-body text-start">
+          <h6 class="text-muted">尹 秉甲 牧師</h6>
+          <blockquote class="blockquote">
+            <p>それからイエスは、エリコにはいって、町をお通りになった。
+              ここには、ザアカイという人がいたが、彼は取税人のかしらで、金持ちであった。
+              彼は、イエスがどんな方か見ようとしたが、背が低かったので、群衆のために見ることができなかった。
+              それで、イエスを見るために、前方に走り出て、いちじく桑の木に登った。ちょうどイエスがそこを通りすぎようとしておられたからである。
+              イエスは、ちょうどそこに来られて、上を見上げて彼に言われた。「ザアカイ。急いで降りて来なさい。きょうは、あなたの家に泊まることにしてあるから。」
+              ザアカイは、急いで降りて来て、そして大喜びでイエスを迎えた。
+              これを見て、みなは、「あの方は罪人のところに行って客となられた。」と言ってつぶやいた。
+              ところがザアカイは立って、主に言った。「主よ。ご覧ください。私の財産の半分を貧しい人たちに施します。また、だれからでも、私がだまし取った物は、四倍にして返します。」
+              イエスは、彼に言われた。「きょう、救いがこの家に来ました。この人もアブラハムの子なのですから。
+              人の子は、失われた人を捜して救うためにきたのです。」</p>
+            <footer class="blockquote-footer">新約聖書 ルカの福音書19章1節-10節</footer>
+          </blockquote>
+          <p>幸せになりたい!これは、人間誰もが求めることです。そのため、人間は、一生涯知恵知識を求めたり、お金を追い掛けたり、名誉、権力を求め続けます。</p>
+          <p>しかし、千辛万苦を重ね、これらのものを得たとしても、そこにあるのは、幸せであるとは言えないことが多いのです。</p>
+          <p>聖書の中には、箴言という書物がありますが、このようなことばが記されております。</p>
+          <blockquote>一切れのかわいたパンがあって、平和であるのは、ごちそうと争いに満ちた家にまさる。<small>箴言17:1</small></blockquote>
+          <blockquote>野菜を食べて愛し合うのは、肥えた牛を食べて憎み合うのにまさる。<small>箴言15:17</small></blockquote>
+          <blockquote>争い好きな女と社交場にいるよりは、屋根の片隅に住むほうがよい。<small>箴言25:24</small></blockquote>
+          <p>持っていることが幸せではなく、心の喜びと平安が幸せのもとであることを教えているみことばですが、いくらお金があっても、権力が、名誉があっても、心の中に喜びと平安がなければ、幸せとは言えないのです。</p>
+          <p>
+            けさ、私は、皆さんに心の喜びと平安を得、最高の幸せな人になったザアカイという人を紹介致します。そして、彼に最高の幸せ、まことの幸せを与えてくださった方を紹介致します。この時間の学びを通して、皆さんがザアカイのように最高の幸せを自分のものにして、これからの人生の歩みが喜びと平安と感謝に満ちたものになりますように願います。
+          </p>
+          <p>それでは、本文1節をご覧ください。</p>
+          <p>ここを見ますと「イエス」という人の名前があります。この方こそ、私たち人間にまことの幸せ、最高の幸せを与えてくださることができるお方です。</p>
+          <p>皆さんは、この時間、このイエスさまに出会うことになります。</p>
+          <p>本文1節のみことばには、このイエスさまがエリコという町を通り過ぎるところだったと言っています。</p>
+          <p>
+            エリコという町はいまから約2000年前の当時、かなり大きい町でした。ロ-マ帝国の植民地の中でも、香料の産地があったりして、多くの税金が入る重要な町だったのです。そのエリコの税務署の署長であったのが、いま皆さんに紹介しようとしているザアカイという人です。
+          </p>
+          <p>本文2節をご覧ください。</p>
+          <p>ザアカイという名前は、「きよい人」あるいは「義人」という意味です。しかしザアカイは、この名前のようにきよい人でもなく、義人でもありませんでした。彼は、イエスさまに出会う前はきよい人でも義人でもなかったのです。
+          </p>
+          <p>2節にありますように、彼は取税人のかしら、税務署長でした。</p>
+          <p>
+            いまも大きい事業を営んでいる人が一番恐がるのが税務署であると言えますが、当時の税務署長も、かなりの権力を持っていました。自律的に税金を徴収する権力を持っていたので、徴収した一定の額をロ-マ政府に収め、その他はいくらでも自分のものにすることができる、不正徴収や背任行為ができる立場にあったのです。
+          </p>
+          <p>当時、ロ-マ政府の税金取り立ての仕事をしていたザアカイは、とりわけ権力をふるっていた人でした。</p>
+          <p>
+            2節では、ザアカイが金持ちであったとあります。ザアカイは権力とお金は持っていましたが、名前のような、きよい人、義人ではなく、むしろ人々から、泥棒、強盗のように憎まれていた人でした。親がザアカイにこのような名前をつけたのは、人々に憎まれるような人生ではなく、きよい人として、義人として生きることを望んだわけでしょう。
+          </p>
+          <p>私たちの親も、色々な願いをこめて私たちの名前をつけたと思います。いま、私たちは、名前にふさわしく生きているのでしょうか。</p>
+          <p>ザアカイのように親が名前をつけた時の願いとは正反対の生活をしているのではないでしょうか。</p>
+          <p>
+            さて、ザアカイは、いまの殆どの人々が求めているような、ものすごい権力とお金を持っていました。しかし、彼は、決して幸せな人ではありませんでした。心の中は、いつも喜びがない、平安がない、満たされない欲で苦しんでいたのです。周りの人々から罪人とされていたからです。
+          </p>
+          <p>その時、彼はあるうわさを聞いていました。</p>
+          <p>
+            イエスという幸せを与えてくれる人がいると、その人に出会う人は誰でも幸せになると。悪霊につかれて苦しんでいた人は悪霊が追い出され、いかなる病気の人もいやされ、また、目のみえない人は目が開かれるのだと。いかなるわずらいもイエスと出会う人は、そのわずらいが取り除かれ、幸せになるのだと。
+          </p>
+          <p>それで、ザアカイは、権力でもお金でも、満たされないこの心の苦しみを解決してもらいたい、そのため、そのイエスという人に会いたいと、願っていたところでした。</p>
+          <p>ちょうど、その時彼は、自分の町エリコにその方が来られたと聞いたのです。ザアカイは、一生涯の問題を解決する時が来たと思いました。それで、彼は急いでイエスさまに出会うために出かけました。</p>
+          <p>3節をみましょう。</p>
+          <p>
+            ここで、「イエスがどんな方か見ようとした。」とは、ただ見物のように一度見ようとしたとの意味ではありません。(未完了、不定過去型)もともとの意味は、見ようと続けて努力した、つまり、「見ようと必死になった」との意味です。
+          </p>
+          <p>ザアカイはイエスさまに会いたいと必死でした。しかし、見ることができなかったとあります。その理由を二つあげています。</p>
+          <p>
+            一つは「背が低かったので」、つまり、親の所為だと言っているのです。私たちは、人生の深刻な問題にあった時、よくぶつぶつつぶやくのです。背が低い、顔のせい、頭が悪いのは生れつきのものだ、家が貧しかったせいだ、家の環境があだ、こうだ、生まれ育ってくれたことに対する感謝より、生まれた環境のせいに自分の不幸を結びつけるのです。幸せになれないのは、すべて、親のせい、環境のせいにしてしまうのです。
+          </p>
+          <p>
+            もう一つは、「群衆のため」とありますように、他人のせいにすることです。あの人がいるから自分がこうだ、あの人のせいで自分の人生が変わった、この世が悪い、社会が悪い、この世の制度が悪いんだと。不幸の原因、自分が幸せになれないのは、すべて、他の人が悪いからだとつぶやくのです。
+          </p>
+          <p>私たちはどっちのタイプでしょうか。両方でしょうか。</p>
+          <p>
+            しかし、幸せになれないのは、決して、親のせいでも、環境のせいでも、他の人のせいでもないのです。すべてが自分のせいなのです。これを悟っている人は、幸せになるのです。なぜなら、周りの人に感謝の心を持つことができ、ものごとを否定的ではなく肯定的に考えるようになるからです。
+          </p>
+          <p>すべてのことを自分の所為にすることができる人は、その解決策を見つけることができるからです。</p>
+          <p>ザアカイは、このことを知っていたので、自分に来たチャンスを逃がすようなことはしませんでした。</p>
+          <p>4節を読んでみましょう。</p>
+          <p>
+            ザアカイは、背が低かったため、群衆のため、イエスを見ることができなかった時、決して人のせいにするようなことはしないで自分の苦しみが解決される最善のチャンスを十分に生かしました。彼は、ずっと先の方に走って行き、道端にあったいちじく桑の木によじ登り、イエスさまを待っていたのです。
+          </p>
+          <p>
+            まことの幸せを求める人は、人のせいにしないし、また、人の目を気にしません。ザアカイは、まるで、子供のようになったのです。権力も、お金持ちであることも、名誉も、すべて捨てて、人が、何と言おうかなど、考えないで、ただ一つのことだけを考えていたのです。
+          </p>
+          <p>私たちは、あまりにも人の目を気にする生活をしています。</p>
+          <p>他の人に意図的な迷惑をかけるようなことをしてはいけませんが、しかし、人の目のおりの中に入って、いつも、あの人が、この人が見ると、どのように思うかばかり気にする人は、幸せにはなれないのです。</p>
+          <p>誰にも必ずその人生の中に幸せになるチャンスが来ます。チャンスであると知りながらも人の目を気にしてそれをつかむことを諦める人は、幸せになることを諦めることになるのです。ザアカイは、そのチャンスを逃がさずつかみました。
+          </p>
+          <p>チャンスをつかんだザアカイに幸せの声が与えられました。</p>
+          <p>5節を見ましょう。</p>
+          <p>「ザアカイ。急いで降りて来なさい。きょうは、あなたの家に泊まることにしてあるから」</p>
+          <p>
+            このイエスさまのおことばは、幸せを与えてくださるための招きのおことばです。イエスさまがエリコに来られたのは、ザアカイの家に泊まるために、つまりザアカイに幸せを与えるためだと言っておられます。大勢の人々、群衆の中でたった一人、ザアカイのために来られたと、言っておられるのです。
+          </p>
+          <p>
+            ザアカイがイエスさまを呼んだのではありません。イエスさまが、神さまが、彼を知って彼のところに来られたし、彼の名前を知って先に呼んでくださったのです。私たち一人一人の名前を知っておられ、その名前を呼び、語りかけて下さるのが幸せの神さま、イエスさまです。
+          </p>
+          <p>
+            6節を見ますと、ザアカイは急いで降りて来て、そして、大喜びでイエスを迎えたとあります。イエスさまを迎えるのは、躊躇すること、ためらうことではありません。イエスさまの招きがある時には、名前が呼ばれた時には、すぐ急いで受け入れなければなりません。「きょう、泊まる」とありますようにそれは「いま」しなければならないことです。最高の幸せ、心の喜びと平安を得ること、それはイエスさまの招きがある時、すぐ応じることです。
+          </p>
+          <p>しかし、7節を見ますと、</p>
+          <p>これをみて、みなは、「あの方は罪人のところに行って客となられた。」と言ってつぶやいた。とあります。</p>
+          <p>
+            イエスさまを信じ迎え入れることは、この世の人々、信者ではない人々には、あまり良く見られることではありません。簡単に認められるものでもありません。イエスさまを受け入れるためには、非難される事さえ覚悟しなければならないのです。
+          </p>
+          <p>8節を見ましょう。</p>
+          <p>ザアカイは「罪人」でした。彼は、いまイエスさまを迎え入れ、イエスさまを主と呼び、誓約しています。</p>
+          <p>私の財産の半分を貧しい人たちに施します。</p>
+          <p>また、だれからでも、私がだまし取った物は、四倍にして返します。</p>
+          <p>「四倍にして返します」と言っているのは、当時の法律、律法によると、盗んだ物を返す時には4倍、5倍にして返すように定められていたからです。（出エジプト22:1、IIサムエル12:6）</p>
+          <p>
+            ザアカイがこのように誓っていたのは、罪に対する悔い改めを意味します。彼の心が変わったのです。本当の悔い改めは、神の恵みを受けた者がする自発的行為です。人間そのものが変わることです。イエスを迎え入れることは、その人が別人に生まれ変わることです。
+          </p>
+          <p>イエスさまを受け入れ、最高の幸せを持つ秘訣は、罪を悔い改めることです。そうすると、イエスさまからの救いの宣言、最高の幸せが与えられるのです。</p>
+          <p>9節を見ましょう。</p>
+          <p>「きょう、救いがこの家に来ました。」このイエスさまのおことばは、罪人に最高の幸せを与えられることばです。</p>
+          <p>
+            罪人：ザアカイのように人間は、最高の幸せのもとである神さまを離れ、物質と名誉、権力を求め、一生を走り回っているのです。すべての苦しみの原因、それは、神ばなれから始まったのです。すべての人は罪人だと聖書は教えているのです。心が罪によって暗くなっているので苦しむのです。心を明るくするためには、心をきれいにして、幸せのもとである神さまのもとに戻る方法しかありません。心をきよくする方法、義人になる方法、神さまの御前に戻る方法それは、ザアカイのように悔い改め、イエスさまを主と告白し、迎え入れることです（ロ-マ10:9-10）。
+          </p>
+          <p>ザアカイは、イエスさまを主と告白し、信じて義と認められたのです。彼の名前の意味通り、罪が赦され、ザアカイはきよい人になり、義人になったのです。これを、救われた、つまり、最高の幸せな人になったと言います。</p>
+          <p>本文10節を見ましょう。</p>
+          <p>人の子、イエスさまが来られたのは、この最高の幸せを失った人々を捜して救うため、最高の幸せを与えられるためなのです。</p>
+          <p>皆さんは、いま、皆さんの前に来ておられるイエスさまを迎え入れたのでしょうか。いま、皆さんの名前を呼び求めておられる主イエスの御声に、耳を傾け聞いていたのでしょうか。</p>
+          <p>自分の家のことで、他の人の目を気にして、いま皆さんに与えられているチャンスを逃がしてはなりません。</p>
+          <p>
+            ザアカイのように、イエスさまを迎え入れてください。大喜びの中で、迎え入れてください。「きょう、救いがこの家に来ました。」と主イエスに言われる最高幸せを皆さんのものにしてください。明日でもあさってでもありません。きょう、いまです。何より大事なのは、自分の幸せ、永遠のいのちだからです。
+          </p>
+          <p>いま、全知全能の神さまは、皆さんが最高の幸せの中で、主と共に永遠に生きることを望んでおられるのです。</p>
+          <p>願わくは、ザアカイの救いの祝福「きょう、救いがこの家に来ました」のイエスさまの祝福のおことばが、皆さんと共にありますように！</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
+
 </html>
