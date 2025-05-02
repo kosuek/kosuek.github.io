@@ -403,7 +403,10 @@
                 初めての方へ
               </button>
               <button type="button" class="btn bg-hhc-green" data-bs-toggle="modal" data-bs-target="#kyousukuigaModal">
-                説教「きょう、救いがこの家に来ました」を読む
+                礼拝説教「きょう、救いがこの家に来ました」を読む
+              </button>
+              <button type="button" class="btn bg-hhc-green" data-bs-toggle="modal" data-bs-target="#haiiieModal">
+                礼拝説教「『はい』は『はい』、『いいえ』は『いいえ』」を読む
               </button>
               <button type="button" class="btn btn-secondary text-white" data-bs-toggle="modal" data-bs-target="#">
                 new page<br>coming soon!
@@ -596,6 +599,17 @@
         document.getElementById("kyousukuigaModalContainer").innerHTML = data;
       });
   </script>
+
+<div id="haiiieModalContainer"></div>
+<script>
+  fetch("haiiieModal.html")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("haiiieModalContainer").innerHTML = data;
+    });
+</script>
+
+
 
 </body>
 
