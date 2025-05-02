@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="hhc.ico" rel="icon">
   <link href="hhc.ico" rel="shortcut icon">
   <link href="hhc.ico" rel="apple-touch-icon">
   <title>ひたち光教会</title>
@@ -146,6 +147,21 @@
       left: 20%;
       border-radius: 2px;
     }
+
+    .bg-hhc-green {
+      background-color: #61A534 !important;
+      color: white;
+    }
+
+    .btn-hhc-red {
+      background-color: #D90000;
+      color: white;
+      border: none;
+    }
+
+    .btn-hhc-red:hover {
+      background-color: #b00000;
+    }
   </style>
 </head>
 
@@ -208,6 +224,18 @@
               信仰について話してみたい方、<br>
               どなたでも歓迎します。ぜひ気軽にお越しください。
             </p>
+          </div>
+          <div class="d-flex justify-content-center gap-3 my-4 flex-wrap">
+
+            <button type="button" class="btn btn-secondary text-white" data-bs-toggle="modal" data-bs-target="#">
+              new page<br>coming soon!
+            </button>
+            <button type="button" class="btn btn-secondary text-white" data-bs-toggle="modal" data-bs-target="#">
+              new page<br>coming soon!
+            </button>
+            <button type="button" class="btn btn-secondary text-white" data-bs-toggle="modal" data-bs-target="#">
+              new page<br>coming soon!
+            </button>
           </div>
         </div>
       </div>
@@ -337,44 +365,68 @@
   <!-- 集会案内セクション -->
   <section id="service" class="container my-5">
     <h2 class="text-center mb-4 section-title">集会案内</h2>
-    <div class="row">
-      <div class="col-md-6">
-        <p>毎週日曜日の礼拝は、神様の言葉を共に聞き、祈り、賛美を捧げる大切な時です。どなたでもご参加いただけます。</p>
-        <ul>
-          <li>日曜日 午前10:30 - 礼拝</li>
-          <li>水曜日 午後7:00 - 祈祷会</li>
-        </ul>
-        <p>礼拝後には、教会の仲間とともに交わりの時を持つことができます。</p>
-      </div>
+    <div class="row g-4">
 
-      <!-- ボタン -->
-      <!--
-      <div class="container mt-5 text-center">
-        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#kyousukuigaModal">
-          説教「はいははい、いいえはいいえ」を読む
-        </button>
-      </div>
-      -->
-      <div class="col-md-6">
-        <img
-          src="https://lh3.googleusercontent.com/pw/AP1GczM64kfuNquFPvo6wvNZcaqwzEqcFB0kyhzAJPAS-akTC3INkb6z3KjNHheUY9t5MREAfQajZyD3TYScy9Njeh5iQWhiyDgEOTMZj8VBVcsOsGDr6jkk=w2400"
-          class="img-fluid" alt="礼拝の様子">
-      </div>
-      <div class="col-md-12">
-        <!-- 横並びボタン：モーダルを開く -->
-        <div class="d-flex justify-content-center gap-3 my-4 flex-wrap">
-          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#welcomeModal">
-            初めての方へ
-          </button>
-          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#kyousukuigaModal">
-            説教「きょう、救いがこの家に来ました」を読む
-          </button>
-          <button type="button" class="btn btn-secondary text-white" data-bs-toggle="modal" data-bs-target="#">
-            new page<br>coming soon!
-          </button>
+      <!-- 礼拝 -->
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">礼拝</h5>
+            <p><strong>毎週日曜日 10:30〜12:00</strong></p>
+            <p>神様の言葉を共に聞き、祈り、賛美をささげる大切な時です。どなたでもご参加いただけます。礼拝は日本語で行われ、韓国語の同時通訳もございます。</p>
+          </div>
         </div>
       </div>
+
+      <!-- 祈祷会 -->
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">祈祷会</h5>
+            <p><strong>毎週水曜日 19:00〜21:00</strong></p>
+            <p>テーマに基づいた聖書の学びとお祈りの時間です。静かな環境で心を神様に向けるひとときを持ちます。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- その他集会 -->
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">その他の集会</h5>
+            <p><strong>毎週日曜日午後</strong></p>
+            <p>礼拝後には、聖書の学びや教会の仲間と交わりのプログラムがあります。詳しくは週報をご覧いただくか、教会までお問い合わせください。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 礼拝写真とボタン -->
+      <div class="col-md-12 mt-4">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <img
+              src="https://lh3.googleusercontent.com/pw/AP1GczM64kfuNquFPvo6wvNZcaqwzEqcFB0kyhzAJPAS-akTC3INkb6z3KjNHheUY9t5MREAfQajZyD3TYScy9Njeh5iQWhiyDgEOTMZj8VBVcsOsGDr6jkk=w2400"
+              class="img-fluid rounded shadow-sm" alt="礼拝の様子">
+          </div>
+          <div class="col-md-6">
+            <div class="d-flex justify-content-center gap-3 flex-wrap mt-3 mt-md-0">
+              <button type="button" class="btn bg-hhc-green" data-bs-toggle="modal" data-bs-target="#welcomeModal">
+                初めての方へ
+              </button>
+              <button type="button" class="btn bg-hhc-green" data-bs-toggle="modal" data-bs-target="#kyousukuigaModal">
+                説教「きょう、救いがこの家に来ました」を読む
+              </button>
+              <button type="button" class="btn btn-secondary text-white" data-bs-toggle="modal" data-bs-target="#">
+                new page<br>coming soon!
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
+  </section>
+
 
 
 
@@ -414,50 +466,67 @@
 
       <!-- ソーシャルメディアリンク -->
       <div class="mt-3 row justify-content-center">
-        <a href="https://www.instagram.com/hitachihikari/" target="_blank" class="text-white mx-3 col-12 col-md-2">
-          <div class="d-flex flex-column align-items-center">
+        <div class="d-flex flex-column align-items-center mx-3 col-12 col-md-2">
+          <a href="https://www.instagram.com/hitachihikari/" target="_blank" class="text-white">
             <img
               src="https://lh3.googleusercontent.com/pw/AP1GczM459vxE_xzZO8DEMg-Y_HT3t7oYSdLh_VLl8j2UQf4WzPsGV2LJGRus1SC-BnQWC-9LmO8nIaLIBsIfRUKaO5bztUIMtsp93GHUFbcEDQhsqna0a9Z=w2400"
               alt="Instagram" class="rounded-circle mb-2" style="width: 80px; height: 80px;">
-            <p>教会情報:教会の情報を載せていきます!</p>
-          </div>
-        </a>
-        <a href="https://www.instagram.com/hitachihikari_ohana/" target="_blank"
-          class="text-white mx-3 col-12 col-md-2">
-          <div class="d-flex flex-column align-items-center">
+            <p>
+              <a href="https://www.instagram.com/hitachihikari/" target="_blank"
+                class="text-white">教会情報</a><br>教会の情報を載せていきます!
+            </p>
+          </a>
+        </div>
+
+        <div class="d-flex flex-column align-items-center mx-3 col-12 col-md-2">
+          <a href="https://www.instagram.com/hitachihikari_ohana/" target="_blank" class="text-white">
             <img
               src="https://lh3.googleusercontent.com/pw/AP1GczNcGuazXamDxjZb7PcU5QFB9k9fsUybWv6V_mksjEz1jDOE_xjpP0WzmFqeZNJQVCUWrGs7ddUkz04KHLYJwcaThE8lXAkPrcq5EADnbVWqOZdoG4by=w2400"
               alt="Instagram" class="rounded-circle mb-2" style="width: 80px; height: 80px;">
-            <p>お花:教会のお花を載せていきます!</p>
-          </div>
-        </a>
-        <a href="https://www.instagram.com/hitachihikari_oishii/" target="_blank"
-          class="text-white mx-3 col-12 col-md-2">
-          <div class="d-flex flex-column align-items-center">
+            <p>
+              <a href="https://www.instagram.com/hitachihikari_ohana/" target="_blank"
+                class="text-white">お花</a><br>教会のお花を載せていきます!
+            </p>
+          </a>
+        </div>
+
+        <div class="d-flex flex-column align-items-center mx-3 col-12 col-md-2">
+          <a href="https://www.instagram.com/hitachihikari_oishii/" target="_blank" class="text-white">
             <img
               src="https://lh3.googleusercontent.com/pw/AP1GczMQO7IF29sGH3ZcYY5Jrg5Pu7V0zqjcokvHNp1Rzy8FfCV7dwl3M1y_e4tb1tQTCFKDp16SPOK4d_K75w3LtmTOlrzf5Px6orYNw4_zFBDg39rlUzKz=w2400"
               alt="Instagram" class="rounded-circle mb-2" style="width: 80px; height: 80px;">
-            <p>愛餐会:教会の「おいしい」写真を載せていきます!</p>
-          </div>
-        </a>
-        <a href="https://www.youtube.com/channel/UCwqc95wswE8wj1voDkejndA" target="_blank"
-          class="text-white mx-3 col-12 col-md-2">
-          <div class="d-flex flex-column align-items-center">
+            <p>
+              <a href="https://www.instagram.com/hitachihikari_oishii/" target="_blank"
+                class="text-white">愛餐会</a><br>教会の「おいしい」写真を載せていきます!
+            </p>
+          </a>
+        </div>
+
+        <div class="d-flex flex-column align-items-center mx-3 col-12 col-md-2">
+          <a href="https://www.youtube.com/channel/UCwqc95wswE8wj1voDkejndA" target="_blank" class="text-white">
             <img
               src="https://lh3.googleusercontent.com/pw/AP1GczNOmvJi3CPcXwnw6Zyp9GqjTp4jM14-GS515LKYTdrfb2rfL_YQacnXRM-AZg2omtfs9fVxpCiXhT67a-vlTxPV3f3sUZHZcltP2c2C_UKynIh0wbss=w2400"
               alt="YouTube" class="rounded-circle mb-2" style="width: 80px; height: 80px;">
-            <p>YouTube:パイプオルガンやハンドベルでの賛美など！</p>
-          </div>
-        </a>
-        <a href="https://photos.app.goo.gl/ESPV7T1gdWkd4iaX8" target="_blank" class="text-white mx-3 col-12 col-md-2">
-          <div class="d-flex flex-column align-items-center">
+            <p>
+              <a href="https://www.youtube.com/channel/UCwqc95wswE8wj1voDkejndA" target="_blank"
+                class="text-white">YouTube</a><br>パイプオルガンやハンドベルでの賛美など！
+            </p>
+          </a>
+        </div>
+
+        <div class="d-flex flex-column align-items-center mx-3 col-12 col-md-2">
+          <a href="https://photos.app.goo.gl/ESPV7T1gdWkd4iaX8" target="_blank" class="text-white">
             <img
               src="https://lh3.googleusercontent.com/pw/AP1GczOI6z_ZhNlvmUdy2U2GAc8YYk2edBCS6QxL-nxePWCbME7SxCS-VlwT-3iorebvR-armHD7PsAW7jGiWTzqNA1WOlFBgToiwMpMtVLuWbduG0ahHARy=w2400"
               alt="Google Photos" class="rounded-circle mb-2" style="width: 80px; height: 80px;">
-            <p>Photos:教会の様子を写真でお届けします！</p>
-          </div>
-        </a>
+            <p>
+              <a href="https://photos.app.goo.gl/ESPV7T1gdWkd4iaX8" target="_blank"
+                class="text-white">Photos</a><br>教会の様子を写真でお届けします！
+            </p>
+          </a>
+        </div>
       </div>
+
 
       <!-- 連絡先情報 -->
       <p>〒319-1225 茨城県日立市石名坂町2-51-15</p>
@@ -477,40 +546,55 @@
   <div class="modal fade" id="welcomeModal" tabindex="-1" aria-labelledby="welcomeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
       <div class="modal-content rounded-4 shadow">
-        <div class="modal-header bg-success text-white rounded-top-4">
+        <div class="modal-header bg-hhc-green text-white rounded-top-4">
           <h5 class="modal-title" id="welcomeModalLabel">初めてお越しの方へ</h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="閉じる"></button>
         </div>
-        <div class="modal-body px-4 py-3" style="max-height: 75vh; overflow-y: auto;">
-          <p class="lead">ようこそ、ひたち光教会へ！ご不明点はお気軽にお問い合わせください。</p>
+        <div class="modal-body px-4 py-4" style="max-height: 75vh; overflow-y: auto;">
+          <p class="lead mb-4">ようこそ、ひたち光教会へ！ご不明点はお気軽にお問い合わせください。</p>
 
-          <h6 class="mt-4">礼拝に参加してみたい！</h6>
-          <p>毎週日曜日 10:30〜12:00に行われています。礼拝は日本語で行われ、韓国語での同時通訳もあります。</p>
-          <p>持ち物は特に必要ありません。ぜひ、教会にお越しください。</p>
+          <div class="mb-4">
+            <h6 class="fw-bold border-start border-3 ps-2 border-success">礼拝に参加してみたい！</h6>
+            <p>毎週日曜日 10:30〜12:00に行われています。礼拝は日本語で行われ、韓国語の同時通訳もあります。</p>
+            <p>持ち物は特に必要ありません。どうぞお気軽にお越しください。</p>
+          </div>
 
-          <h6 class="mt-4">教会への行き方は？</h6>
-          <p>JR大甕（おおみか）駅からバスが出ています。敷地内に駐車場もございますので、お車でも大丈夫です。</p>
-          <p>詳しくは<a href="#access">⇒ アクセス</a>をご覧ください。</p>
+          <div class="mb-4">
+            <h6 class="fw-bold border-start border-3 ps-2 border-success">教会への行き方は？</h6>
+            <p>JR大甕（おおみか）駅からバスが出ています。敷地内に駐車場もありますので、お車でも安心です。</p>
+            <p>詳しくは <a href="#access" class="text-decoration-underline">⇒ アクセス</a> をご覧ください。</p>
+          </div>
 
-          <h6 class="mt-4">教会に着いたら</h6>
-          <p>ようこそ、ひたち光教会へ！お車の方は空いている駐車スペースへどうぞ。玄関よりお入りください。</p>
-          <p>受付で週報（当日の予定やお知らせ）をお渡しします。聖書や聖歌は貸出もあります。</p>
+          <div class="mb-4">
+            <h6 class="fw-bold border-start border-3 ps-2 border-success">教会に着いたら</h6>
+            <p>お車の方は空いているスペースへどうぞ。玄関よりお入りいただき、受付で週報（当日の予定など）をお受け取りください。</p>
+            <p>聖書や聖歌は貸出もございますのでご安心ください。</p>
+          </div>
 
-          <h6 class="mt-4">礼拝</h6>
-          <p>礼拝の前に賛美の練習やお祈りの時間があります。礼拝は週報のプログラムに沿って進みます。</p>
-          <p>はじめての方には教会員がサポートしますので、安心してお越しください。</p>
+          <div class="mb-4">
+            <h6 class="fw-bold border-start border-3 ps-2 border-success">礼拝</h6>
+            <p>礼拝前には賛美の練習や祈りの時間があります。礼拝は週報のプログラムに沿って進みます。</p>
+            <p>初めての方には教会員がサポートしますので、どうぞ安心してご参加ください。</p>
+          </div>
 
-          <h6 class="mt-4">礼拝後</h6>
-          <p>毎週、皆さんと一緒に昼食の時間があります（無料）。お時間があれば、ぜひご一緒にどうぞ。</p>
-          <p>牧師と個別にお話したい場合は、お近くの教会員にお声がけください。</p>
-          <p>午後もさまざまなプログラムが予定されています。ご興味ありましたら、ぜひご参加ください。</p>
+          <div class="mb-4">
+            <h6 class="fw-bold border-start border-3 ps-2 border-success">礼拝後</h6>
+            <p>毎週、皆さんと昼食を共にする時間があります（無料）。お時間があればぜひご一緒にどうぞ。</p>
+            <p>牧師とお話ししたい方は、お近くの教会員にお気軽にお声がけください。</p>
+            <p>午後にもさまざまなプログラムをご用意しています。ご関心があれば、ぜひご参加ください。</p>
+          </div>
 
-          <h6 class="mt-4">日曜日以外に教会へ行ってみたい！</h6>
-          <p>大歓迎です。念のため、事前にご連絡いただけるとスムーズです。</p>
+          <div class="mb-4">
+            <h6 class="fw-bold border-start border-3 ps-2 border-success">日曜日以外に教会へ行ってみたい！</h6>
+            <p>大歓迎です。事前にご連絡いただけるとご案内がスムーズです。</p>
+          </div>
 
-          <h6 class="mt-4">小さいお子さま連れでも大丈夫？</h6>
-          <p>はい、大丈夫です。大歓迎です (^_^)/</p>
-          <p>礼拝室隣の光室ではTV中継も行っております。</p>
+          <div>
+            <h6 class="fw-bold border-start border-3 ps-2 border-success">小さいお子さま連れでも大丈夫？</h6>
+            <p>もちろん大丈夫です！大歓迎です 😊</p>
+            <p>礼拝室の隣にある「光室」では、礼拝の様子を中継していますので、小さなお子さまと一緒でも安心してご参加いただけます。</p>
+          </div>
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
@@ -522,139 +606,509 @@
   <!-- モーダル -->
   <div class="modal fade" id="kyousukuigaModal" tabindex="-1" aria-labelledby="kyousukuigaModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="kyousukuigaModalLabel">説教：きょう、救いがこの家に来ました</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+      <div class="modal-content shadow rounded-4">
+
+        <div class="modal-header bg-hhc-green text-white py-3 px-4 d-flex flex-column align-items-start">
+          <h5 class="modal-title fs-4 fw-bold" id="kyousukuigaModalLabel">説教「今日、救いがこの家に来ました」</h5>
+          <small class="text-white-50">尹 秉甲 牧師</small>
+          <button type="button" class="btn-close btn-close-white position-absolute end-0 top-0 m-3"
+            data-bs-dismiss="modal" aria-label="閉じる"></button>
         </div>
-        <div class="modal-body text-start">
-          <p>尹 秉甲 牧師</p>
-          <blockquote class="blockquote">
-            <p>それからイエスは、エリコにはいって、町をお通りになった。
-              ここには、ザアカイという人がいたが、彼は取税人のかしらで、金持ちであった。
+
+        <div class="modal-body px-4 py-4 text-start">
+
+          <h6 class="fw-bold text-secondary mb-2">聖書本文：ルカの福音書 19章1〜10節</h6>
+          <blockquote class="blockquote ps-3 border-start border-4 border-secondary bg-light small">
+            <p class="mb-2">
+              それからイエスは、エリコにはいって、町をお通りになった。ここには、ザアカイという人がいたが、彼は取税人のかしらで、金持ちであった。
+            </p>
+            <p class="mb-2">
               彼は、イエスがどんな方か見ようとしたが、背が低かったので、群衆のために見ることができなかった。
-              それで、イエスを見るために、前方に走り出て、いちじく桑の木に登った。ちょうどイエスがそこを通りすぎようとしておられたからである。
+            </p>
+            <p class="mb-2">
+              それで、イエスを見るために、前方に走り出て、いちじく桑の木に登った。ちょうどイエスがそこを通り過ぎようとしておられたからである。
+            </p>
+            <p class="mb-2">
               イエスは、ちょうどそこに来られて、上を見上げて彼に言われた。「ザアカイ。急いで降りて来なさい。きょうは、あなたの家に泊まることにしてあるから。」
+            </p>
+            <p class="mb-2">
               ザアカイは、急いで降りて来て、そして大喜びでイエスを迎えた。
+            </p>
+            <p class="mb-2">
               これを見て、みなは、「あの方は罪人のところに行って客となられた。」と言ってつぶやいた。
+            </p>
+            <p class="mb-2">
               ところがザアカイは立って、主に言った。「主よ。ご覧ください。私の財産の半分を貧しい人たちに施します。また、だれからでも、私がだまし取った物は、四倍にして返します。」
-              イエスは、彼に言われた。「きょう、救いがこの家に来ました。この人もアブラハムの子なのですから。
-              人の子は、失われた人を捜して救うためにきたのです。」</p>
-            <footer class="blockquote-footer">新約聖書 ルカの福音書19章1節-10節</footer>
+            </p>
+            <p class="mb-0">
+              イエスは、彼に言われた。「きょう、救いがこの家に来ました。この人もアブラハムの子なのですから。人の子は、失われた人を捜して救うためにきたのです。」
+            </p>
+            <footer class="blockquote-footer mt-2">ルカの福音書 19章1–10節</footer>
           </blockquote>
-          <p>幸せになりたい!これは、人間誰もが求めることです。そのため、人間は、一生涯知恵知識を求めたり、お金を追い掛けたり、名誉、権力を求め続けます。</p>
-          <p>しかし、千辛万苦を重ね、これらのものを得たとしても、そこにあるのは、幸せであるとは言えないことが多いのです。</p>
-          <p>聖書の中には、箴言という書物がありますが、このようなことばが記されております。</p>
-          <blockquote>一切れのかわいたパンがあって、平和であるのは、ごちそうと争いに満ちた家にまさる。<small>箴言17:1</small></blockquote>
-          <blockquote>野菜を食べて愛し合うのは、肥えた牛を食べて憎み合うのにまさる。<small>箴言15:17</small></blockquote>
-          <blockquote>争い好きな女と社交場にいるよりは、屋根の片隅に住むほうがよい。<small>箴言25:24</small></blockquote>
-          <p>持っていることが幸せではなく、心の喜びと平安が幸せのもとであることを教えているみことばですが、いくらお金があっても、権力が、名誉があっても、心の中に喜びと平安がなければ、幸せとは言えないのです。</p>
+
+
+          <h5 class="fw-bold mt-4">導入：本当の幸せとは</h5>
+
           <p>
-            けさ、私は、皆さんに心の喜びと平安を得、最高の幸せな人になったザアカイという人を紹介致します。そして、彼に最高の幸せ、まことの幸せを与えてくださった方を紹介致します。この時間の学びを通して、皆さんがザアカイのように最高の幸せを自分のものにして、これからの人生の歩みが喜びと平安と感謝に満ちたものになりますように願います。
-          </p>
-          <p>それでは、本文1節をご覧ください。</p>
-          <p>ここを見ますと「イエス」という人の名前があります。この方こそ、私たち人間にまことの幸せ、最高の幸せを与えてくださることができるお方です。</p>
-          <p>皆さんは、この時間、このイエスさまに出会うことになります。</p>
-          <p>本文1節のみことばには、このイエスさまがエリコという町を通り過ぎるところだったと言っています。</p>
-          <p>
-            エリコという町はいまから約2000年前の当時、かなり大きい町でした。ロ-マ帝国の植民地の中でも、香料の産地があったりして、多くの税金が入る重要な町だったのです。そのエリコの税務署の署長であったのが、いま皆さんに紹介しようとしているザアカイという人です。
-          </p>
-          <p>本文2節をご覧ください。</p>
-          <p>ザアカイという名前は、「きよい人」あるいは「義人」という意味です。しかしザアカイは、この名前のようにきよい人でもなく、義人でもありませんでした。彼は、イエスさまに出会う前はきよい人でも義人でもなかったのです。
-          </p>
-          <p>2節にありますように、彼は取税人のかしら、税務署長でした。</p>
-          <p>
-            いまも大きい事業を営んでいる人が一番恐がるのが税務署であると言えますが、当時の税務署長も、かなりの権力を持っていました。自律的に税金を徴収する権力を持っていたので、徴収した一定の額をロ-マ政府に収め、その他はいくらでも自分のものにすることができる、不正徴収や背任行為ができる立場にあったのです。
-          </p>
-          <p>当時、ロ-マ政府の税金取り立ての仕事をしていたザアカイは、とりわけ権力をふるっていた人でした。</p>
-          <p>
-            2節では、ザアカイが金持ちであったとあります。ザアカイは権力とお金は持っていましたが、名前のような、きよい人、義人ではなく、むしろ人々から、泥棒、強盗のように憎まれていた人でした。親がザアカイにこのような名前をつけたのは、人々に憎まれるような人生ではなく、きよい人として、義人として生きることを望んだわけでしょう。
-          </p>
-          <p>私たちの親も、色々な願いをこめて私たちの名前をつけたと思います。いま、私たちは、名前にふさわしく生きているのでしょうか。</p>
-          <p>ザアカイのように親が名前をつけた時の願いとは正反対の生活をしているのではないでしょうか。</p>
-          <p>
-            さて、ザアカイは、いまの殆どの人々が求めているような、ものすごい権力とお金を持っていました。しかし、彼は、決して幸せな人ではありませんでした。心の中は、いつも喜びがない、平安がない、満たされない欲で苦しんでいたのです。周りの人々から罪人とされていたからです。
-          </p>
-          <p>その時、彼はあるうわさを聞いていました。</p>
-          <p>
-            イエスという幸せを与えてくれる人がいると、その人に出会う人は誰でも幸せになると。悪霊につかれて苦しんでいた人は悪霊が追い出され、いかなる病気の人もいやされ、また、目のみえない人は目が開かれるのだと。いかなるわずらいもイエスと出会う人は、そのわずらいが取り除かれ、幸せになるのだと。
-          </p>
-          <p>それで、ザアカイは、権力でもお金でも、満たされないこの心の苦しみを解決してもらいたい、そのため、そのイエスという人に会いたいと、願っていたところでした。</p>
-          <p>ちょうど、その時彼は、自分の町エリコにその方が来られたと聞いたのです。ザアカイは、一生涯の問題を解決する時が来たと思いました。それで、彼は急いでイエスさまに出会うために出かけました。</p>
-          <p>3節をみましょう。</p>
-          <p>
-            ここで、「イエスがどんな方か見ようとした。」とは、ただ見物のように一度見ようとしたとの意味ではありません。(未完了、不定過去型)もともとの意味は、見ようと続けて努力した、つまり、「見ようと必死になった」との意味です。
-          </p>
-          <p>ザアカイはイエスさまに会いたいと必死でした。しかし、見ることができなかったとあります。その理由を二つあげています。</p>
-          <p>
-            一つは「背が低かったので」、つまり、親の所為だと言っているのです。私たちは、人生の深刻な問題にあった時、よくぶつぶつつぶやくのです。背が低い、顔のせい、頭が悪いのは生れつきのものだ、家が貧しかったせいだ、家の環境があだ、こうだ、生まれ育ってくれたことに対する感謝より、生まれた環境のせいに自分の不幸を結びつけるのです。幸せになれないのは、すべて、親のせい、環境のせいにしてしまうのです。
+            幸せになりたい！──これは、人間誰もが求める願いです。
           </p>
           <p>
-            もう一つは、「群衆のため」とありますように、他人のせいにすることです。あの人がいるから自分がこうだ、あの人のせいで自分の人生が変わった、この世が悪い、社会が悪い、この世の制度が悪いんだと。不幸の原因、自分が幸せになれないのは、すべて、他の人が悪いからだとつぶやくのです。
+            そのために、人は知恵や知識を追い求め、お金を得ようとし、名誉や権力を得ようと努力します。
+            しかし、千辛万苦の末にそれらを手に入れたとしても、必ずしも本当の幸せにたどり着けるとは限りません。
           </p>
-          <p>私たちはどっちのタイプでしょうか。両方でしょうか。</p>
+
           <p>
-            しかし、幸せになれないのは、決して、親のせいでも、環境のせいでも、他の人のせいでもないのです。すべてが自分のせいなのです。これを悟っている人は、幸せになるのです。なぜなら、周りの人に感謝の心を持つことができ、ものごとを否定的ではなく肯定的に考えるようになるからです。
+            聖書には、そんな人間の追い求めるものと、真の幸せについて教えている箴言（しんげん）の言葉があります。
           </p>
-          <p>すべてのことを自分の所為にすることができる人は、その解決策を見つけることができるからです。</p>
-          <p>ザアカイは、このことを知っていたので、自分に来たチャンスを逃がすようなことはしませんでした。</p>
-          <p>4節を読んでみましょう。</p>
+
+          <h6 class="fw-bold text-info mt-4">箴言からの教え</h6>
+
+          <blockquote class="blockquote ps-3 border-start border-4 border-info bg-light mb-4">
+            <p class="mb-1">
+              一切れのかわいたパンがあって、平和であるのは、ごちそうと争いに満ちた家にまさる。
+            </p>
+            <footer class="blockquote-footer">箴言17:1</footer>
+          </blockquote>
+
+          <blockquote class="blockquote ps-3 border-start border-4 border-info bg-light mb-4">
+            <p class="mb-1">
+              野菜を食べて愛し合うのは、肥えた牛を食べて憎み合うのにまさる。
+            </p>
+            <footer class="blockquote-footer">箴言15:17</footer>
+          </blockquote>
+
+          <blockquote class="blockquote ps-3 border-start border-4 border-info bg-light mb-4">
+            <p class="mb-1">
+              争い好きな女と社交場にいるよりは、屋根の片隅に住むほうがよい。
+            </p>
+            <footer class="blockquote-footer">箴言25:24</footer>
+          </blockquote>
+
           <p>
-            ザアカイは、背が低かったため、群衆のため、イエスを見ることができなかった時、決して人のせいにするようなことはしないで自分の苦しみが解決される最善のチャンスを十分に生かしました。彼は、ずっと先の方に走って行き、道端にあったいちじく桑の木によじ登り、イエスさまを待っていたのです。
+            これらのことばは、持っているものではなく「心の喜びと平安」こそが真の幸せの源であることを教えています。
           </p>
           <p>
-            まことの幸せを求める人は、人のせいにしないし、また、人の目を気にしません。ザアカイは、まるで、子供のようになったのです。権力も、お金持ちであることも、名誉も、すべて捨てて、人が、何と言おうかなど、考えないで、ただ一つのことだけを考えていたのです。
+            どれほど財産や地位、名声があっても、心に平安がなければ、それは本当の幸せとは言えません。
           </p>
-          <p>私たちは、あまりにも人の目を気にする生活をしています。</p>
-          <p>他の人に意図的な迷惑をかけるようなことをしてはいけませんが、しかし、人の目のおりの中に入って、いつも、あの人が、この人が見ると、どのように思うかばかり気にする人は、幸せにはなれないのです。</p>
-          <p>誰にも必ずその人生の中に幸せになるチャンスが来ます。チャンスであると知りながらも人の目を気にしてそれをつかむことを諦める人は、幸せになることを諦めることになるのです。ザアカイは、そのチャンスを逃がさずつかみました。
-          </p>
-          <p>チャンスをつかんだザアカイに幸せの声が与えられました。</p>
-          <p>5節を見ましょう。</p>
-          <p>「ザアカイ。急いで降りて来なさい。きょうは、あなたの家に泊まることにしてあるから」</p>
+
+
+          <h5 class="fw-bold mt-5">ザアカイという人と、幸せの源との出会い</h5>
+
           <p>
-            このイエスさまのおことばは、幸せを与えてくださるための招きのおことばです。イエスさまがエリコに来られたのは、ザアカイの家に泊まるために、つまりザアカイに幸せを与えるためだと言っておられます。大勢の人々、群衆の中でたった一人、ザアカイのために来られたと、言っておられるのです。
+            けさ、私は皆さんに、<strong>心の喜びと平安</strong>を得て「最高の幸せな人」になった<strong>ザアカイ</strong>という人物を紹介します。
           </p>
           <p>
-            ザアカイがイエスさまを呼んだのではありません。イエスさまが、神さまが、彼を知って彼のところに来られたし、彼の名前を知って先に呼んでくださったのです。私たち一人一人の名前を知っておられ、その名前を呼び、語りかけて下さるのが幸せの神さま、イエスさまです。
+            そして、彼に真の幸せを与えてくださったお方──<strong class="text-primary">主イエス・キリスト</strong>についてご紹介します。
           </p>
           <p>
-            6節を見ますと、ザアカイは急いで降りて来て、そして、大喜びでイエスを迎えたとあります。イエスさまを迎えるのは、躊躇すること、ためらうことではありません。イエスさまの招きがある時には、名前が呼ばれた時には、すぐ急いで受け入れなければなりません。「きょう、泊まる」とありますようにそれは「いま」しなければならないことです。最高の幸せ、心の喜びと平安を得ること、それはイエスさまの招きがある時、すぐ応じることです。
+            この学びを通して、皆さんがザアカイのように<strong>最高の幸せ</strong>を自分のものとし、これからの人生が<strong>喜びと平安と感謝</strong>に満ちた歩みとなることを願います。
           </p>
-          <p>しかし、7節を見ますと、</p>
-          <p>これをみて、みなは、「あの方は罪人のところに行って客となられた。」と言ってつぶやいた。とあります。</p>
+
+          <hr class="my-4">
+
           <p>
-            イエスさまを信じ迎え入れることは、この世の人々、信者ではない人々には、あまり良く見られることではありません。簡単に認められるものでもありません。イエスさまを受け入れるためには、非難される事さえ覚悟しなければならないのです。
+            それでは、本文1節をご覧ください。
           </p>
-          <p>8節を見ましょう。</p>
-          <p>ザアカイは「罪人」でした。彼は、いまイエスさまを迎え入れ、イエスさまを主と呼び、誓約しています。</p>
-          <p>私の財産の半分を貧しい人たちに施します。</p>
-          <p>また、だれからでも、私がだまし取った物は、四倍にして返します。</p>
-          <p>「四倍にして返します」と言っているのは、当時の法律、律法によると、盗んだ物を返す時には4倍、5倍にして返すように定められていたからです。（出エジプト22:1、IIサムエル12:6）</p>
           <p>
-            ザアカイがこのように誓っていたのは、罪に対する悔い改めを意味します。彼の心が変わったのです。本当の悔い改めは、神の恵みを受けた者がする自発的行為です。人間そのものが変わることです。イエスを迎え入れることは、その人が別人に生まれ変わることです。
+            ここを見ますと、「<strong
+              class="text-primary">イエス</strong>」という方の名前があります。この方こそ、私たち人間に<strong>まことの幸せ</strong>、<strong>最高の幸せ</strong>を与えることができるお方です。
           </p>
-          <p>イエスさまを受け入れ、最高の幸せを持つ秘訣は、罪を悔い改めることです。そうすると、イエスさまからの救いの宣言、最高の幸せが与えられるのです。</p>
-          <p>9節を見ましょう。</p>
-          <p>「きょう、救いがこの家に来ました。」このイエスさまのおことばは、罪人に最高の幸せを与えられることばです。</p>
           <p>
-            罪人：ザアカイのように人間は、最高の幸せのもとである神さまを離れ、物質と名誉、権力を求め、一生を走り回っているのです。すべての苦しみの原因、それは、神ばなれから始まったのです。すべての人は罪人だと聖書は教えているのです。心が罪によって暗くなっているので苦しむのです。心を明るくするためには、心をきれいにして、幸せのもとである神さまのもとに戻る方法しかありません。心をきよくする方法、義人になる方法、神さまの御前に戻る方法それは、ザアカイのように悔い改め、イエスさまを主と告白し、迎え入れることです（ロ-マ10:9-10）。
+            皆さんは、この時間、この<strong>イエスさま</strong>に出会うことになります。
           </p>
-          <p>ザアカイは、イエスさまを主と告白し、信じて義と認められたのです。彼の名前の意味通り、罪が赦され、ザアカイはきよい人になり、義人になったのです。これを、救われた、つまり、最高の幸せな人になったと言います。</p>
-          <p>本文10節を見ましょう。</p>
-          <p>人の子、イエスさまが来られたのは、この最高の幸せを失った人々を捜して救うため、最高の幸せを与えられるためなのです。</p>
-          <p>皆さんは、いま、皆さんの前に来ておられるイエスさまを迎え入れたのでしょうか。いま、皆さんの名前を呼び求めておられる主イエスの御声に、耳を傾け聞いていたのでしょうか。</p>
-          <p>自分の家のことで、他の人の目を気にして、いま皆さんに与えられているチャンスを逃がしてはなりません。</p>
+
           <p>
-            ザアカイのように、イエスさまを迎え入れてください。大喜びの中で、迎え入れてください。「きょう、救いがこの家に来ました。」と主イエスに言われる最高幸せを皆さんのものにしてください。明日でもあさってでもありません。きょう、いまです。何より大事なのは、自分の幸せ、永遠のいのちだからです。
+            本文1節には、<strong>イエスさまがエリコという町を通り過ぎる</strong>ところだったと書かれています。
           </p>
-          <p>いま、全知全能の神さまは、皆さんが最高の幸せの中で、主と共に永遠に生きることを望んでおられるのです。</p>
-          <p>願わくは、ザアカイの救いの祝福「きょう、救いがこの家に来ました」のイエスさまの祝福のおことばが、皆さんと共にありますように！</p>
+          <p>
+            エリコという町は、今から約2000年前、ローマ帝国支配下にあって、とても重要な町でした。香料の産地として知られ、多くの税金が集まる町でもありました。
+          </p>
+          <p>
+            その<strong>エリコの税務署の署長</strong>であったのが、皆さんに紹介しようとしている<strong>ザアカイ</strong>です。
+          </p>
+
+          <p>
+            本文2節をご覧ください。
+          </p>
+          <p>
+            ザアカイという名前は、「<strong>きよい人</strong>」「<strong>義人</strong>」という意味を持ちます。
+            しかし、彼はその名前の通りの人物ではありませんでした。<strong>イエスさまに出会う前</strong>の彼は、きよい人でも、義人でもなかったのです。
+          </p>
+
+          <h5 class="fw-bold mt-5">ザアカイの職業と人々の目</h5>
+
+          <p>
+            本文2節にあるように、ザアカイは<strong>取税人のかしら</strong>──すなわち<strong>税務署長</strong>でした。
+          </p>
+          <p>
+            今でも大きな事業をしている人が最も恐れる存在のひとつが税務署ですが、当時の取税人たちは<strong>強大な権力</strong>を持っていました。
+          </p>
+          <p>
+            彼らはローマ政府の委託を受けて税金を徴収していましたが、<strong>徴収額を自分の裁量で増やし、不正に利益を得る</strong>ことも許されていたのです。
+          </p>
+
+          <p>
+            一定の額をローマに納めさえすれば、<strong>残りはいくらでも自分の懐に入れることができる</strong>──そうした仕組みが、不正や搾取の温床となっていました。
+          </p>
+          <p>
+            ザアカイもその例に漏れず、<strong>お金と権力を手にした人</strong>でした。
+          </p>
+
+          <p>
+            しかし、人々から見れば彼は<strong class="text-danger">「罪人」「強欲な取税人」</strong>として忌み嫌われる存在でした。
+          </p>
+          <p>
+            「ザアカイ」という名には<strong>「きよい人」</strong>という意味がありますが、彼の生き方はその名とはまるで反対だったのです。
+          </p>
+
+          <hr class="my-4">
+
+          <p>
+            親が彼に「ザアカイ」という名前を付けたのは、<strong>「きよく正しく生きてほしい」</strong>という願いがあったからでしょう。
+          </p>
+          <p>
+            私たちも、自分の名前に込められた親の願いにふさわしく生きているでしょうか。
+          </p>
+          <p>
+            ザアカイのように、その名とは正反対の人生を歩んでしまってはいないでしょうか。
+          </p>
+
+          <p>
+            彼は<strong>お金も地位も手にしていた</strong>かもしれませんが、<strong>心の中には平安も喜びもなく</strong>、空虚さと苦しみに満ちていました。
+          </p>
+
+          <h5 class="fw-bold mt-5">ザアカイがイエスに会いたいと願った理由</h5>
+
+          <p>
+            ザアカイは、<strong>多くの財産と権力</strong>を持ちながらも、<strong class="text-danger">心の中は空っぽ</strong>で、満たされていませんでした。
+          </p>
+          <p>
+            周囲の人々からは<strong>罪人</strong>とされ、社会的には成功していたものの、内面には喜びも平安もなく、<strong>孤独と虚しさ</strong>に苦しんでいたのです。
+          </p>
+
+          <hr class="my-4">
+
+          <p>
+            そんな時、彼の耳に<strong class="text-primary">イエスという方の噂</strong>が届きます。
+          </p>
+          <p>
+            「あのイエスという方は、<strong>出会った人を幸せにしてくださる</strong>らしい。」
+          </p>
+          <p>
+            <strong>悪霊に取り憑かれていた人</strong>は解放され、<strong>病に苦しむ人</strong>は癒され、<strong>目の見えない人</strong>は見えるようになる──。
+          </p>
+          <p>
+            どんな苦しみも、イエスに出会えば取り除かれ、<strong>本当の幸せ</strong>が与えられるというのです。
+          </p>
+
+          <p>
+            ザアカイは、その噂を信じ、<strong>この心の苦しみをどうにかしたい</strong>と、イエスに会うことを切に願うようになります。
+          </p>
+
+          <p>
+            そしてちょうどその時、自分の町エリコに<strong>イエスが来られた</strong>という知らせを聞いたのです。
+          </p>
+
+          <p>
+            ザアカイは心の中でこう思いました──
+          </p>
+          <blockquote class="blockquote ps-3 border-start border-4 border-warning bg-light mb-4">
+            <p class="mb-0">
+              「今こそ、自分の人生を変えるチャンスだ。<strong>この方に会えば、すべてが変わる</strong>かもしれない。」
+            </p>
+          </blockquote>
+
+          <p>
+            彼はすぐにその場を立ち、<strong>イエスさまに出会うために急いで出かけた</strong>のです。
+          </p>
+
+
+
+
+          <h5 class="fw-bold mt-5">ザアカイがイエスを見られなかった理由と私たちへの教訓</h5>
+
+          <p>
+            本文3節をご覧ください。
+          </p>
+          <p>
+            「<strong>イエスがどんな方か見ようとした</strong>」とありますが、これは単なる興味ではなく、
+            <strong class="text-primary">必死に、継続的に見ようとしていた</strong>という意味の原語が使われています。
+          </p>
+          <p>
+            ザアカイは、なんとしてもイエスさまに会いたいと願っていたのです。
+          </p>
+
+          <hr class="my-4">
+
+          <p>
+            しかし彼は、<strong>見ることができなかった</strong>──その理由が、<strong>2つ</strong>聖書には書かれています。
+          </p>
+
+          <ul class="mb-4">
+            <li><strong>「背が低かった」</strong>──これは親のせい、生まれつきの体格。</li>
+            <li><strong>「群衆のため」</strong>──これは他人のせい、周囲の状況。</li>
+          </ul>
+
+          <p>
+            私たちも、人生でうまくいかないとき、「<strong>親のせい</strong>」「<strong>環境のせい</strong>」「<strong>社会のせい</strong>」と、
+            誰かや何かのせいにしてしまいがちではないでしょうか。
+          </p>
+          <p>
+            「家が貧しかった」「勉強ができなかった」「あの人が邪魔をした」──それらの言葉は、すべて<strong class="text-danger">責任転嫁</strong>です。
+          </p>
+
+          <blockquote class="blockquote ps-3 border-start border-4 border-danger bg-light mb-4">
+            <p class="mb-0">
+              幸せになれないのは、親のせいでも、他人のせいでもない。<strong>すべては自分の心の持ちよう次第</strong>なのです。
+            </p>
+          </blockquote>
+
+          <p>
+            そのことを悟る人こそ、<strong class="text-success">周囲に感謝し、物事を肯定的に捉える</strong>力を持つようになります。
+          </p>
+          <p>
+            自分の人生の責任を自分で受け止めた人には、<strong>神さまが働かれる余地</strong>が生まれるのです。
+          </p>
+
+
+          <h5 class="fw-bold mt-5">ザアカイの決断と信仰の姿勢</h5>
+
+          <p>
+            ザアカイは、<strong>背が低かった</strong>ことと、<strong>群衆が邪魔だった</strong>ことで、イエスさまを見ることができませんでした。
+          </p>
+          <p>
+            しかし彼は、<strong>誰のせいにもせず、自分にできる最善の方法</strong>を選びました。
+          </p>
+
+          <hr class="my-4">
+
+          <p>
+            本文4節をご覧ください。
+          </p>
+          <p>
+            ザアカイは、<strong>前方に走り出て</strong>、<strong>道端のいちじく桑の木に登った</strong>のです。
+          </p>
+          <p>
+            当時のユダヤ社会において、<strong>金持ちの大人が木に登る</strong>などというのは、大変恥ずかしい行為でした。
+          </p>
+
+          <blockquote class="blockquote ps-3 border-start border-4 border-success bg-light mb-4">
+            <p class="mb-0">
+              それでもザアカイは、人の目を気にせず、<strong>ただイエスさまに会いたい一心</strong>で行動したのです。
+            </p>
+          </blockquote>
+
+          <p>
+            ここに、<strong class="text-primary">本物の信仰の姿勢</strong>があります。
+          </p>
+          <p>
+            地位も財産も捨てて、子どものように素直に、求めて行動したのです。
+          </p>
+
+          <hr class="my-4">
+
+          <p>
+            私たちは、どうでしょうか？
+          </p>
+          <p>
+            他人の目を気にしすぎて、<strong>大切なチャンスを逃してしまってはいないでしょうか。</strong>
+          </p>
+          <p>
+            幸せになるチャンスは、誰にでも必ず与えられます。
+            しかし、それを逃さずに受け取れる人は、<strong>人の評価よりも神の導きを重んじる人</strong>なのです。
+          </p>
+
+          <p>
+            ザアカイは、自分の人生を変えるその<strong>「時」</strong>を見逃しませんでした。
+          </p>
+
+
+          <h5 class="fw-bold mt-5">イエスの招きとザアカイの応答</h5>
+
+          <p>
+            本文5節をご覧ください。
+          </p>
+          <p>
+            イエスさまは、ザアカイのいる場所に来られたとき、<strong>木の上を見上げてこう言われました</strong>。
+          </p>
+
+          <blockquote class="blockquote ps-3 border-start border-4 border-primary bg-light mb-4">
+            <p class="mb-0">
+              「ザアカイ。急いで降りて来なさい。きょうは、あなたの家に泊まることにしてあるから。」
+            </p>
+          </blockquote>
+
+          <p>
+            これは、<strong class="text-primary">まことの幸せへと招くことば</strong>です。
+          </p>
+          <p>
+            ザアカイはイエスさまを探していたようで、実は<strong>イエスさまがザアカイを先に見つけ、名を呼んでくださった</strong>のです。
+          </p>
+          <p>
+            私たち一人ひとりのことも、<strong>神さまはすでにご存知</strong>です。そして、<strong>名前を呼び、声をかけ、招いてくださる</strong>のです。
+          </p>
+
+          <hr class="my-4">
+
+          <p>
+            本文6節をご覧ください。
+          </p>
+          <p>
+            ザアカイは、<strong>急いで降りて来て、大喜びでイエスを迎え入れた</strong>とあります。
+          </p>
+
+          <blockquote class="blockquote ps-3 border-start border-4 border-success bg-light mb-4">
+            <p class="mb-0">
+              イエスさまを迎える信仰──それは<strong>ためらわず、すぐに応じ、大喜びで受け入れる姿勢</strong>です。
+            </p>
+          </blockquote>
+
+          <p>
+            「きょう、泊まる」とイエスさまが言われたように、<strong>救いの招きには「今」応答することが求められています</strong>。
+          </p>
+          <p>
+            チャンスは「今日」です。<strong>明日でも、あさってでもなく、「今」</strong>、神の招きに応じることが、最高の幸せにつながるのです。
+          </p>
+
+          <h5 class="fw-bold mt-5">非難の声の中でも、信仰を貫いたザアカイ</h5>
+
+          <p>
+            本文7節をご覧ください。
+          </p>
+          <p>
+            ザアカイがイエスさまを迎えたのを見て、周囲の人々は<strong class="text-danger">つぶやきました</strong>。
+          </p>
+
+          <blockquote class="blockquote ps-3 border-start border-4 border-danger bg-light mb-4">
+            <p class="mb-0">
+              「あの方は罪人のところに行って、客となられた。」
+            </p>
+          </blockquote>
+
+          <p>
+            これは、<strong>イエスさまを信じ受け入れる信仰</strong>に対して、<strong>世間の批判</strong>があるという現実を示しています。
+          </p>
+          <p>
+            本当にイエスさまを信じるというのは、<strong>非難される覚悟</strong>を伴うものでもあるのです。
+          </p>
+
+          <hr class="my-4">
+
+          <h5 class="fw-bold mt-4">ザアカイの悔い改めと決断</h5>
+
+          <p>
+            本文8節をご覧ください。
+          </p>
+          <p>
+            ザアカイは<strong>主の前に立ち、自らの意思で誓いました</strong>。
+          </p>
+
+          <blockquote class="blockquote ps-3 border-start border-4 border-success bg-light mb-4">
+            <p class="mb-1">
+              「主よ。ご覧ください。私の財産の半分を貧しい人たちに施します。
+              また、だれからでも、私がだまし取った物は、四倍にして返します。」
+            </p>
+          </blockquote>
+
+          <p>
+            「四倍にして返す」というのは、<strong>旧約聖書の律法</strong>（出エジプト22:1、IIサムエル12:6）に基づいた<strong>誠実な悔い改めのしるし</strong>です。
+          </p>
+          <p>
+            本当の悔い改めとは、<strong>後悔の感情ではなく、行動によって示されるもの</strong>です。
+          </p>
+          <p>
+            神の恵みによって心が変えられた人は、<strong>自発的に新しい生き方を選ぶ</strong>のです。
+          </p>
+
+          <blockquote class="blockquote ps-3 border-start border-4 border-warning bg-light mb-4">
+            <p class="mb-0">
+              ザアカイは、罪を悔い改め、イエスさまを主と告白し、新しい人生へと踏み出したのです。
+            </p>
+          </blockquote>
+
+
+          <h5 class="fw-bold mt-5">救いの宣言：「きょう、救いがこの家に来ました」</h5>
+
+          <p>
+            本文9節をご覧ください。
+          </p>
+          <p>
+            イエスさまは、ザアカイに向かって<strong class="text-success">明確に宣言</strong>されました。
+          </p>
+
+          <blockquote class="blockquote ps-3 border-start border-4 border-primary bg-light mb-4">
+            <p class="mb-0">
+              「きょう、救いがこの家に来ました。この人もアブラハムの子なのですから。」
+            </p>
+          </blockquote>
+
+          <p>
+            「きょう」とは、<strong>まさにその瞬間</strong>を意味します。<br>
+            <strong>イエスさまを迎え入れたそのとき</strong>に、救いと最高の幸せが与えられたのです。
+          </p>
+
+          <p>
+            そして「アブラハムの子」という表現は、<strong>信仰によって神の民とされた</strong>ことを意味しています（参照：ローマ4章）。
+          </p>
+
+          <hr class="my-4">
+
+          <h5 class="fw-bold mt-4">イエスさまが来られた目的</h5>
+
+          <p>
+            最後の10節をご覧ください。
+          </p>
+
+          <blockquote class="blockquote ps-3 border-start border-4 border-secondary bg-light mb-4">
+            <p class="mb-0">
+              「人の子は、失われた人を捜して救うために来たのです。」
+            </p>
+          </blockquote>
+
+          <p>
+            このことばは、<strong class="text-primary">イエスさまの宣教の本質</strong>、そして神の救いのご計画を端的に表しています。
+          </p>
+          <p>
+            ザアカイのように、神から離れて迷い、罪の中にいた人が、<strong>神のもとに立ち返る</strong>──それこそが、イエスさまが地上に来られた理由です。
+          </p>
+
+          <hr class="my-4">
+
+          <h5 class="fw-bold mt-4">あなたへの招き：「きょう、救いがあなたに」</h5>
+
+          <p>
+            このザアカイの物語は、2000年前の話ではなく、<strong>今を生きる私たちへの招き</strong>でもあります。
+          </p>
+          <p>
+            今、イエスさまは、<strong>あなたの名前を呼び、心に語りかけておられます</strong>。
+          </p>
+
+          <blockquote class="blockquote ps-3 border-start border-4 border-info bg-light mb-4">
+            <p class="mb-0">
+              「きょう、救いがこの家に来ました。」
+            </p>
+          </blockquote>
+
+          <p>
+            このことばが、<strong>あなたの家に、あなたの心に、今語られている</strong>ことを信じてください。
+          </p>
+          <p>
+            幸せは、地位やお金や努力によって得られるのではありません。<br>
+            <strong class="text-success">神さまのもとに立ち返り、イエスさまを迎え入れること</strong>──それが、最高の幸せなのです。
+          </p>
+
+          <p class="mt-4">
+            願わくは、このザアカイに語られた<strong>イエスさまの祝福のことば</strong>が、あなたにも実現しますように。
+          </p>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
         </div>
       </div>
     </div>
-
+  </div>
 
 </body>
 
