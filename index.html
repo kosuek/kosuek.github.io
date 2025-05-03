@@ -334,8 +334,7 @@
           src="https://lh3.googleusercontent.com/pw/AP1GczPbE8CQ3S4FKCm8dRc4LqeghcUNi8Cr3WalgoTDMaly_3pvM0yyA6qtbDNHOFIbsse1RX3yTQq3-Kn49nsOTuERCUHCEr6Sq8-NRuFrC7u54VSCKCcO=w2400"
           class="img-fluid" alt="教会の外観">
       </div>
-      <div class="col-md-12">
-        <!-- 横並びボタン：モーダルを開く -->
+      <!--<div class="col-md-12">
         <div class="d-flex justify-content-center gap-3 my-4 flex-wrap">
           <button type="button" class="btn btn-secondary text-white" data-bs-toggle="modal" data-bs-target="#">
             new page<br>coming soon!
@@ -347,8 +346,8 @@
             new page<br>coming soon!
           </button>
         </div>
-
-      </div>
+      -->
+    </div>
   </section>
 
   <!-- 集会案内セクション -->
@@ -408,8 +407,9 @@
               <button type="button" class="btn bg-hhc-green" data-bs-toggle="modal" data-bs-target="#haiiieModal">
                 礼拝説教「『はい』は『はい』、『いいえ』は『いいえ』」を読む
               </button>
-              <button type="button" class="btn btn-secondary text-white" data-bs-toggle="modal" data-bs-target="#">
-                new page<br>coming soon!
+              <button type="button" class="btn bg-hhc-green" data-bs-toggle="modal"
+                data-bs-target="#watashiwotooshiteModal">
+                礼拝説教「わたしを通してでなければ」を読む
               </button>
             </div>
           </div>
@@ -419,33 +419,45 @@
 
   </section>
 
-  <!-- アクセスセクション -->
-  <section id="access" class="container my-5">
-    <h2 class="text-center mb-4 section-title">アクセス</h2>
-    <div class="row">
-      <div class="col-md-6">
-        <h3>住所</h3>
-        <p>〒319-1225<br>茨城県日立市石名坂町2-51-15</p>
-
-        <h3>最寄り駅</h3>
-        <p>JR大甕(おおみか)駅から車で10分</p>
-        <h3>最寄り高速道路IC</h3>
-        <p>常磐自動車道日立南太田ICから車で7分</p>
-
-        <h3>連絡先</h3>
-        <p>電話番号: 0294-32-7773</p>
+<!-- アクセスセクション -->
+<section id="access" class="container my-5">
+  <h2 class="text-center mb-4 section-title">アクセス</h2>
+  <div class="row g-4">
+    <div class="col-md-6">
+      <div class="mb-4">
+        <h5 class="fw-bold"><i class="bi bi-geo-alt-fill me-2"></i>住所</h5>
+        <p class="mb-1">〒319-1225</p>
+        <p>茨城県日立市石名坂町2-51-15</p>
       </div>
-      <div class="col-md-6">
-        <!-- Google Map埋め込み -->
-        <div class="ratio ratio-16x9">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.305284027849!2d140.5892873758254!3d36.51459037232997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x602229f6c77214bb%3A0xfc2db517d5898c3c!2z44Gy44Gf44Gh5YWJ5pWZ5Lya!5e1!3m2!1sja!2sjp!4v1745846219887!5m2!1sja!2sjp"
-            width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
+
+      <div class="mb-4">
+        <h5 class="fw-bold"><i class="bi bi-train-front-fill me-2"></i>最寄り駅</h5>
+        <p>JR大甕（おおみか）駅から車で約10分</p>
+      </div>
+
+      <div class="mb-4">
+        <h5 class="fw-bold"><i class="bi bi-signpost-2-fill me-2"></i>高速道路IC</h5>
+        <p>常磐自動車道 日立南太田ICから車で約7分</p>
+      </div>
+
+      <div class="mb-4">
+        <h5 class="fw-bold"><i class="bi bi-telephone-fill me-2"></i>連絡先</h5>
+        <p>電話番号：<a href="tel:0294-32-7773" class="text-decoration-none">0294-32-7773</a></p>
       </div>
     </div>
-  </section>
+
+    <div class="col-md-6">
+      <!-- Google Map埋め込み -->
+      <div class="ratio ratio-16x9 rounded shadow-sm">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.305284027849!2d140.5892873758254!3d36.51459037232997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x602229f6c77214bb%3A0xfc2db517d5898c3c!2z44Gy44Gf44Gh5YWJ5pWZ5Lya!5e1!3m2!1sja!2sjp!4v1745846219887!5m2!1sja!2sjp"
+          width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
 
   <!-- フッターセクション -->
   <footer class="bg-dark text-white py-4">
@@ -600,16 +612,23 @@
       });
   </script>
 
-<div id="haiiieModalContainer"></div>
-<script>
-  fetch("haiiieModal.html")
-    .then(response => response.text())
-    .then(data => {
-      document.getElementById("haiiieModalContainer").innerHTML = data;
-    });
-</script>
+  <div id="haiiieModalContainer"></div>
+  <script>
+    fetch("haiiieModal.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("haiiieModalContainer").innerHTML = data;
+      });
+  </script>
 
-
+  <div id="watashiwotooshiteModalContainer"></div>
+  <script>
+    fetch("watashiwotooshiteModal.html")
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById("watashiwotooshiteModalContainer").innerHTML = data;
+      });
+  </script>
 
 </body>
 
