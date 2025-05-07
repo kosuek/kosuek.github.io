@@ -61,11 +61,8 @@
   <div class="container py-4">
     <h1 class="text-center mb-4">聖歌検索</h1>
     <label for="hymnSelect" class="form-label">聖歌番号を入力または選択</label>
-    <input list="hymnList" id="hymnSelect" class="form-control mb-3" placeholder="例: 123">
+    <input list="hymnList" id="hymnSelect" class="form-control mb-3" placeholder="例: 123" onchange="searchLyrics()">
     <datalist id="hymnList"></datalist>
-    <div class="text-center mb-3">
-      <button class="btn btn-primary" onclick="searchLyrics()">表示</button>
-    </div>
   </div>
 
   <div class="swiper mySwiper">
@@ -98,7 +95,10 @@
         console.log("読み込んだデータ:", allLyrics);
 
         const datalist = document.getElementById('hymnList');
-        const numbers = [...new Set(allLyrics.map(row => row.number))].sort();
+        const numbers = [...new Set(allLyrics.map(row => row.number))]
+          .map(n => parseInt(n))
+          .filter(n => !isNaN(n))
+          .sort((a, b) => a - b);
         numbers.forEach(num => {
           const option = document.createElement('option');
           option.value = num;
