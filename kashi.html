@@ -12,33 +12,41 @@
   <style>
     body {
       font-family: 'Noto Sans JP', sans-serif;
-      background: #f6f5f2;
+      background: linear-gradient(to bottom, #f9fafb, #e9ecef);
       color: #333;
     }
 
     #hymnSelect {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       font-weight: bold;
       text-align: center;
       padding: 0.5rem 1rem;
+      border: 2px solid #ccc;
+      border-radius: 0.5rem;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
     }
 
     .lyric-text {
-      line-height: 1.6;
+      font-size: 2rem;
+      font-weight: 600;
+      color: #222;
+      line-height: 1.8;
     }
 
     .meaning-text {
-      line-height: 1.6;
       font-size: 1.6rem;
+      color: #555;
+      line-height: 1.8;
+      margin-top: 1rem;
     }
 
     @media (max-width: 576px) {
       .lyric-text {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
       }
 
       .meaning-text {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
       }
     }
 
@@ -51,7 +59,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 1rem;
+      padding: 2rem;
       text-align: center;
     }
   </style>
@@ -60,8 +68,7 @@
 <body>
   <div class="container py-4">
     <h1 class="text-center mb-4">聖歌検索</h1>
-    <label for="hymnSelect" class="form-label">聖歌番号を入力または選択</label>
-    <input list="hymnList" id="hymnSelect" class="form-control mb-3" placeholder="例: 123" onchange="searchLyrics()">
+    <input list="hymnList" id="hymnSelect" class="form-control mb-4" placeholder="聖歌番号を入力または選択" onchange="searchLyrics()">
     <datalist id="hymnList"></datalist>
   </div>
 
@@ -84,15 +91,13 @@
       .then(res => res.text())
       .then(csvText => {
         const parsed = Papa.parse(csvText, { header: false });
-        const rows = parsed.data.slice(1); // skip header row
+        const rows = parsed.data.slice(1);
         allLyrics = rows.map(cols => ({
           number: cols[1]?.trim(),
           verse: cols[2],
           text: cols[3],
           meaning: cols[5]
         }));
-
-        console.log("読み込んだデータ:", allLyrics);
 
         const datalist = document.getElementById('hymnList');
         const numbers = [...new Set(allLyrics.map(row => row.number))]
@@ -116,10 +121,7 @@
 
     function searchLyrics() {
       const number = document.getElementById('hymnSelect').value.trim();
-      console.log("選択された番号:", number);
-
       const results = allLyrics.filter(entry => entry.number === number);
-      console.log("一致したエントリ:", results);
 
       const wrapper = document.getElementById('lyricsSlides');
       wrapper.innerHTML = '';
@@ -136,8 +138,8 @@
         slide.innerHTML = `
           <div class="text-center px-3">
             <h6 class="text-secondary mb-2">第 ${verse} 節</h6>
-            <p class="display-5 fw-bold lyric-text mb-4">${spaceAndLineBreakToBr(text)}</p>
-            <p class="fs-4 text-muted meaning-text">${spaceAndLineBreakToBr(meaning)}</p>
+            <p class="lyric-text">${spaceAndLineBreakToBr(text)}</p>
+            <p class="meaning-text">${spaceAndLineBreakToBr(meaning)}</p>
           </div>
         `;
         wrapper.appendChild(slide);
