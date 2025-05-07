@@ -82,17 +82,17 @@
     }
 
     fetch(SHEET_CSV_URL)
-      .then(res => res.arrayBuffer())
-      .then(buffer => {
-        const csv = new TextDecoder("utf-8").decode(buffer);
+      .then(res => res.blob())
+      .then(blob => blob.text())
+      .then(csv => {
         const rows = csv.trim().split('\n').slice(1);
         allLyrics = rows.map(row => {
-          const [date, number, verse, text, _, meaning] = row.split(',');
+          const cols = row.split(',');
           return {
-            number: number.trim(),
-            verse,
-            text,
-            meaning
+            number: cols[1]?.trim(),
+            verse: cols[2],
+            text: cols[3],
+            meaning: cols[5]
           };
         });
 
