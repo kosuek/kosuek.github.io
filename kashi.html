@@ -82,8 +82,9 @@
     }
 
     fetch(SHEET_CSV_URL)
-      .then(res => res.text())
-      .then(csv => {
+      .then(res => res.arrayBuffer())
+      .then(buffer => {
+        const csv = new TextDecoder("utf-8").decode(buffer);
         const rows = csv.trim().split('\n').slice(1);
         allLyrics = rows.map(row => {
           const [date, number, verse, text, _, meaning] = row.split(',');
@@ -95,6 +96,8 @@
           };
         });
 
+        console.log("読み込んだデータ:", allLyrics);
+
         const datalist = document.getElementById('hymnList');
         const numbers = [...new Set(allLyrics.map(row => row.number))].sort();
         numbers.forEach(num => {
@@ -102,6 +105,8 @@
           option.value = num;
           datalist.appendChild(option);
         });
+
+        console.log("抽出された番号一覧:", numbers);
       });
 
     const swiper = new Swiper(".mySwiper", {
@@ -114,7 +119,11 @@
 
     function searchLyrics() {
       const number = document.getElementById('hymnSelect').value.trim();
+      console.log("選択された番号:", number);
+
       const results = allLyrics.filter(entry => entry.number === number);
+      console.log("一致したエントリ:", results);
+
       const wrapper = document.getElementById('lyricsSlides');
       wrapper.innerHTML = '';
 
