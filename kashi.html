@@ -1,7 +1,4 @@
-<!DOCTYPE html>
-<html lang="ja">
-
-<head>
+<!DOCTYPE html><html lang="ja"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>聖歌アプリ</title>
@@ -9,9 +6,7 @@
   <meta property="og:description" content="聖歌番号を選んで、歌詞と意味を表示できます。">
   <meta property="og:image" content="https://hitachihikari.net/images/hymn-og-image.png">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://hitachihikari.net/kashi.html">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <meta property="og:url" content="https://hitachihikari.net/kashi.html">  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
@@ -24,103 +19,94 @@
       background: linear-gradient(to bottom, #fefefe, #eef3f5);
       color: #333;
       transition: background 0.5s ease-in-out;
-    }
+    }h1 {
+  font-weight: 700;
+}
 
-    h1 {
-      font-weight: 700;
-    }
+#hymnSelect {
+  font-size: 1.6rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 1rem;
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.1);
+}
 
-    #hymnSelect {
-      font-size: 1.6rem;
-      font-weight: bold;
-      text-align: center;
-      padding: 1rem;
-      border: none;
-      border-radius: 1rem;
-      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.1);
-    }
+.input-wrapper {
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
 
-    .input-wrapper {
-      background: #fff;
-      border-radius: 1rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      padding: 2rem;
-      margin-bottom: 2rem;
-    }
+.lyric-text {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #222;
+  line-height: 1.8;
+  opacity: 0;
+  animation: fadeInUp 0.6s ease forwards;
+}
 
-    .lyric-text {
-      font-size: 2rem;
-      font-weight: 600;
-      color: #222;
-      line-height: 1.8;
-      opacity: 0;
-      animation: fadeInUp 0.6s ease forwards;
-    }
+.meaning-text {
+  font-size: 1.4rem;
+  color: #2f6f64;
+  line-height: 1.8;
+  margin-top: 2rem;
+  border-top: 1px dashed #a0c8c0;
+  padding-top: 1rem;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease forwards;
+}
 
-    .meaning-text {
-      font-size: 1.4rem;
-      color: #2f6f64;
-      line-height: 1.8;
-      margin-top: 2rem;
-      border-top: 1px dashed #a0c8c0;
-      padding-top: 1rem;
-      opacity: 0;
-      animation: fadeInUp 0.8s ease forwards;
-    }
+@media (max-width: 576px) {
+  .lyric-text {
+    font-size: 1.6rem;
+  }
 
-    @media (max-width: 576px) {
-      .lyric-text {
-        font-size: 1.6rem;
-      }
+  .meaning-text {
+    font-size: 1.3rem;
+  }
+}
 
-      .meaning-text {
-        font-size: 1.3rem;
-      }
-    }
+.swiper {
+  height: 100vh;
+}
 
-    .swiper {
-      height: 100vh;
-    }
+.swiper-slide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+}
 
-    .swiper-slide {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 2rem;
-      text-align: center;
-    }
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-    @keyframes fadeInUp {
-      0% {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
   </style>
-</head>
-
-<body>
+</head><body>
   <div class="container py-4">
     <h1 class="text-center mb-4">聖歌検索</h1>
     <div class="input-wrapper">
       <input list="hymnList" id="hymnSelect" class="form-control" placeholder="聖歌番号を入力または選択" onchange="searchLyrics()">
       <datalist id="hymnList"></datalist>
     </div>
-  </div>
-
-  <div class="swiper mySwiper">
+  </div>  <div class="swiper mySwiper">
     <div class="swiper-wrapper" id="lyricsSlides"></div>
     <div class="swiper-pagination"></div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-  <script>
+  </div>  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>  <script>
     const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRGJMtcBrjSnLZZGMFKB0wPzh4v_hHF8nmIdpTzZtLcpx0LKM_VAruhWF9diTGVZ4kXewlbN_sIhcOC/pub?output=csv';
     let allLyrics = [];
 
@@ -170,6 +156,7 @@
       if (!results.length) {
         wrapper.innerHTML = `<div class='swiper-slide'><p>聖歌番号 ${number} は見つかりませんでした。</p></div>`;
         swiper.update();
+        swiper.slideTo(0); // スライド位置リセット
         return;
       }
 
@@ -186,8 +173,6 @@
         wrapper.appendChild(slide);
       });
       swiper.update();
+      swiper.slideTo(0); // 最初の節に戻す
     }
-  </script>
-</body>
-
-</html>
+  </script></body></html>
