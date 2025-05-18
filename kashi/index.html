@@ -18,6 +18,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
 
   <style>
+    #hymnButtons .btn.active {
+      background-color: #0d6efd;
+      color: #fff;
+      border-color: #0d6efd;
+    }
     html {
       scroll-behavior: smooth;
     }
@@ -134,8 +139,11 @@
         numbers.forEach(num => {
           const btn = document.createElement('button');
           btn.className = 'btn btn-outline-primary';
+btn.dataset.number = num;
           btn.textContent = num;
           btn.onclick = () => {
+  document.querySelectorAll('#hymnButtons .btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
   searchLyrics(num.toString());
   setTimeout(() => {
     const section = document.getElementById('lyricsSection');
