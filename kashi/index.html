@@ -57,7 +57,12 @@
       .lyric-text { font-size: 1.4rem; }
       .meaning-text { font-size: 1.2rem; }
     }
-    .swiper { height: 100vh; }
+    .swiper-container-wrapper {
+      scroll-margin-top: 100px;
+    }
+    .swiper {
+      height: 100vh;
+    }
     .swiper-slide {
       display: flex;
       flex-direction: column;
@@ -97,9 +102,11 @@
     <div id="hymnButtons"></div>
   </div>
 
-  <div id="lyricsSection" class="swiper mySwiper">
-    <div class="swiper-wrapper" id="lyricsSlides"></div>
-    <div class="swiper-pagination"></div>
+  <div class="swiper-container-wrapper">
+    <div id="lyricsSection" class="swiper mySwiper">
+      <div class="swiper-wrapper" id="lyricsSlides"></div>
+      <div class="swiper-pagination"></div>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
@@ -136,7 +143,7 @@
           btn.textContent = num;
           btn.onclick = () => {
             searchLyrics(num.toString());
-            document.getElementById('lyricsSection').scrollIntoView({ behavior: 'smooth' });
+            document.querySelector('.swiper-container-wrapper').scrollIntoView({ behavior: 'smooth' });
           };
           buttonContainer.appendChild(btn);
         });
