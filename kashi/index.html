@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>聖歌アプリ</title>
   <meta property="og:title" content="聖歌アプリ" />
   <meta property="og:description" content="聖歌番号を選んで、歌詞と意味を表示できます。" />
@@ -18,22 +18,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
 
   <style>
+    html {
+      scroll-behavior: smooth;
+    }
     body {
       font-family: 'Poppins', 'Noto Sans JP', sans-serif;
       background: linear-gradient(to bottom, #fefefe, #eef3f5);
       color: #333;
       transition: background 0.5s ease-in-out;
     }
-    h1 { font-weight: 700; }
-    #hymnSelect {
-      font-size: 1.6rem;
-      font-weight: bold;
-      text-align: center;
-      padding: 1rem;
-      border: none;
-      border-radius: 1rem;
-      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.1);
-    }
+    h1, h2 { font-weight: 700; }
     .input-wrapper {
       background: #fff;
       border-radius: 1rem;
@@ -60,8 +54,8 @@
       animation: fadeInUp 0.8s ease forwards;
     }
     @media (max-width: 576px) {
-      .lyric-text { font-size: 1.6rem; }
-      .meaning-text { font-size: 1.3rem; }
+      .lyric-text { font-size: 1.4rem; }
+      .meaning-text { font-size: 1.2rem; }
     }
     .swiper { height: 100vh; }
     .swiper-slide {
@@ -70,6 +64,18 @@
       justify-content: center;
       align-items: center;
       padding: 2rem;
+      text-align: center;
+    }
+    #hymnButtons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    #hymnButtons .btn {
+      width: 80px;
+      font-weight: bold;
+      padding: 0.5rem 0;
       text-align: center;
     }
     @keyframes fadeInUp {
@@ -87,20 +93,18 @@
 <body>
   <div class="container py-4">
     <h1 class="text-center mb-4">聖歌検索</h1>
-    <div class="input-wrapper">
-      <input list="hymnList" id="hymnSelect" class="form-control" placeholder="聖歌番号を入力または選択" onchange="searchLyrics()" />
-      <datalist id="hymnList"></datalist>
-    </div>
+    <h2 class="text-center my-4">番号を選んでください</h2>
+    <div id="hymnButtons"></div>
   </div>
 
-  <div class="swiper mySwiper">
+  <div id="lyricsSection" class="swiper mySwiper">
     <div class="swiper-wrapper" id="lyricsSlides"></div>
     <div class="swiper-pagination"></div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
   <script>
     const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRGJMtcBrjSnLZZGMFKB0wPzh4v_hHF8nmIdpTzZtLcpx0LKM_VAruhWF9diTGVZ4kXewlbN_sIhcOC/pub?output=csv';
     let allLyrics = [];
@@ -121,15 +125,20 @@
           meaning: cols[5]
         }));
 
-        const datalist = document.getElementById('hymnList');
+        const buttonContainer = document.getElementById('hymnButtons');
         const numbers = [...new Set(allLyrics.map(row => row.number))]
           .map(n => parseInt(n))
           .filter(n => !isNaN(n))
           .sort((a, b) => a - b);
         numbers.forEach(num => {
-          const option = document.createElement('option');
-          option.value = num;
-          datalist.appendChild(option);
+          const btn = document.createElement('button');
+          btn.className = 'btn btn-outline-primary';
+          btn.textContent = num;
+          btn.onclick = () => {
+            searchLyrics(num.toString());
+            document.getElementById('lyricsSection').scrollIntoView({ behavior: 'smooth' });
+          };
+          buttonContainer.appendChild(btn);
         });
       });
 
@@ -141,8 +150,7 @@
       }
     });
 
-    function searchLyrics() {
-      const number = document.getElementById('hymnSelect').value.trim();
+    function searchLyrics(number) {
       const results = allLyrics.filter(entry => entry.number === number);
       const wrapper = document.getElementById('lyricsSlides');
       wrapper.innerHTML = '';
