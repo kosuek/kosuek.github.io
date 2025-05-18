@@ -64,10 +64,14 @@
     }
     .swiper {
       width: 100%;
-      height: auto;
+      height: 100vh;
+      touch-action: pan-y;
     }
     .swiper-slide {
-      display: block;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 100vh;
       padding: 2rem;
       text-align: center;
     }
@@ -95,7 +99,7 @@
     }
   </script>
 </head>
-<body style="min-height: 150vh;">
+<body>
   <div class="container py-4">
     <h1 class="text-center mb-4">聖歌検索</h1>
     <h2 class="text-center my-4">番号を選んでください</h2>
