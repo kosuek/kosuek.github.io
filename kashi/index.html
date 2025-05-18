@@ -57,17 +57,12 @@
       .lyric-text { font-size: 1.4rem; }
       .meaning-text { font-size: 1.2rem; }
     }
-    .swiper-container-wrapper {
-      scroll-margin-top: 100px;
-    }
     .swiper {
-      height: 100vh;
+      width: 100%;
+      height: auto;
     }
     .swiper-slide {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      display: block;
       padding: 2rem;
       text-align: center;
     }
@@ -102,11 +97,9 @@
     <div id="hymnButtons"></div>
   </div>
 
-  <div class="swiper-container-wrapper">
-    <div id="lyricsSection" class="swiper mySwiper">
-      <div class="swiper-wrapper" id="lyricsSlides"></div>
-      <div class="swiper-pagination"></div>
-    </div>
+  <div id="lyricsSection" class="swiper mySwiper">
+    <div class="swiper-wrapper" id="lyricsSlides"></div>
+    <div class="swiper-pagination"></div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
@@ -115,9 +108,10 @@
   <script>
     const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRGJMtcBrjSnLZZGMFKB0wPzh4v_hHF8nmIdpTzZtLcpx0LKM_VAruhWF9diTGVZ4kXewlbN_sIhcOC/pub?output=csv';
     let allLyrics = [];
+    let swiper;
 
     function spaceAndLineBreakToBr(text) {
-      return text ? text.replace(/\r?\n/g, "<br>").replace(/\s+/g, " <br>") : "";
+      return text ? text.replace(/\r?\n/g, "<br>") : "";
     }
 
     fetch(SHEET_CSV_URL)
@@ -143,19 +137,19 @@
           btn.textContent = num;
           btn.onclick = () => {
             searchLyrics(num.toString());
-            document.querySelector('.swiper-container-wrapper').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('lyricsSection').scrollIntoView({ behavior: 'smooth' });
           };
           buttonContainer.appendChild(btn);
         });
-      });
 
-    const swiper = new Swiper('.mySwiper', {
-      direction: 'horizontal',
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true
-      }
-    });
+        swiper = new Swiper('.mySwiper', {
+          direction: 'horizontal',
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true
+          }
+        });
+      });
 
     function searchLyrics(number) {
       const results = allLyrics.filter(entry => entry.number === number);
