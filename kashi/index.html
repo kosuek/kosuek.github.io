@@ -90,7 +90,7 @@
     }
   </script>
 </head>
-<body>
+<body style="min-height: 150vh;">
   <div class="container py-4">
     <h1 class="text-center mb-4">聖歌検索</h1>
     <h2 class="text-center my-4">番号を選んでください</h2>
@@ -136,8 +136,12 @@
           btn.className = 'btn btn-outline-primary';
           btn.textContent = num;
           btn.onclick = () => {
-            searchLyrics(num.toString());
-            document.getElementById('lyricsSection').scrollIntoView({ behavior: 'smooth' });
+  searchLyrics(num.toString());
+  setTimeout(() => {
+    const section = document.getElementById('lyricsSection');
+    const top = section.getBoundingClientRect().top + window.pageYOffset;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }, 200);
           };
           buttonContainer.appendChild(btn);
         });
@@ -152,9 +156,10 @@
       });
 
     function searchLyrics(number) {
-      const results = allLyrics.filter(entry => entry.number === number);
       const wrapper = document.getElementById('lyricsSlides');
       wrapper.innerHTML = '';
+
+      const results = allLyrics.filter(entry => entry.number === number);
 
       if (!results.length) {
         wrapper.innerHTML = `<div class='swiper-slide'><p>聖歌番号 ${number} は見つかりませんでした。</p></div>`;
@@ -168,7 +173,7 @@
         slide.className = 'swiper-slide';
         slide.innerHTML = `
           <div class="text-center px-3">
-            <h6 class="text-secondary mb-2">第 ${verse} 節</h6>
+            <h6 class="text-secondary mb-2"><span class="me-2 text-primary">${number}番</span>第 ${verse} 節</h6>
             <p class="lyric-text">${spaceAndLineBreakToBr(text)}</p>
             <p class="meaning-text">${spaceAndLineBreakToBr(meaning)}</p>
           </div>
