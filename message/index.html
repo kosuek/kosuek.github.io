@@ -53,7 +53,12 @@
       height: 100%;
       border: none;
     }
-  </style>
+    .btn-nowrap {
+    white-space: nowrap;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+</style>
 
   <script>
     let list = [];
@@ -92,9 +97,9 @@
     function audioset() {
       const selaudio = $("#messageSelect").val().substr(0, 8);
       const audio = new Audio("./m4a/" + selaudio + ".m4a");
-audio.controls = true;
-audio.style.width = '100%';
-audio.style.maxWidth = '100%';
+      audio.controls = true;
+      audio.style.width = '100%';
+      audio.style.maxWidth = '100%';
       audio.id = "audio";
       audio.preload = "auto";
       $("#message").html(audio);
@@ -142,28 +147,28 @@ audio.style.maxWidth = '100%';
     <div id="message" class="mb-4"></div>
 
     <div class="row g-2 mb-2">
-      <div class="col-3"><button class="btn btn-outline-secondary w-100 btn-lg text-nowrap" onclick="skip(-30)"><<30秒</button></div>
-      <div class="col-3"><button class="btn btn-outline-secondary w-100 btn-lg text-nowrap" onclick="skip(-5)"><<5秒</button></div>
-      <div class="col-3"><button class="btn btn-outline-secondary w-100 btn-lg" onclick="skip(5)">5秒>></button></div>
-      <div class="col-3"><button class="btn btn-outline-secondary w-100 btn-lg" onclick="skip(30)">30秒>></button></div>
+      <div class="col-3"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="skip(-30)"><<30秒</button></div>
+      <div class="col-3"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="skip(-5)"><<5秒</button></div>
+      <div class="col-3"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="skip(5)">5秒>></button></div>
+      <div class="col-3"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="skip(30)">30秒>></button></div>
     </div>
 
     <div class="row g-2 mb-2">
-      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg" onclick="rateup(0.5)">x0.5</button></div>
-      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg" onclick="rateup(0.8)">x0.8</button></div>
-      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg" onclick="rateup(1.0)">x1.0</button></div>
-      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg" onclick="rateup(1.5)">x1.5</button></div>
-      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg" onclick="rateup(2.0)">x2.0</button></div>
-      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg" onclick="rateup(3.0)">x3.0</button></div>
+      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(0.5)">x0.5</button></div>
+      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(0.8)">x0.8</button></div>
+      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(1.0)">x1.0</button></div>
+      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(1.5)">x1.5</button></div>
+      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(2.0)">x2.0</button></div>
+      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(3.0)">x3.0</button></div>
     </div>
 
     <div class="row g-2 mb-4">
-      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg" onclick="move(600)">10</button></div>
-      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg" onclick="move(1200)">20</button></div>
-      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg" onclick="move(1800)">30</button></div>
-      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg" onclick="move(2400)">40</button></div>
-      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg" onclick="move(3000)">50</button></div>
-      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg" onclick="move(3600)">60</button></div>
+      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="move(600)">10</button></div>
+      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="move(1200)">20</button></div>
+      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="move(1800)">30</button></div>
+      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="move(2400)">40</button></div>
+      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="move(3000)">50</button></div>
+      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="move(3600)">60</button></div>
     </div>
 
     <div class="movieWraper">
