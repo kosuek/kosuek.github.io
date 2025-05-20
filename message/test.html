@@ -1,47 +1,31 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
-  <title>ひたち光教会アプリ</title>
-  <meta charset="utf-8">
-  <meta name="robots" content="noindex,nofollow,noarchive" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta property="og:url" content="https://hitachihikari.net/message/">
-  <meta property="og:title" content="ひたち光教会アプリ">
-  <meta property="og:site_name" content="ひたち光教会アプリ">
-  <meta property="og:image" content="https://hitachihikari.net/bible.png">
-  <link href="https://hitachihikari.net/bible.png" rel="shortcut icon">
-  <link href="https://hitachihikari.net/bible.png" rel="apple-touch-icon">
+  <title>ひたち光教会アプリ</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="./img/hhc.ico">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <style>
     body {
       font-family: 'Noto Sans JP', sans-serif;
-      background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
-      color: #212529;
+      background: #f9f9f9;
     }
-    h4 {
-      font-weight: bold;
-      margin-top: 1rem;
+    .tab-content {
+      padding: 1rem 0;
     }
-    select {
-      font-size: 1rem;
-      border-radius: 0.5rem;
-    }
-    .btn-outline-secondary {
-      font-weight: bold;
-    }
-    .movieWraper {
-      position: relative;
-      width: 100%;
-      margin: 1rem auto;
+    .swiper {
+      height: auto;
     }
     .iframeWrap {
-      height: 0;
-      padding-bottom: 62.5%;
       position: relative;
+      width: 100%;
+      padding-top: 75%; /* 4:3 aspect ratio */
     }
-    iframe {
+    .iframeWrap iframe {
       position: absolute;
       top: 0;
       left: 0;
@@ -49,141 +33,42 @@
       height: 100%;
       border: none;
     }
-    .btn-nowrap {
-      white-space: nowrap;
-      padding-left: 0.5rem;
-      padding-right: 0.5rem;
-    }
   </style>
-  <script>
-    let list = [];
-
-    fetch("https://hitachihikari.net/message/list.json")
-      .then(res => res.json())
-      .then(data => {
-        list = data;
-        readFirst();
-      });
-
-    function get_nowTime() {
-      const val = document.getElementById("audio")?.currentTime;
-      if (val !== undefined) {
-        window.localStorage.setItem("nowTime", val);
-      }
-    }
-    setInterval(get_nowTime, 15000);
-
-    $(function () {
-      $("select").change(audioset);
-    });
-
-    function readFirst() {
-      for (const item of list) {
-        const opt = document.createElement("option");
-        opt.value = item.val;
-        opt.text = item.txt;
-        document.getElementById("messageSelect").appendChild(opt);
-      }
-      audioset();
-      const val = window.localStorage.getItem("nowTime");
-      document.getElementById("audio").currentTime = val;
-    }
-
-    function audioset() {
-      const selaudio = $("#messageSelect").val().substr(0, 8);
-      const audio = new Audio("./m4a/" + selaudio + ".m4a");
-      audio.controls = true;
-      audio.style.width = '100%';
-      audio.style.maxWidth = '100%';
-      audio.id = "audio";
-      audio.preload = "auto";
-      $("#message").html(audio);
-      audio.play();
-    }
-
-    function skip(seconds) {
-      const audio = document.getElementById("audio");
-      if (audio) {
-        audio.play();
-        audio.currentTime += seconds;
-      }
-    }
-
-    function move(seconds) {
-      const audio = document.getElementById("audio");
-      if (audio) {
-        audio.play();
-        audio.currentTime = seconds;
-      }
-    }
-
-    function rateup(speed) {
-      const audio = document.getElementById("audio");
-      if (audio) {
-        audio.play();
-        audio.playbackRate = speed;
-      }
-    }
-  </script>
 </head>
 
 <body>
-  <div class="container py-4">
-    <h4 class="text-center">ひたち光教会アプリ</h4>
-    <div class="mb-3">
-      <button class="btn btn-info w-100 btn-lg" onclick="window.location.reload(true);"><span class="text-white">アプリ更新</span></button>
+  <div class="container py-3">
+    <h4 class="text-center mb-3">ひたち光教会アプリ</h4>
+
+    <ul class="nav nav-tabs" id="appTabs" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="hymn-tab" data-bs-toggle="tab" data-bs-target="#hymn" type="button" role="tab">聖歌</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="sermon-tab" data-bs-toggle="tab" data-bs-target="#sermon" type="button" role="tab">説教＋スライド</button>
+      </li>
+    </ul>
+
+    <div class="tab-content" id="appTabsContent">
+      <!-- 聖歌タブ -->
+      <div class="tab-pane fade show active" id="hymn" role="tabpanel">
+        <div class="my-3">ここに聖歌番号選択やSwiperスライドを挿入します</div>
+      </div>
+
+      <!-- 説教＋スライドタブ -->
+      <div class="tab-pane fade" id="sermon" role="tabpanel">
+        <div class="mb-3">
+          <label for="messageSelect" class="form-label fw-bold">礼拝説教：</label>
+          <select class="form-select" id="messageSelect"></select>
+        </div>
+        <div id="message"></div>
+
+        <div class="iframeWrap my-3">
+          <iframe src="https://onedrive.live.com/embed?cid=DF8117155F580907&amp;resid=DF8117155F580907%211340&amp;authkey=AF6P8Ar7u7YupbA&amp;em=2&amp;wdAr=1.00&amp;wdEaa=0"></iframe>
+        </div>
+      </div>
     </div>
-
-    <div class="mb-3">
-      <label for="messageSelect" class="form-label fw-bold">礼拝説教：聴きたいものを選んでください</label>
-      <select class="form-select" id="messageSelect"></select>
-    </div>
-
-    <div id="message" class="mb-4"></div>
-
-    <div class="row g-2 mb-2">
-      <div class="col-3"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="skip(-30)"><<30秒</button></div>
-      <div class="col-3"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="skip(-5)"><<5秒</button></div>
-      <div class="col-3"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="skip(5)">5秒>></button></div>
-      <div class="col-3"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="skip(30)">30秒>></button></div>
-    </div>
-
-    <div class="row g-2 mb-2">
-      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(0.5)">x0.5</button></div>
-      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(0.8)">x0.8</button></div>
-      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(1.0)">x1.0</button></div>
-      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(1.5)">x1.5</button></div>
-      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(2.0)">x2.0</button></div>
-      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(3.0)">x3.0</button></div>
-    </div>
-
-    <div class="row g-2 mb-4">
-      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="move(600)">10</button></div>
-      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="move(1200)">20</button></div>
-      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="move(1800)">30</button></div>
-      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="move(2400)">40</button></div>
-      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="move(3000)">50</button></div>
-      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="move(3600)">60</button></div>
-    </div>
-
-    <div class="w-100 mb-4" style="max-width: 1000px; margin: auto; aspect-ratio: 4 / 3; position: relative;">
-      <iframe src="https://onedrive.live.com/embed?cid=DF8117155F580907&amp;resid=DF8117155F580907%211340&amp;authkey=AF6P8Ar7u7YupbA&amp;em=2&amp;wdAr=1.00&amp;wdEaa=0" allowfullscreen style="position: absolute; width: 100%; height: 100%; border: none;"></iframe>
-    </div>
-
-    <!-- 週報拡大＋横スクロール表示 -->
-    <div style="overflow-x: auto; white-space: nowrap;">
-      <img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211927&authkey=%21AGrAIvgcSALoIlE"
-           style="width: 300%; max-width: none; display: inline-block;"
-           class="border rounded my-2"
-           title="週報を拡大表示">
-    </div>
-
-    <!-- 予定表画像 -->
-    <a href="https://onedrive.live.com/embed?resid=DF8117155F580907%211348&authkey=%21AFqBOdaSYRks83Y" target="_blank" title="予定表を拡大表示">
-      <img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211348&authkey=%21AFqBOdaSYRks83Y" class="img-fluid mb-4 border rounded">
-    </a>
-
-    <a class="btn btn-success btn-lg w-100" href="https://hitachihikari.net">教会ホームページはこちら</a>
   </div>
 </body>
-      </html>
+
+</html>
