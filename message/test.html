@@ -254,18 +254,19 @@
 
       </div>
 
-      <!-- 聖歌歌詞タブ -->
-      <div class="tab-pane fade" id="hymn-tab-pane" role="tabpanel" aria-labelledby="hymn-tab">
-        <div class="mb-3 text-center">
-  <div id="hymnButtons" class="d-flex flex-wrap justify-content-center"></div>
-</div>
+     <!-- 聖歌歌詞タブ -->
+<div class="tab-pane fade" id="hymn-tab-pane" role="tabpanel" aria-labelledby="hymn-tab">
+  <div class="mb-3 text-center">
+    <div id="hymnButtons" class="d-flex flex-wrap justify-content-center"></div>
+  </div>
 
-<!-- Swiperコンテナ -->
-<div class="swiper mySwiper" style="height: 60vh;">
-  <div class="swiper-wrapper" id="hymnSlides"></div>
-  <div class="swiper-pagination"></div>
-  <div class="swiper-button-prev"></div>
-  <div class="swiper-button-next"></div>
+  <!-- Swiperコンテナ -->
+  <div class="swiper mySwiper" id="hymnSwiper" style="height: 60vh;">
+    <div class="swiper-wrapper" id="hymnSlides"></div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+  </div>
 </div>
 
 <!-- SwiperJS読み込み -->
@@ -274,6 +275,13 @@
 
 <script>
   let swiperInstance;
+
+  function scrollToLyrics() {
+    const swiperContainer = document.getElementById('hymnSwiper');
+    const offset = swiperContainer.getBoundingClientRect().top + window.scrollY - 20;
+    window.scrollTo({ top: offset, behavior: 'smooth' });
+  }
+
   function showLyrics(number, data) {
     const results = data.filter(entry => entry.number === number.toString());
     const wrapper = document.getElementById('hymnSlides');
@@ -307,6 +315,8 @@
         prevEl: '.swiper-button-prev',
       },
     });
+
+    scrollToLyrics();
   }
 </script>
 
