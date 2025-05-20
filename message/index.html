@@ -1,124 +1,6 @@
-<!DOCTYPE html><html lang="ja"><head>
-  <title>ひたち光教会アプリ</title>
-  <meta name="robots" content="noindex,nofollow,noarchive" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta charset="utf-8">  <meta property="og:url" content="https://hitachihikari.net/message/">
-  <meta property="og:title" content="ひたち光教会アプリ">
-  <meta property="og:site_name" content="ひたち光教会アプリ">
-  <meta property="og:image" content="https://hitachihikari.net/bible.png">  <link href="https://hitachihikari.net/bible.png" rel="shortcut icon">
-  <link href="https://hitachihikari.net/bible.png" rel="apple-touch-icon">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>  <style>
-    body {
-      font-family: 'Noto Sans JP', sans-serif;
-      background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
-      color: #212529;
-    }
-    h4 {
-      font-weight: bold;
-      margin-top: 1rem;
-    }
-    select {
-      font-size: 1rem;
-      border-radius: 0.5rem;
-    }
-    .btn-outline-secondary {
-      font-weight: bold;
-    }
-    .movieWraper {
-      position: relative;
-      width: 100%;
-      margin: 1rem auto;
-    }
-    .iframeWrap {
-      height: 0;
-      padding-bottom: 62.5%;
-      position: relative;
-    }
-    iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-    .btn-nowrap {
-    white-space: nowrap;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-  }
-</style>  <script>
-    let list = [];
-
-    fetch("https://hitachihikari.net/message/list.json")
-      .then(res => res.json())
-      .then(data => {
-        list = data;
-        readFirst();
-      });
-
-    function get_nowTime() {
-      const val = document.getElementById("audio")?.currentTime;
-      if (val !== undefined) {
-        window.localStorage.setItem("nowTime", val);
-      }
-    }
-    setInterval(get_nowTime, 15000);
-
-    $(function () {
-      $("select").change(audioset);
-    });
-
-    function readFirst() {
-      for (const item of list) {
-        const opt = document.createElement("option");
-        opt.value = item.val;
-        opt.text = item.txt;
-        document.getElementById("messageSelect").appendChild(opt);
-      }
-      audioset();
-      const val = window.localStorage.getItem("nowTime");
-      document.getElementById("audio").currentTime = val;
-    }
-
-    function audioset() {
-      const selaudio = $("#messageSelect").val().substr(0, 8);
-      const audio = new Audio("./m4a/" + selaudio + ".m4a");
-      audio.controls = true;
-      audio.style.width = '100%';
-      audio.style.maxWidth = '100%';
-      audio.id = "audio";
-      audio.preload = "auto";
-      $("#message").html(audio);
-      audio.play();
-    }
-
-    function skip(seconds) {
-      const audio = document.getElementById("audio");
-      if (audio) {
-        audio.play();
-        audio.currentTime += seconds;
-      }
-    }
-
-    function move(seconds) {
-      const audio = document.getElementById("audio");
-      if (audio) {
-        audio.play();
-        audio.currentTime = seconds;
-      }
-    }
-
-    function rateup(speed) {
-      const audio = document.getElementById("audio");
-      if (audio) {
-        audio.play();
-        audio.playbackRate = speed;
-      }
-    }
-  </script></head><body>
+<!DOCTYPE html><html lang="ja"><head>$1
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script><body>
   <div class="container py-4">
     <h4 class="text-center">ひたち光教会アプリ</h4>
     <div class="mb-3">
@@ -159,14 +41,38 @@
 
   <iframe src="https://onedrive.live.com/embed?cid=DF8117155F580907&amp;resid=DF8117155F580907%211340&amp;authkey=AF6P8Ar7u7YupbA&amp;em=2&amp;wdAr=1.00&amp;wdEaa=0" allowfullscreen style="position: absolute; width: 100%; height: 100%; border: none;"></iframe>
 </div>
-    </div><div class="overflow-auto mb-3" style="white-space: nowrap;">
+    </div><div class="swiper mb-4">
 
-<img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211927&authkey=%21AGrAIvgcSALoIlE" 
-class="img-thumbnail mx-2" 
-style="width: 33%; display: inline-block; cursor: pointer;"
-onclick="window.open(this.src, '_blank')" 
-title="週報を拡大表示">
-
+  <div class="swiper-wrapper">
+    <div class="swiper-slide">
+      <img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211927&authkey=%21AGrAIvgcSALoIlE" class="img-fluid border rounded" title="週報を拡大表示">
+    </div>
+  </div>
+  <div class="swiper-pagination"></div>
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+</div>
+<script>
+  new Swiper('.swiper', {
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev'
+    },
+    slidesPerView: 1.5,
+    spaceBetween: 10,
+    centeredSlides: false,
+    grabCursor: true,
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    breakpoints: {
+      768: { slidesPerView: 2 },
+      992: { slidesPerView: 2.5 },
+      1200: { slidesPerView: 3 }
+    }
+  });
+</script>
 </div>
     <a href="https://onedrive.live.com/embed?resid=DF8117155F580907%211348&authkey=%21AFqBOdaSYRks83Y" target="_blank" title="予定表を拡大表示">
   <img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211348&authkey=%21AFqBOdaSYRks83Y" class="img-fluid mb-4 border rounded">
