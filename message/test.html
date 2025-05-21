@@ -89,18 +89,12 @@
       <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(3.0)">x3.0</button></div>
     </div>
 
-<!-- 表示切替ボタン -->
-<div class="row g-2 mb-3">
-  <div class="col-4">
-    <button class="btn btn-outline-primary w-100" onclick="toggleDisplay('pptContainer')">スライドを見る</button>
-  </div>
-  <div class="col-4">
-    <button class="btn btn-outline-success w-100" onclick="toggleDisplay('weeklyReport')">週報を表示</button>
-  </div>
-  <div class="col-4">
-    <button class="btn btn-outline-info w-100" onclick="toggleDisplay('schedule')">予定表を表示</button>
-  </div>
+<div class="btn-group mb-3" role="group">
+  <button class="btn btn-outline-primary" onclick="toggleView('pptContainer')">スライドを見る</button>
+  <button class="btn btn-outline-primary" onclick="toggleView('weeklyReport')">週報を見る</button>
+  <button class="btn btn-outline-primary" onclick="toggleView('schedule')">予定表を見る</button>
 </div>
+    
 
 <div id="pptContainer" style="display: none;">
   <div style="max-width: 1000px; margin: auto; aspect-ratio: 4 / 3; position: relative;">
@@ -111,17 +105,20 @@
   </div>
 </div>
 
-
 <!-- 週報 -->
-<div id="weeklyReport" style="display: none;" class="mb-3">
-  <img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211927&authkey=%21AGrAIvgcSALoIlE"
-       class="img-fluid border rounded w-100" alt="週報">
+<div id="weeklyReport" style="display: none;" class="mb-4">
+  <div class="overflow-auto border rounded p-2" style="white-space: nowrap;">
+    <img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211927&authkey=%21AGrAIvgcSALoIlE"
+         style="height: auto; width: 1200px;" alt="週報（横スクロール可）">
+  </div>
 </div>
 
 <!-- 予定表 -->
-<div id="schedule" style="display: none;" class="mb-3">
-  <img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211348&authkey=%21AFqBOdaSYRks83Y"
-       class="img-fluid border rounded w-100" alt="予定表">
+<div id="schedule" style="display: none;" class="mb-4">
+  <div class="overflow-auto border rounded p-2" style="white-space: nowrap;">
+    <img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211348&authkey=%21AFqBOdaSYRks83Y"
+         style="height: auto; width: 1200px;" alt="予定表（横スクロール可）">
+  </div>
 </div>
     
 
@@ -284,9 +281,26 @@ function loadSlide() {
     if (el) {
       el.style.display = (id === targetId) ? 'block' : 'none';
     }
-  });
+  })；
     }
+    
+  function toggleView(targetId) {
+    // 一旦全部非表示にする
+    document.getElementById('pptContainer').style.display = 'none';
+    document.getElementById('weeklyReport').style.display = 'none';
+    document.getElementById('schedule').style.display = 'none';
 
+    // 対象だけ表示
+    document.getElementById(targetId).style.display = 'block';
+
+    // スライドだけ src を遅延設定
+    if (targetId === 'pptContainer') {
+      const iframe = document.getElementById('pptFrame');
+      if (!iframe.src) {
+        iframe.src = "https://onedrive.live.com/embed?cid=DF8117155F580907&resid=DF8117155F580907%211340&authkey=AF6P8Ar7u7YupbA&em=2&wdAr=1.00&wdEaa=0";
+      }
+    }
+  }
     
     
   </script></body></html>
