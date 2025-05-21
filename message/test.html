@@ -1,57 +1,25 @@
-<!DOCTYPE html>
-<html lang="ja">
-
-<head>
+<!DOCTYPE html><html lang="ja"><head>
   <title>ひたち光教会アプリ</title>
   <meta name="robots" content="noindex,nofollow,noarchive" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta charset="utf-8">
-
-  <meta property="og:url" content="https://hitachihikari.net/message/">
+  <meta charset="utf-8">  <meta property="og:url" content="https://hitachihikari.net/message/">
   <meta property="og:title" content="ひたち光教会アプリ">
   <meta property="og:site_name" content="ひたち光教会アプリ">
-  <meta property="og:image" content="https://hitachihikari.net/bible.png">
-
-  <link href="https://hitachihikari.net/bible.png" rel="shortcut icon">
+  <meta property="og:image" content="https://hitachihikari.net/bible.png">  <link href="https://hitachihikari.net/bible.png" rel="shortcut icon">
   <link href="https://hitachihikari.net/bible.png" rel="apple-touch-icon">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-
-  <style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>  <style>
     body {
       font-family: 'Noto Sans JP', sans-serif;
       background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
       color: #212529;
     }
-    h4 {
-      font-weight: bold;
-      margin-top: 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .btn-outline-secondary {
-      font-weight: bold;
-    }
-    .movieWraper {
-      position: relative;
-      width: 100%;
-      margin: 1rem auto;
-    }
-    .iframeWrap {
-      height: 0;
-      padding-bottom: 62.5%;
-      position: relative;
-    }
-    iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
+    .logo-img {
+      height: 60px;
     }
     .btn-nowrap {
       white-space: nowrap;
@@ -62,19 +30,81 @@
       font-size: 0.75rem;
       margin-left: 1rem;
     }
-    .logo-img {
-      height: 60px;
+    .swiper {
+      height: 60vh;
     }
-  </style>
-  <script>
+    .swiper-slide {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 1rem;
+    }
+  </style></head><body>
+  <div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <img src="./logo.png" alt="ひたち光教会アプリ ロゴ" class="logo-img">
+      <div>
+        <a class="btn btn-sm btn-outline-success home-btn" href="https://hitachihikari.net">教会ホームページ</a>
+        <button class="btn btn-sm btn-outline-primary home-btn" onclick="window.location.reload(true);">アプリ更新</button>
+      </div>
+    </div><ul class="nav nav-tabs mb-3" id="tabMenu" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="message-tab" data-bs-toggle="tab" data-bs-target="#message-tab-pane" type="button" role="tab" aria-controls="message-tab-pane" aria-selected="true">説教反芻</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="hymn-tab" data-bs-toggle="tab" data-bs-target="#hymn-tab-pane" type="button" role="tab" aria-controls="hymn-tab-pane" aria-selected="false">聖歌歌詞</button>
+  </li>
+</ul>
+
+<div class="tab-content" id="tabContent">
+  <div class="tab-pane fade show active" id="message-tab-pane" role="tabpanel" aria-labelledby="message-tab">
+    <label for="messageSelect" class="form-label fw-bold">礼拝説教：聴きたいものを選んでください</label>
+    <select class="form-select mb-3" id="messageSelect"></select>
+    <div id="message"></div>
+    <div class="row g-2 my-2">
+      <div class="col-3"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="skip(-30)">&lt;&lt;30秒</button></div>
+      <div class="col-3"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="skip(-5)">&lt;&lt;5秒</button></div>
+      <div class="col-3"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="skip(5)">5秒&gt;&gt;</button></div>
+      <div class="col-3"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="skip(30)">30秒&gt;&gt;</button></div>
+    </div>
+    <div class="row g-2 mb-2">
+      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(0.5)">x0.5</button></div>
+      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(0.8)">x0.8</button></div>
+      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(1.0)">x1.0</button></div>
+      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(1.5)">x1.5</button></div>
+      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(2.0)">x2.0</button></div>
+      <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(3.0)">x3.0</button></div>
+    </div>
+    <div class="w-100 mb-4" style="max-width: 1000px; margin: auto; aspect-ratio: 4 / 3; position: relative;">
+      <iframe src="https://onedrive.live.com/embed?cid=DF8117155F580907&amp;resid=DF8117155F580907%211340&amp;authkey=AF6P8Ar7u7YupbA&amp;em=2&amp;wdAr=1.00&amp;wdEaa=0" allowfullscreen style="position: absolute; width: 100%; height: 100%; border: none;"></iframe>
+    </div>
+    <img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211927&authkey=%21AGrAIvgcSALoIlE" class="img-fluid my-2 border rounded" title="週報">
+    <img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211348&authkey=%21AFqBOdaSYRks83Y" class="img-fluid mb-4 border rounded" title="予定表">
+  </div>
+
+  <div class="tab-pane fade" id="hymn-tab-pane" role="tabpanel" aria-labelledby="hymn-tab">
+    <div class="mb-3 text-center">
+      <div id="hymnButtons" class="d-flex flex-wrap justify-content-center"></div>
+    </div>
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper" id="hymnSlides"></div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div>
+  </div>
+</div>
+
+  </div>  <script>
     let list = [];
+    let swiperInstance;
+
     document.addEventListener("DOMContentLoaded", () => {
       fetch("https://hitachihikari.net/message/list.json")
         .then(res => res.json())
-        .then(data => {
-          list = data;
-          readFirst();
-        })
+        .then(data => { list = data; readFirst(); })
         .catch(err => console.error("JSON読み込み失敗:", err));
 
       fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRGJMtcBrjSnLZZGMFKB0wPzh4v_hHF8nmIdpTzZtLcpx0LKM_VAruhWF9diTGVZ4kXewlbN_sIhcOC/pub?output=csv")
@@ -83,18 +113,12 @@
           const parsed = Papa.parse(csvText, { header: false });
           const rows = parsed.data.slice(1);
           const hymnData = rows.map(cols => ({
-            number: cols[1]?.trim(),
-            verse: cols[2],
-            text: cols[3],
-            meaning: cols[5]
+            number: cols[1]?.trim(), verse: cols[2], text: cols[3], meaning: cols[5]
           }));
 
-          const numbers = [...new Set(hymnData.map(row => row.number))]
-            .map(n => parseInt(n))
-            .filter(n => !isNaN(n))
-            .sort((a, b) => a - b);
-
+          const numbers = [...new Set(hymnData.map(row => row.number))].map(n => parseInt(n)).filter(n => !isNaN(n)).sort((a, b) => a - b);
           const hymnButtons = document.getElementById('hymnButtons');
+
           numbers.forEach(num => {
             const btn = document.createElement('button');
             btn.className = 'btn btn-outline-primary m-1';
@@ -107,15 +131,9 @@
 
     function get_nowTime() {
       const val = document.getElementById("audio")?.currentTime;
-      if (val !== undefined) {
-        window.localStorage.setItem("nowTime", val);
-      }
+      if (val !== undefined) window.localStorage.setItem("nowTime", val);
     }
     setInterval(get_nowTime, 15000);
-
-    $(function () {
-      $("select").change(audioset);
-    });
 
     function readFirst() {
       for (const item of list) {
@@ -133,7 +151,6 @@
       const selaudio = $("#messageSelect").val().substr(0, 8);
       const audio = new Audio("./m4a/" + selaudio + ".m4a");
       audio.controls = true;
-      audio.style.width = '100%';
       audio.id = "audio";
       audio.preload = "auto";
       $("#message").html(audio);
@@ -166,165 +183,30 @@
 
     function showLyrics(number, data) {
       const results = data.filter(entry => entry.number === number.toString());
-      const wrapper = document.getElementById('hymnLyrics');
+      const wrapper = document.getElementById('hymnSlides');
       wrapper.innerHTML = '';
 
       if (!results.length) {
-        wrapper.innerHTML = `<p class="text-danger">番号 ${number} の歌詞が見つかりませんでした。</p>`;
-        return;
+        wrapper.innerHTML = `<div class="swiper-slide text-center"><p class="text-danger">番号 ${number} の歌詞が見つかりませんでした。</p></div>`;
+      } else {
+        results.forEach(({ verse, text, meaning }) => {
+          const slide = document.createElement('div');
+          slide.className = 'swiper-slide';
+          slide.innerHTML = `<h5>第 ${verse} 節</h5><p style="font-size: 1.5rem;">${text?.replace(/\n/g, '<br>')}</p><p class="text-secondary small">${meaning?.replace(/\n/g, '<br>')}</p>`;
+          wrapper.appendChild(slide);
+        });
       }
 
-      results.forEach(({ verse, text, meaning }) => {
-        const block = document.createElement('div');
-        block.className = 'mb-4';
-        block.innerHTML = `
-          <h5>第 ${verse} 節</h5>
-          <p>${text?.replace(/\n/g, '<br>')}</p>
-          <p class="text-secondary small">${meaning?.replace(/\n/g, '<br>')}</p>
-        `;
-        wrapper.appendChild(block);
+      if (swiperInstance) swiperInstance.destroy(true, true);
+      swiperInstance = new Swiper('.mySwiper', {
+        direction: 'horizontal',
+        loop: false,
+        pagination: { el: '.swiper-pagination', clickable: true },
+        navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }
       });
+
+      const swiperContainer = document.querySelector('.mySwiper');
+      const offset = swiperContainer.getBoundingClientRect().top + window.scrollY - 20;
+      window.scrollTo({ top: offset, behavior: 'smooth' });
     }
-  </script>
-</head>
-<body>
-  <div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <img src="./logo.png" alt="ひたち光教会アプリ ロゴ" class="logo-img">
-      <div>
-        <a class="btn btn-sm btn-outline-success home-btn" href="https://hitachihikari.net">教会ホームページ</a>
-        <button class="btn btn-sm btn-outline-primary home-btn" onclick="window.location.reload(true);">アプリ更新</button>
-      </div>
-    </div>
-
-
-    <!-- タブ -->
-    <ul class="nav nav-tabs mb-3" id="tabMenu" role="tablist">
-      <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="message-tab" data-bs-toggle="tab" data-bs-target="#message-tab-pane" type="button" role="tab" aria-controls="message-tab-pane" aria-selected="true">説教反芻</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="hymn-tab" data-bs-toggle="tab" data-bs-target="#hymn-tab-pane" type="button" role="tab" aria-controls="hymn-tab-pane" aria-selected="false">聖歌歌詞</button>
-      </li>
-    </ul>
-
-    <div class="tab-content" id="tabContent">
-      <!-- 説教タブ -->
-      <div class="tab-pane fade show active" id="message-tab-pane" role="tabpanel" aria-labelledby="message-tab">
-        <div class="mb-3">
-  <label for="messageSelect" class="form-label fw-bold">礼拝説教：聴きたいものを選んでください</label>
-  <select class="form-select" id="messageSelect"></select>
-</div>
-
-<div id="message" class="mb-4"></div>
-
-<div class="row g-2 mb-2">
-  <div class="col-3"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="skip(-30)"><<30秒</button></div>
-  <div class="col-3"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="skip(-5)"><<5秒</button></div>
-  <div class="col-3"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="skip(5)">5秒>></button></div>
-  <div class="col-3"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="skip(30)">30秒>></button></div>
-</div>
-
-<div class="row g-2 mb-2">
-  <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(0.5)">x0.5</button></div>
-  <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(0.8)">x0.8</button></div>
-  <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(1.0)">x1.0</button></div>
-  <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(1.5)">x1.5</button></div>
-  <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(2.0)">x2.0</button></div>
-  <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(3.0)">x3.0</button></div>
-</div>
-
-<div class="row g-2 mb-4">
-  <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="move(600)">10</button></div>
-  <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="move(1200)">20</button></div>
-  <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="move(1800)">30</button></div>
-  <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="move(2400)">40</button></div>
-  <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="move(3000)">50</button></div>
-  <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="move(3600)">60</button></div>
-</div>
-
-<div class="w-100 mb-4" style="max-width: 1000px; margin: auto; aspect-ratio: 4 / 3; position: relative;">
-  <iframe src="https://onedrive.live.com/embed?cid=DF8117155F580907&amp;resid=DF8117155F580907%211340&amp;authkey=AF6P8Ar7u7YupbA&amp;em=2&amp;wdAr=1.00&amp;wdEaa=0" allowfullscreen style="position: absolute; width: 100%; height: 100%; border: none;"></iframe>
-</div>
-
-<a href="https://onedrive.live.com/embed?resid=DF8117155F580907%211927&authkey=%21AGrAIvgcSALoIlE" target="_blank" title="週報を拡大表示">
-  <img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211927&authkey=%21AGrAIvgcSALoIlE" class="img-fluid my-2 border rounded">
-</a>
-<a href="https://onedrive.live.com/embed?resid=DF8117155F580907%211348&authkey=%21AFqBOdaSYRks83Y" target="_blank" title="予定表を拡大表示">
-  <img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211348&authkey=%21AFqBOdaSYRks83Y" class="img-fluid mb-4 border rounded">
-</a>
-
-      </div>
-
-     <!-- 聖歌歌詞タブ -->
-<div class="tab-pane fade" id="hymn-tab-pane" role="tabpanel" aria-labelledby="hymn-tab">
-  <div class="mb-3 text-center">
-    <div id="hymnButtons" class="d-flex flex-wrap justify-content-center"></div>
-  </div>
-
-  <!-- Swiperコンテナ -->
-  <div class="swiper mySwiper" id="hymnSwiper" style="height: 60vh;">
-    <div class="swiper-wrapper" id="hymnSlides"></div>
-    <div class="swiper-pagination"></div>
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
-  </div>
-</div>
-
-<!-- SwiperJS読み込み -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-
-<script>
-  let swiperInstance;
-
-  function scrollToLyrics() {
-    const swiperContainer = document.getElementById('hymnSwiper');
-    const offset = swiperContainer.getBoundingClientRect().top + window.scrollY - 20;
-    window.scrollTo({ top: offset, behavior: 'smooth' });
-  }
-
-  function showLyrics(number, data) {
-    const results = data.filter(entry => entry.number === number.toString());
-    const wrapper = document.getElementById('hymnSlides');
-    wrapper.innerHTML = '';
-
-    if (!results.length) {
-      wrapper.innerHTML = `<div class="swiper-slide text-center"><p class="text-danger">番号 ${number} の歌詞が見つかりませんでした。</p></div>`;
-    } else {
-      results.forEach(({ verse, text, meaning }) => {
-        const slide = document.createElement('div');
-        slide.className = 'swiper-slide d-flex flex-column justify-content-center align-items-center text-center px-4';
-        slide.innerHTML = `
-          <h5>第 ${verse} 節</h5>
-          <p style="font-size: 1.5rem;">${text?.replace(/\n/g, '<br>')}</p>
-          <p class="text-secondary small">${meaning?.replace(/\n/g, '<br>')}</p>
-        `;
-        wrapper.appendChild(slide);
-      });
-    }
-
-    if (swiperInstance) swiperInstance.destroy(true, true);
-    swiperInstance = new Swiper('.mySwiper', {
-      direction: 'horizontal',
-      loop: false,
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-    });
-
-    scrollToLyrics();
-  }
-</script>
-
-      </div>
-    </div>
-  </div>
-</body>
-
-</html>
+  </script></body></html>
