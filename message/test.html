@@ -288,8 +288,8 @@ function scrollToLyrics() {
   });
 }
     
-  function toggleView(targetId) {
-  // 一旦全部非表示にする
+ function toggleView(targetId) {
+  // すべて非表示
   document.getElementById('pptContainer').style.display = 'none';
   document.getElementById('weeklyReport').style.display = 'none';
   document.getElementById('schedule').style.display = 'none';
@@ -297,22 +297,20 @@ function scrollToLyrics() {
   // 対象だけ表示
   document.getElementById(targetId).style.display = 'block';
 
-  // スライドなら iframe 読み込み開始
+  // スライドなら読み込み（初回のみ）
   if (targetId === 'pptContainer') {
     const iframe = document.getElementById('pptFrame');
     const loader = document.getElementById('pptLoading');
 
-    loader.style.display = 'flex'; // ローディング表示
-
-    // srcを毎回再設定して強制読み込み
-    iframe.src = "https://onedrive.live.com/embed?cid=DF8117155F580907&resid=DF8117155F580907%211340&authkey=AF6P8Ar7u7YupbA&em=2&wdAr=1.00&wdEaa=0";
-
-    // 読み込み完了時にローディング非表示
-    iframe.onload = () => {
-      loader.style.display = 'none';
-    };
+    if (!iframe.src) {
+      loader.style.display = 'flex';
+      iframe.src = "https://onedrive.live.com/embed?cid=DF8117155F580907&resid=DF8117155F580907%211340&authkey=AF6P8Ar7u7YupbA&em=2&wdAr=1.00&wdEaa=0";
+      iframe.onload = () => {
+        loader.style.display = 'none';
+      };
+    }
   }
-  }
+ }
     
     
   </script></body></html>
