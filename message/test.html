@@ -240,4 +240,18 @@
         },
       });
     }
+
+function scrollToLyrics() {
+  const swiperContainer = document.getElementById('hymnSwiper');
+  const rect = swiperContainer.getBoundingClientRect();
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  const offsetTop = rect.top + scrollTop;
+
+  window.scrollTo({
+    top: offsetTop,
+    behavior: 'smooth'
+  });
+}
+
+    
   </script></body></html>
