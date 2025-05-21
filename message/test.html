@@ -289,32 +289,38 @@ function scrollToLyrics() {
 }
     
 function toggleView(targetId) {
-  // すべて非表示
   document.getElementById('pptContainer').style.display = 'none';
   document.getElementById('weeklyReport').style.display = 'none';
   document.getElementById('schedule').style.display = 'none';
 
-  // 対象だけ表示
   document.getElementById(targetId).style.display = 'block';
 
-  // スライドなら読み込み（初回のみ）＋ローディング制御
   if (targetId === 'pptContainer') {
     const iframe = document.getElementById('pptFrame');
     const loader = document.getElementById('pptLoading');
 
-    // ローディング表示（毎回一瞬表示）
     loader.style.display = 'flex';
 
-   if (!iframe.src || iframe.src === "about:blank") {
+    if (!iframe.src || iframe.src === "about:blank") {
       iframe.src = "https://onedrive.live.com/embed?cid=DF8117155F580907&resid=DF8117155F580907%211340&authkey=AF6P8Ar7u7YupbA&em=2&wdAr=1.00&wdEaa=0";
     }
 
-    // 読み込み完了時にローディング非表示
-    // 発火しない場合もあるためtimeout併用
-    iframe.onload = () => loader.style.display = 'none';
-
-    // 念のため3秒後にもローディングを非表示にする
-    setTimeout(() => loader.style.display = 'none', 3000);
+    // iframe の src が埋め込まれた後、確実に非表示にするためのポーリング
+    let checkCount = 0;
+    const checkInterval = setInterval(() => {
+      try {
+        if (iframe.contentDocument && iframe.contentDocument.readyState === "complete") {
+          loader.style.display = "none";
+          clearInterval(checkInterval);
+        }
+      } catch (e) {
+        // クロスドメイン制限で contentDocument にアクセスできない可能性がある
+        if (checkCount++ >= 5) {
+          loader.style.display = "none";
+          clearInterval(checkInterval);
+        }
+      }
+    }, 1000);
   }
 }
     
