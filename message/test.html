@@ -266,23 +266,6 @@ function scrollToLyrics() {
     behavior: 'smooth'
   });
 }
-
-function loadSlide() {
-  const container = document.getElementById('pptContainer');
-  const iframe = document.getElementById('pptFrame');
-
-  container.style.display = 'block';
-  iframe.src = "https://onedrive.live.com/embed?cid=DF8117155F580907&resid=DF8117155F580907%211340&authkey=AF6P8Ar7u7YupbA&em=2&wdAr=1.00&wdEaa=0";
-}
-    function toggleDisplay(targetId) {
-  const ids = ['pptContainer', 'weeklyReport', 'schedule'];
-  ids.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.style.display = (id === targetId) ? 'block' : 'none';
-    }
-  })；
-    }
     
   function toggleView(targetId) {
     // 一旦全部非表示にする
