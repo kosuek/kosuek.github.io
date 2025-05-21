@@ -43,6 +43,16 @@
       text-align: center;
       padding: 1rem;
     }
+.swiper-slide p {
+  font-size: 1.8rem;   /* 歌詞を大きめに */
+  line-height: 1.5;
+}
+
+.swiper-slide .text-secondary.small {
+  font-size: 1.1rem;   /* 意味もやや大きめに */
+}
+
+    
   </style></head><body>
   <div class="container py-3">
     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -218,10 +228,10 @@
           const slide = document.createElement('div');
           slide.className = 'swiper-slide';
           slide.innerHTML = `
-            <h5>第 ${verse} 節</h5>
-            <p style="font-size: 1.5rem;">${text?.replace(/\n/g, '<br>')}</p>
-            <p class="text-secondary small">${meaning?.replace(/\n/g, '<br>')}</p>
-          `;
+  <h5 class="mb-3">第 ${verse} 節</h5>
+  <p class="fw-bold" style="font-size: 1.8rem;">${text?.replace(/\n/g, '<br>')}</p>
+  <p class="text-secondary" style="font-size: 1.1rem;">${meaning?.replace(/\n/g, '<br>')}</p>
+`;
           wrapper.appendChild(slide);
         });
       }
