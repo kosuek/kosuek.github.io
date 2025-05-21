@@ -305,7 +305,7 @@ function toggleView(targetId) {
     // ローディング表示（毎回一瞬表示）
     loader.style.display = 'flex';
 
-    if (!iframe.src) {
+   if (!iframe.src || iframe.src === "about:blank") {
       iframe.src = "https://onedrive.live.com/embed?cid=DF8117155F580907&resid=DF8117155F580907%211340&authkey=AF6P8Ar7u7YupbA&em=2&wdAr=1.00&wdEaa=0";
     }
 
