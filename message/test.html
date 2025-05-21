@@ -88,9 +88,21 @@
       <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(2.0)">x2.0</button></div>
       <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(3.0)">x3.0</button></div>
     </div>
-    <div style="max-width: 1000px; margin: auto; aspect-ratio: 4 / 3; position: relative;">
-      <iframe src="https://onedrive.live.com/embed?cid=DF8117155F580907&amp;resid=DF8117155F580907%211340&amp;authkey=AF6P8Ar7u7YupbA&amp;em=2&amp;wdAr=1.00&amp;wdEaa=0" allowfullscreen style="position: absolute; width: 100%; height: 100%; border: none;"></iframe>
-    </div>
+
+<!-- スライド表示ボタンと埋め込み -->
+<button class="btn btn-outline-primary mb-3" onclick="loadSlide()">スライドを見る</button>
+<div id="pptContainer" style="display: none;">
+  <div style="max-width: 1000px; margin: auto; aspect-ratio: 4 / 3; position: relative;">
+    <iframe id="pptFrame"
+      src=""
+      allowfullscreen
+      style="position: absolute; width: 100%; height: 100%; border: none;">
+    </iframe>
+  </div>
+</div>
+
+
+    
 <div class="row g-2 mb-4">
   <!-- 週報 -->
   <div class="col-6">
@@ -266,5 +278,16 @@ function scrollToLyrics() {
   });
 }
 
+function loadSlide() {
+  const container = document.getElementById('pptContainer');
+  const iframe = document.getElementById('pptFrame');
+
+  container.style.display = 'block';
+
+  if (!iframe.src) {
+    iframe.src = "https://onedrive.live.com/embed?cid=DF8117155F580907&resid=DF8117155F580907%211340&authkey=AF6P8Ar7u7YupbA&em=2&wdAr=1.00&wdEaa=0";
+  }
+}
+    
     
   </script></body></html>
