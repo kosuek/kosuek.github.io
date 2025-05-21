@@ -89,46 +89,43 @@
       <div class="col-2"><button class="btn btn-outline-secondary w-100 btn-lg btn-nowrap" onclick="rateup(3.0)">x3.0</button></div>
     </div>
 
-<!-- スライド表示ボタンと埋め込み -->
-<button class="btn btn-outline-primary mb-3" onclick="loadSlide()">スライドを見る</button>
-<div id="pptContainer" style="display: none;">
-  <div style="max-width: 1000px; margin: auto; aspect-ratio: 4 / 3; position: relative;">
-    <iframe id="pptFrame"
-      src=""
-      allowfullscreen
-      style="position: absolute; width: 100%; height: 100%; border: none;">
-    </iframe>
+<!-- 表示切替ボタン -->
+<div class="row g-2 mb-3">
+  <div class="col-4">
+    <button class="btn btn-outline-primary w-100" onclick="toggleDisplay('pptContainer')">スライドを見る</button>
+  </div>
+  <div class="col-4">
+    <button class="btn btn-outline-success w-100" onclick="toggleDisplay('weeklyReport')">週報を表示</button>
+  </div>
+  <div class="col-4">
+    <button class="btn btn-outline-info w-100" onclick="toggleDisplay('schedule')">予定表を表示</button>
   </div>
 </div>
 
 
     
-<div class="row g-2 mb-4">
-  <!-- 週報 -->
-  <div class="col-6">
-    <div class="position-relative">
-      <a href="https://onedrive.live.com/embed?resid=DF8117155F580907%211927&authkey=%21AGrAIvgcSALoIlE" target="_blank" title="週報を拡大表示">
-        <img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211927&authkey=%21AGrAIvgcSALoIlE"
-             class="img-fluid border rounded w-100">
-        <div class="position-absolute top-50 start-50 translate-middle text-white bg-dark bg-opacity-50 px-2 py-1 rounded">
-          週報（クリックで拡大）
-        </div>
-      </a>
-    </div>
+<!-- スライド表示ボタンと埋め込み -->
+<button class="btn btn-outline-primary mb-3" onclick="loadSlide()">スライドを見る</button>
+<div id="pptContainer" style="display: none;">
+  <div style="max-width: 1000px; margin: auto; aspect-ratio: 4 / 3; position: relative;">
+    <iframe id="pptFrame"
+      src="https://onedrive.live.com/embed?cid=DF8117155F580907&resid=DF8117155F580907%211340&authkey=AF6P8Ar7u7YupbA&em=2&wdAr=1.00&wdEaa=0"
+      allowfullscreen style="position: absolute; width: 100%; height: 100%; border: none;">
+    </iframe>
   </div>
+</div>
 
-  <!-- 予定表 -->
-  <div class="col-6">
-    <div class="position-relative">
-      <a href="https://onedrive.live.com/embed?resid=DF8117155F580907%211348&authkey=%21AFqBOdaSYRks83Y" target="_blank" title="予定表を拡大表示">
-        <img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211348&authkey=%21AFqBOdaSYRks83Y"
-             class="img-fluid border rounded w-100">
-        <div class="position-absolute top-50 start-50 translate-middle text-white bg-dark bg-opacity-50 px-2 py-1 rounded">
-          予定表（クリックで拡大）
-        </div>
-      </a>
-    </div>
-  </div>
+
+<!-- 週報 -->
+<div id="weeklyReport" style="display: none;" class="mb-3">
+  <img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211927&authkey=%21AGrAIvgcSALoIlE"
+       class="img-fluid border rounded w-100">
+</div>
+
+<!-- 予定表 -->
+<div id="schedule" style="display: none;" class="mb-3">
+  <img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211348&authkey=%21AFqBOdaSYRks83Y"
+       class="img-fluid border rounded w-100">
 </div>
 
     
