@@ -95,13 +95,19 @@
   <button class="btn btn-outline-primary" onclick="toggleView('schedule')">予定表を見る</button>
 </div>
     
-
 <div id="pptContainer" style="display: none;">
   <div style="max-width: 1000px; margin: auto; aspect-ratio: 4 / 3; position: relative;">
+    <!-- ローディング表示 -->
+    <div id="pptLoading" class="d-flex justify-content-center align-items-center"
+         style="position: absolute; width: 100%; height: 100%; background: rgba(255,255,255,0.8); z-index: 1;">
+      <span class="spinner-border text-primary" role="status" aria-hidden="true"></span>
+      <span class="ms-2">読み込み中...</span>
+    </div>
+
     <iframe id="pptFrame"
-  src=""
-  allowfullscreen
-  style="position: absolute; width: 100%; height: 100%; border: none;">
+      src=""
+      allowfullscreen
+      style="position: absolute; width: 100%; height: 100%; border: none; z-index: 2;">
     </iframe>
   </div>
 </div>
@@ -110,7 +116,7 @@
 <div id="weeklyReport" style="display: none;" class="mb-4">
   <div class="overflow-auto border rounded p-2" style="white-space: nowrap;">
     <img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211927&authkey=%21AGrAIvgcSALoIlE"
-         style="height: auto; width: 1200px;" alt="週報（横スクロール可）">
+         style="height: auto; width: 1000px;" alt="週報（横スクロール可）">
   </div>
 </div>
 
@@ -118,7 +124,7 @@
 <div id="schedule" style="display: none;" class="mb-4">
   <div class="overflow-auto border rounded p-2" style="white-space: nowrap;">
     <img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211348&authkey=%21AFqBOdaSYRks83Y"
-         style="height: auto; width: 600px;" alt="予定表（横スクロール可）">
+         style="height: auto; width: 500px;" alt="予定表（横スクロール可）">
   </div>
 </div>
     
@@ -269,21 +275,29 @@ function scrollToLyrics() {
 }
     
   function toggleView(targetId) {
-    // 一旦全部非表示にする
-    document.getElementById('pptContainer').style.display = 'none';
-    document.getElementById('weeklyReport').style.display = 'none';
-    document.getElementById('schedule').style.display = 'none';
+  // 一旦全部非表示にする
+  document.getElementById('pptContainer').style.display = 'none';
+  document.getElementById('weeklyReport').style.display = 'none';
+  document.getElementById('schedule').style.display = 'none';
 
-    // 対象だけ表示
-    document.getElementById(targetId).style.display = 'block';
+  // 対象だけ表示
+  document.getElementById(targetId).style.display = 'block';
 
-    // スライドだけ src を遅延設定
-    if (targetId === 'pptContainer') {
-      const iframe = document.getElementById('pptFrame');
-      if (!iframe.src) {
-        iframe.src = "https://onedrive.live.com/embed?cid=DF8117155F580907&resid=DF8117155F580907%211340&authkey=AF6P8Ar7u7YupbA&em=2&wdAr=1.00&wdEaa=0";
-      }
-    }
+  // スライドなら iframe 読み込み開始
+  if (targetId === 'pptContainer') {
+    const iframe = document.getElementById('pptFrame');
+    const loader = document.getElementById('pptLoading');
+
+    loader.style.display = 'flex'; // ローディング表示
+
+    // srcを毎回再設定して強制読み込み
+    iframe.src = "https://onedrive.live.com/embed?cid=DF8117155F580907&resid=DF8117155F580907%211340&authkey=AF6P8Ar7u7YupbA&em=2&wdAr=1.00&wdEaa=0";
+
+    // 読み込み完了時にローディング非表示
+    iframe.onload = () => {
+      loader.style.display = 'none';
+    };
+  }
   }
     
     
