@@ -102,10 +102,6 @@
   </div>
 </div>
 
-
-    
-<!-- スライド表示ボタンと埋め込み -->
-<button class="btn btn-outline-primary mb-3" onclick="loadSlide()">スライドを見る</button>
 <div id="pptContainer" style="display: none;">
   <div style="max-width: 1000px; margin: auto; aspect-ratio: 4 / 3; position: relative;">
     <iframe id="pptFrame"
@@ -119,15 +115,14 @@
 <!-- 週報 -->
 <div id="weeklyReport" style="display: none;" class="mb-3">
   <img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211927&authkey=%21AGrAIvgcSALoIlE"
-       class="img-fluid border rounded w-100">
+       class="img-fluid border rounded w-100" alt="週報">
 </div>
 
 <!-- 予定表 -->
 <div id="schedule" style="display: none;" class="mb-3">
   <img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211348&authkey=%21AFqBOdaSYRks83Y"
-       class="img-fluid border rounded w-100">
+       class="img-fluid border rounded w-100" alt="予定表">
 </div>
-
     
 
     
@@ -282,6 +277,16 @@ function loadSlide() {
   container.style.display = 'block';
   iframe.src = "https://onedrive.live.com/embed?cid=DF8117155F580907&resid=DF8117155F580907%211340&authkey=AF6P8Ar7u7YupbA&em=2&wdAr=1.00&wdEaa=0";
 }
+    function toggleDisplay(targetId) {
+  const ids = ['pptContainer', 'weeklyReport', 'schedule'];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.style.display = (id === targetId) ? 'block' : 'none';
+    }
+  });
+    }
+
     
     
   </script></body></html>
