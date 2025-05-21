@@ -62,8 +62,10 @@
       font-size: 0.75rem;
       margin-left: 1rem;
     }
+    .logo-img {
+      height: 60px;
+    }
   </style>
-
   <script>
     let list = [];
     document.addEventListener("DOMContentLoaded", () => {
@@ -185,16 +187,16 @@
     }
   </script>
 </head>
-
 <body>
   <div class="container py-4">
-    <h4 class="text-center">
-      <span>ひたち光教会アプリ</span>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <img src="./logo.png" alt="ひたち光教会アプリ ロゴ" class="logo-img">
       <div>
         <a class="btn btn-sm btn-outline-success home-btn" href="https://hitachihikari.net">教会ホームページ</a>
         <button class="btn btn-sm btn-outline-primary home-btn" onclick="window.location.reload(true);">アプリ更新</button>
       </div>
-    </h4>
+    </div>
+
 
     <!-- タブ -->
     <ul class="nav nav-tabs mb-3" id="tabMenu" role="tablist">
