@@ -160,12 +160,12 @@
 </div>
 
   </div>  <script>
-    let list = [];
+   let list = [];
 let swiperInstance;
 let pptLoaded = false;
 
 document.addEventListener("DOMContentLoaded", () => {
-  // 説教リストの取得とセット
+  // 説教リスト
   fetch("https://hitachihikari.net/message/list.json")
     .then(res => res.json())
     .then(data => {
@@ -179,7 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
       audioset();
     });
 
-  // 聖歌歌詞の読み込みとボタン生成
+  // 聖歌歌詞リスト
   fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRGJMtcBrjSnLZZGMFKB0wPzh4v_hHF8nmIdpTzZtLcpx0LKM_VAruhWF9diTGVZ4kXewlbN_sIhcOC/pub?output=csv")
     .then(res => res.text())
     .then(csvText => {
@@ -207,7 +207,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-  // スライド読み込み初期設定（ここが重要）
+  // スライド読み込み（初回）
   const iframe = document.getElementById('pptFrame');
   const loader = document.getElementById('pptLoading');
   loader.style.display = 'flex';
@@ -219,7 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   iframe.src = "https://onedrive.live.com/embed?cid=DF8117155F580907&resid=DF8117155F580907%211340&authkey=AF6P8Ar7u7YupbA&em=2&wdAr=1.00&wdEaa=0";
 
-  // 念のため5秒でローディング非表示
+  // 念のため5秒で非表示（失敗対策）
   setTimeout(() => {
     if (!pptLoaded) loader.style.display = 'none';
   }, 5000);
