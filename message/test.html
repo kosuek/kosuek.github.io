@@ -161,51 +161,54 @@
 
   </div>  <script>
     let list = [];
-    let swiperInstance;
+let swiperInstance;
+let pptLoaded = false;
 
-    let pptLoaded = false;
-    
+document.addEventListener("DOMContentLoaded", () => {
+  // 説教リストの取得とセット
+  fetch("https://hitachihikari.net/message/list.json")
+    .then(res => res.json())
+    .then(data => {
+      list = data;
+      for (const item of list) {
+        const opt = document.createElement("option");
+        opt.value = item.val;
+        opt.text = item.txt;
+        document.getElementById("messageSelect").appendChild(opt);
+      }
+      audioset();
+    });
 
-    document.addEventListener("DOMContentLoaded", () => {
-      fetch("https://hitachihikari.net/message/list.json")
-        .then(res => res.json())
-        .then(data => {
-          list = data;
-          for (const item of list) {
-            const opt = document.createElement("option");
-            opt.value = item.val;
-            opt.text = item.txt;
-            document.getElementById("messageSelect").appendChild(opt);
-          }
-          audioset();
-        });
+  // 聖歌歌詞の読み込みとボタン生成
+  fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRGJMtcBrjSnLZZGMFKB0wPzh4v_hHF8nmIdpTzZtLcpx0LKM_VAruhWF9diTGVZ4kXewlbN_sIhcOC/pub?output=csv")
+    .then(res => res.text())
+    .then(csvText => {
+      const parsed = Papa.parse(csvText, { header: false });
+      const rows = parsed.data.slice(1);
+      const hymnData = rows.map(cols => ({
+        number: cols[1]?.trim(),
+        verse: cols[2],
+        text: cols[3],
+        meaning: cols[5]
+      }));
 
-      fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRGJMtcBrjSnLZZGMFKB0wPzh4v_hHF8nmIdpTzZtLcpx0LKM_VAruhWF9diTGVZ4kXewlbN_sIhcOC/pub?output=csv")
-        .then(res => res.text())
-        .then(csvText => {
-          const parsed = Papa.parse(csvText, { header: false });
-          const rows = parsed.data.slice(1);
-          const hymnData = rows.map(cols => ({
-            number: cols[1]?.trim(),
-            verse: cols[2],
-            text: cols[3],
-            meaning: cols[5]
-          }));
+      const numbers = [...new Set(hymnData.map(row => row.number))]
+        .map(n => parseInt(n))
+        .filter(n => !isNaN(n))
+        .sort((a, b) => a - b);
 
-          const numbers = [...new Set(hymnData.map(row => row.number))]
-            .map(n => parseInt(n))
-            .filter(n => !isNaN(n))
-            .sort((a, b) => a - b);
+      const hymnButtons = document.getElementById('hymnButtons');
+      numbers.forEach(num => {
+        const btn = document.createElement('button');
+        btn.className = 'btn btn-outline-primary m-1';
+        btn.textContent = num;
+        btn.onclick = () => showLyrics(num, hymnData);
+        hymnButtons.appendChild(btn);
+      });
+    });
 
-          const hymnButtons = document.getElementById('hymnButtons');
-          numbers.forEach(num => {
-            const btn = document.createElement('button');
-            btn.className = 'btn btn-outline-primary m-1';
-            btn.textContent = num;
-            btn.onclick = () => showLyrics(num, hymnData);
-            hymnButtons.appendChild(btn);
-
-            const iframe = document.getElementById('pptFrame');
+  // スライド読み込み初期設定（ここが重要）
+  const iframe = document.getElementById('pptFrame');
   const loader = document.getElementById('pptLoading');
   loader.style.display = 'flex';
 
@@ -222,12 +225,25 @@
   }, 5000);
 });
 
+function toggleView(targetId) {
+  document.getElementById('pptContainer').style.display = 'none';
+  document.getElementById('weeklyReport').style.display = 'none';
+  document.getElementById('schedule').style.display = 'none';
 
+  document.getElementById(targetId).style.display = 'block';
 
-            
-          });
-        });
-    });
+  if (targetId === 'pptContainer') {
+    const loader = document.getElementById('pptLoading');
+    if (!pptLoaded) {
+      loader.style.display = 'flex';
+    } else {
+      loader.style.display = 'none';
+    }
+  }
+}
+    
+
+    
 
     function audioset() {
       const selaudio = $("#messageSelect").val().substr(0, 8);
