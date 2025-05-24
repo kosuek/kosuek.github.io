@@ -1,18 +1,15 @@
 {
-  "name":"HHC_app",
-  "short_name":"ひたち光",
-  "icons": [{
-      "src": "/img/hhc192.png",
-      "sizes":"192x192",
-      "type": "image/png"
-    }, {
-      "src": "/img/hhc512.png",
-      "sizes":"512x512",
-      "type": "image/png"
-    }],
-  "start_url": "/message/index.html?utm_source=homescreen",
-  "orientation": "any",
+  "name": "ひたち光教会アプリ",
+  "short_name": "教会アプリ",
+  "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#FFFFFF",
-  "theme_color": "#FFFFFF"
+  "background_color": "#ffffff",
+  "theme_color": "#198754",
+  "icons": [
+    {
+      "src": "hhc-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
