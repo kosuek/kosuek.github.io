@@ -13,6 +13,20 @@
   <link href="https://hitachihikari.net/bible.png" rel="shortcut icon">
   <link href="https://hitachihikari.net/bible.png" rel="apple-touch-icon">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="manifest" href="./manifest.json">
+　<meta name="theme-color" content="#198754">
+  <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('./service-worker.js')
+        .then(function (registration) {
+          console.log('ServiceWorker登録成功:', registration.scope);
+        }, function (err) {
+          console.log('ServiceWorker登録失敗:', err);
+        });
+    });
+  }
+</script>
   <script src="https://code.jquery.com/jquery.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
