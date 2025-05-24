@@ -23,6 +23,9 @@
       font-family: 'Noto Sans JP', sans-serif;
       background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
       color: #212529;
+      margin: 0;
+      /* スクロール余白の除去 */
+      padding: 0;
     }
 
     .logo-img {
@@ -345,14 +348,7 @@
 
     function scrollToLyrics() {
       const swiperContainer = document.getElementById('hymnSwiper');
-      const rect = swiperContainer.getBoundingClientRect();
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      const offsetTop = rect.top + scrollTop;
-
-      window.scrollTo({
-        top: offsetTop,
-        behavior: 'smooth'
-      });
+      swiperContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function toggleView(targetId) {
@@ -377,7 +373,7 @@
         }
       }
     }
-  
+
   </script>
 </body>
 
