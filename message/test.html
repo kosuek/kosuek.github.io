@@ -46,20 +46,19 @@
     }
 
     .swiper {
-      height: 60vh;
+      height: auto;
+      max-height: none;
     }
 
-  .swiper-slide {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  text-align: center;
-  padding: 1rem;
-  max-height: 100%;
-  overflow-y: auto;
-  min-height: 100vh;  /* ← 追加：短くても画面いっぱい */
-}
+    .swiper-slide {
+      display: block;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+
+    .swiper-wrapper {
+      overflow: visible !important;
+    }
 
     .swiper-slide p {
       font-size: 1.8rem;
@@ -72,10 +71,10 @@
       /* 意味もやや大きめに */
     }
 
-.swiper-slide p:last-child {
-  margin-bottom: 20vh; /* 意味の下に余白 */
-}
-    
+    .swiper-slide p:last-child {
+      margin-bottom: 20vh;
+      /* 意味の下に余白 */
+    }
   </style>
 </head>
 
@@ -340,6 +339,7 @@
       swiperInstance = new Swiper('.mySwiper', {
         direction: 'horizontal',
         loop: false,
+        autoHeight: true, // ← 追加！
         pagination: {
           el: '.swiper-pagination',
           clickable: true,
@@ -352,15 +352,15 @@
       scrollToLyrics();
     }
 
-   function scrollToLyrics() {
-  const swiperContainer = document.getElementById('hymnSwiper');
-  const offsetTop = swiperContainer.getBoundingClientRect().top + window.scrollY;
+    function scrollToLyrics() {
+      const swiperContainer = document.getElementById('hymnSwiper');
+      const offsetTop = swiperContainer.getBoundingClientRect().top + window.scrollY;
 
-  window.scrollTo({
-    top: offsetTop,
-    behavior: 'smooth'
-  });
-}
+      window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth'
+      });
+    }
 
     function toggleView(targetId) {
       document.getElementById('pptContainer').style.display = 'none';
