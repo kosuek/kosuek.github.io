@@ -264,8 +264,6 @@
         <div class="swiper mySwiper" id="hymnSwiper">
           <div class="swiper-wrapper" id="hymnSlides"></div>
           <div class="swiper-pagination"></div>
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
         </div>
       </div>
     </div>
@@ -425,18 +423,15 @@
 
       if (swiperInstance) swiperInstance.destroy(true, true);
       swiperInstance = new Swiper('.mySwiper', {
-        direction: 'horizontal',
-        loop: false,
-        autoHeight: true, // ← 追加！
-        pagination: {
-          el: '.swiper-pagination',
-          clickable: true,
-        },
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        },
-      });
+  direction: 'horizontal',
+  loop: false,
+  autoHeight: true,
+  pagination: {
+    el: '.swiper-pagination',
+    clickable: true,
+  }
+  // navigation は削除
+});
       scrollToLyrics();
     }
 
