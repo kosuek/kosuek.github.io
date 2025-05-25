@@ -415,7 +415,7 @@
           const slide = document.createElement('div');
           slide.className = 'swiper-slide';
           slide.innerHTML = `
-  <h5 class="mb-3">第 ${verse} 節</h5>
+  <h5 class="mb-3">${number}番 第${verse}節</h5>
   <p class="fw-bold" style="font-size: 1.8rem;">${text?.replace(/\n/g, '<br>')}</p>
   <p class="text-secondary" style="font-size: 1.1rem;">${meaning?.replace(/\n/g, '<br>')}</p>
 `;
