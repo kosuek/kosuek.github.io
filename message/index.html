@@ -372,33 +372,48 @@
   const select = document.getElementById("messageSelect");
   const selaudio = select.value.substring(0, 8);
   const audio = new Audio("./m4a/" + selaudio + ".m4a");
-  audio.controls = true;           // ← バー付きのプレイヤーを表示
-  audio.style.width = '100%';      // ← 幅広に
+  audio.controls = true;
+  audio.style.width = '100%';
   audio.id = "audio";
   audio.preload = "auto";
 
   const messageDiv = document.getElementById("message");
   messageDiv.innerHTML = '';
-  messageDiv.appendChild(audio);   // ← プレイヤー表示
+  messageDiv.appendChild(audio);
 
+  // 再生ボタン関連
   const playBtnContainer = document.getElementById("customPlayButton");
   const playToggle = document.getElementById("playToggle");
 
-  playToggle.innerText = '▶';
+  // イベントが重複しないように既存のリスナーを削除（ボタンを複製し直す手法）
+  const newPlayToggle = playToggle.cloneNode(true);
+  playToggle.parentNode.replaceChild(newPlayToggle, playToggle);
+
+  newPlayToggle.innerText = '▶';
   playBtnContainer.style.display = 'block';
 
-  playToggle.onclick = () => {
+  // 状態を追跡して同期させる
+  newPlayToggle.onclick = () => {
     if (audio.paused) {
       audio.play();
-      playToggle.innerText = '⏸';
+      newPlayToggle.innerText = '⏸';
     } else {
       audio.pause();
-      playToggle.innerText = '▶';
+      newPlayToggle.innerText = '▶';
     }
   };
 
+  // 再生状態が変わったときにボタンの表示を更新
+  audio.addEventListener("play", () => {
+    newPlayToggle.innerText = '⏸';
+  });
+
+  audio.addEventListener("pause", () => {
+    newPlayToggle.innerText = '▶';
+  });
+
   audio.addEventListener("ended", () => {
-    playToggle.innerText = '▶';
+    newPlayToggle.innerText = '▶';
   });
 }
 
