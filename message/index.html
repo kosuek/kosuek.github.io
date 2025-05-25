@@ -180,6 +180,11 @@
           <select class="form-select form-select-lg shadow-sm border-primary" id="messageSelect"></select>
         </div>
         <div id="message" class="mb-4"></div>
+        <div id="customPlayButton" class="text-center mb-3">
+  <button id="playToggle" class="btn btn-lg btn-success rounded-circle" style="width: 80px; height: 80px; font-size: 2rem;">
+    ▶
+  </button>
+</div>
         <div class="row g-1 mb-1">
           <div class="col-3"><button class="btn btn-hhc" onclick="skip(-30)">30秒</button></div>
           <div class="col-3"><button class="btn btn-hhc" onclick="skip(-5)">5秒</button></div>
@@ -364,18 +369,38 @@
 
 
     function audioset() {
-      const select = document.getElementById("messageSelect");
-      const selaudio = select.value.substring(0, 8);
-      const audio = new Audio("./m4a/" + selaudio + ".m4a");
-      audio.controls = true;
-      audio.style.width = '100%';
-      audio.id = "audio";
-      audio.preload = "auto";
-      const messageDiv = document.getElementById("message");
-      messageDiv.innerHTML = '';
-      messageDiv.appendChild(audio);
+  const select = document.getElementById("messageSelect");
+  const selaudio = select.value.substring(0, 8);
+  const audio = new Audio("./m4a/" + selaudio + ".m4a");
+  audio.controls = true;           // ← バー付きのプレイヤーを表示
+  audio.style.width = '100%';      // ← 幅広に
+  audio.id = "audio";
+  audio.preload = "auto";
+
+  const messageDiv = document.getElementById("message");
+  messageDiv.innerHTML = '';
+  messageDiv.appendChild(audio);   // ← プレイヤー表示
+
+  const playBtnContainer = document.getElementById("customPlayButton");
+  const playToggle = document.getElementById("playToggle");
+
+  playToggle.innerText = '▶';
+  playBtnContainer.style.display = 'block';
+
+  playToggle.onclick = () => {
+    if (audio.paused) {
       audio.play();
+      playToggle.innerText = '⏸';
+    } else {
+      audio.pause();
+      playToggle.innerText = '▶';
     }
+  };
+
+  audio.addEventListener("ended", () => {
+    playToggle.innerText = '▶';
+  });
+}
 
     function skip(seconds) {
       const audio = document.getElementById("audio");
