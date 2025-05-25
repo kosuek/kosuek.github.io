@@ -134,6 +134,14 @@
       background-color: #f8f9fa;
       color: #000;
     }
+
+    .btn-kashi.active {
+  background-color: #198754; /* Bootstrapの成功色（緑） */
+  color: #fff;
+  border-color: #198754;
+}
+
+    
   </style>
 </head>
 
@@ -306,7 +314,16 @@
             const btn = document.createElement('button');
             btn.className = 'btn btn-kashi';
             btn.textContent = num;
-            btn.onclick = () => showLyrics(num, hymnData);
+            btn.onclick = () => {
+  // すべてのボタンから active を除去
+  document.querySelectorAll('.btn-kashi').forEach(b => b.classList.remove('active'));
+  
+  // 押されたボタンに active を追加
+  btn.classList.add('active');
+
+  // 歌詞表示
+  showLyrics(num, hymnData);
+};
             hymnButtons.appendChild(btn);
           });
         });
