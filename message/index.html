@@ -2,513 +2,530 @@
 <html lang="ja">
 
 <head>
-  <title>ひたち光教会アプリ</title>
-  <meta name="robots" content="noindex,nofollow,noarchive" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta charset="utf-8">
-  <meta property="og:url" content="https://hitachihikari.net/message/">
-  <meta property="og:title" content="ひたち光教会アプリ">
-  <meta property="og:site_name" content="ひたち光教会アプリ">
-  <meta property="og:image" content="https://hitachihikari.net/bible.png">
-  <link href="https://hitachihikari.net/bible.png" rel="shortcut icon">
-  <link href="https://hitachihikari.net/bible.png" rel="apple-touch-icon">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="manifest" href="./manifest.json">
-  　
-  <meta name="theme-color" content="#198754">
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        navigator.serviceWorker.register('./service-worker.js')
-          .then(function (registration) {
-            console.log('ServiceWorker登録成功:', registration.scope);
-          }, function (err) {
-            console.log('ServiceWorker登録失敗:', err);
-          });
-      });
-    }
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-  <style>
-    body {
-      font-family: 'Noto Sans JP', sans-serif;
-      font-size: 1rem;
-      line-height: 1.6;
-      color: #212529;
-      margin: 0;
-      padding: 0;
-    }
+	<title>ひたち光教会アプリ</title>
+	<meta name="robots" content="noindex,nofollow,noarchive" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+	<meta property="og:url" content="https://hitachihikari.net/message/">
+	<meta property="og:title" content="ひたち光教会アプリ">
+	<meta property="og:site_name" content="ひたち光教会アプリ">
+	<meta property="og:image" content="https://hitachihikari.net/bible.png">
+	<link href="https://hitachihikari.net/bible.png" rel="shortcut icon">
+	<link href="https://hitachihikari.net/bible.png" rel="apple-touch-icon">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="manifest" href="./manifest.json">
+	　
+	<meta name="theme-color" content="#198754">
+	<script>
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', function () {
+				navigator.serviceWorker.register('./service-worker.js')
+					.then(function (registration) {
+						console.log('ServiceWorker登録成功:', registration.scope);
+					}, function (err) {
+						console.log('ServiceWorker登録失敗:', err);
+					});
+			});
+		}
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+	<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+	<style>
+		body {
+			font-family: 'Noto Sans JP', sans-serif;
+			font-size: 1rem;
+			line-height: 1.6;
+			color: #212529;
+			margin: 0;
+			padding: 0;
+		}
 
-.btn-hhc {
-  width: 100%;
-  font-weight: 500;
-  padding: 0.75rem;
-  font-size: 1rem;
-  border: 1px solid #6c757d;
-  background-color: #fff;
-  color: #495057;
-  border-radius: 2rem;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  transition: all 0.2s ease-in-out;
-}
+		.btn-hhc {
+			width: 100%;
+			font-weight: 500;
+			padding: 0.75rem;
+			font-size: 1rem;
+			border: 1px solid #6c757d;
+			background-color: #fff;
+			color: #495057;
+			border-radius: 2rem;
+			box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+			transition: all 0.2s ease-in-out;
+		}
 
-.btn-kashi {
-  font-weight: 500;
-  padding: rem;
-  font-size: 1rem;
-  border: 1px solid #6c757d;
-  background-color: #fff;
-  color: #495057;
-  border-radius: 0.5rem;
-  transition: all 0.2s ease-in-out;
-}
+		.btn-kashi {
+			font-weight: 500;
+			padding: rem;
+			font-size: 1rem;
+			border: 1px solid #6c757d;
+			background-color: #fff;
+			color: #495057;
+			border-radius: 0.5rem;
+			transition: all 0.2s ease-in-out;
+		}
 
-    .logo-img {
-      height: auto;
-      width: 180px;
-    }
+		.logo-img {
+			height: auto;
+			width: 180px;
+		}
 
 
-    button {
-      transition: all 0.2s ease-in-out;
-    }
+		button {
+			transition: all 0.2s ease-in-out;
+		}
 
-    .btn-nowrap {
-      white-space: nowrap;
-      padding-left: 0.5rem;
-      padding-right: 0.5rem;
-    }
+		.btn-nowrap {
+			white-space: nowrap;
+			padding-left: 0.5rem;
+			padding-right: 0.5rem;
+		}
 
-    .swiper {
-      height: auto;
-      max-height: none;
-    }
+		.swiper {
+			height: auto;
+			max-height: none;
+		}
 
-    .swiper-slide {
-      display: block;
-      padding: 2rem;
-      min-height: 100vh;
-    }
+		.swiper-slide {
+			display: block;
+			padding: 2rem;
+			min-height: 100vh;
+		}
 
-    .swiper-wrapper {
-      overflow: visible !important;
-    }
+		.swiper-wrapper {
+			overflow: visible !important;
+		}
 
-    .swiper-slide p {
-      font-size: 2.0rem;
-      /* 歌詞を大きめに */
-      line-height: 1.5
-    }
+		.swiper-slide p {
+			font-size: 2.0rem;
+			/* 歌詞を大きめに */
+			line-height: 1.5
+		}
 
-    .swiper-slide .text-secondary.small {
-      font-size: 1.5rem;
-      /* 意味もやや大きめに */
-    }
+		.swiper-slide .text-secondary.small {
+			font-size: 1.5rem;
+			/* 意味もやや大きめに */
+		}
 
-    .swiper-slide p:last-child {
-      margin-bottom: 20vh;
-      /* 意味の下に余白 */
-    }
+		.swiper-slide p:last-child {
+			margin-bottom: 20vh;
+			/* 意味の下に余白 */
+		}
 
-    #messageSelect {
-      font-size: 1.25rem;
-      padding: 0.75rem 1rem;
-    }
+		#messageSelect {
+			font-size: 1.25rem;
+			padding: 0.75rem 1rem;
+		}
 
-    .playback-btn {
-      width: 100%;
-      padding: 0.75rem;
-      font-size: 1rem;
-      border: 1px solid #6c757d;
-      background-color: #fff;
-      color: #495057;
-      border-radius: 2rem;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-      transition: all 0.2s ease-in-out;
-    }
+		.playback-btn {
+			width: 100%;
+			padding: 0.75rem;
+			font-size: 1rem;
+			border: 1px solid #6c757d;
+			background-color: #fff;
+			color: #495057;
+			border-radius: 2rem;
+			box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+			transition: all 0.2s ease-in-out;
+		}
 
-    .playback-btn:hover {
-      background-color: #f8f9fa;
-      color: #000;
-    }
+		.playback-btn:hover {
+			background-color: #f8f9fa;
+			color: #000;
+		}
 
-    .btn-kashi.active {
-  background-color: #198754; /* Bootstrapの成功色（緑） */
-  color: #fff;
-  border-color: #198754;
-}
-
-    
-  </style>
+		.btn-kashi.active {
+			background-color: #198754;
+			/* Bootstrapの成功色（緑） */
+			color: #fff;
+			border-color: #198754;
+		}
+	</style>
 </head>
 
 <body>
-  <div class="container py-3">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <img src="./logo.png" alt="ひたち光教会アプリ ロゴ" class="logo-img">
-      <a class="btn btn-outline-primary shadow-sm rounded-pill px-4 py-2 fw-bold d-flex align-items-center gap-2"
-        href="https://hitachihikari.net" target="_blank">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-house-door"
-          viewBox="0 0 16 16">
-          <path
-            d="M8.354 1.146a.5.5 0 0 0-.708 0L1.5 7.293V14.5A1.5 1.5 0 0 0 3 16h3.5v-4.5A1.5 1.5 0 0 1 8 10h0a1.5 1.5 0 0 1 1.5 1.5V16H13a1.5 1.5 0 0 0 1.5-1.5V7.293l-6.146-6.147z" />
-          <path d="M13 2.5v-.793l.354.353a.5.5 0 0 1-.708.708L13 2.5z" />
-        </svg>
-        ホームページへ戻る
-      </a>
-    </div>
-    <ul class="nav nav-tabs mb-3" id="tabMenu" role="tablist">
-      <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="message-tab" data-bs-toggle="tab" data-bs-target="#message-tab-pane"
-          type="button" role="tab" aria-controls="message-tab-pane" aria-selected="true">説教反芻</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="hymn-tab" data-bs-toggle="tab" data-bs-target="#hymn-tab-pane" type="button"
-          role="tab" aria-controls="hymn-tab-pane" aria-selected="false">聖歌歌詞</button>
-      </li>
-    </ul>
+	<div class="container py-3">
+		<div class="d-flex justify-content-between align-items-center mb-3">
+			<img src="./logo.png" alt="ひたち光教会アプリ ロゴ" class="logo-img">
+			<a class="btn btn-outline-primary shadow-sm rounded-pill px-4 py-2 fw-bold d-flex align-items-center gap-2"
+				href="https://hitachihikari.net" target="_blank">
+				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+					class="bi bi-house-door" viewBox="0 0 16 16">
+					<path
+						d="M8.354 1.146a.5.5 0 0 0-.708 0L1.5 7.293V14.5A1.5 1.5 0 0 0 3 16h3.5v-4.5A1.5 1.5 0 0 1 8 10h0a1.5 1.5 0 0 1 1.5 1.5V16H13a1.5 1.5 0 0 0 1.5-1.5V7.293l-6.146-6.147z" />
+					<path d="M13 2.5v-.793l.354.353a.5.5 0 0 1-.708.708L13 2.5z" />
+				</svg>
+				ホームページへ戻る
+			</a>
+		</div>
+		<ul class="nav nav-tabs mb-3" id="tabMenu" role="tablist">
+			<li class="nav-item" role="presentation">
+				<button class="nav-link active" id="message-tab" data-bs-toggle="tab" data-bs-target="#message-tab-pane"
+					type="button" role="tab" aria-controls="message-tab-pane" aria-selected="true">説教反芻</button>
+			</li>
+			<li class="nav-item" role="presentation">
+				<button class="nav-link" id="hymn-tab" data-bs-toggle="tab" data-bs-target="#hymn-tab-pane"
+					type="button" role="tab" aria-controls="hymn-tab-pane" aria-selected="false">聖歌歌詞</button>
+			</li>
+		</ul>
 
-    <div class="tab-content" id="tabContent">
-      <div class="tab-pane fade show active" id="message-tab-pane" role="tabpanel" aria-labelledby="message-tab">
-        <div class="mb-3">
-          <label for="messageSelect" class="form-label fs-5 fw-semibold text-primary">
-            🎧 礼拝説教を選んでください
-          </label>
-          <select class="form-select form-select-lg shadow-sm border-primary" id="messageSelect"></select>
-        </div>
-        <div id="message" class="mb-4"></div>
-        <div id="customPlayButton" class="text-center mb-3">
-  <button id="playToggle" class="btn btn-lg btn-success rounded-circle" style="width: 80px; height: 80px; font-size: 2rem;">
-    ▶
-  </button>
-</div>
-        <div class="row g-1 mb-1">
-          <div class="col-3"><button class="btn btn-hhc" onclick="skip(-30)">30秒</button></div>
-          <div class="col-3"><button class="btn btn-hhc" onclick="skip(-5)">5秒</button></div>
-          <div class="col-3"><button class="btn btn-hhc" onclick="skip(5)">5秒&gt;&gt;</button></div>
-          <div class="col-3"><button class="btn btn-hhc" onclick="skip(30)">30秒&gt;&gt;</button></div>
-        </div>
-        <div class="row g-1 mb-1">
-          <div class="col-2"><button class="btn btn-hhc" onclick="rateup(0.5)">x0.5</button></div>
-          <div class="col-2"><button class="btn btn-hhc" onclick="rateup(0.8)">x0.8</button></div>
-          <div class="col-2"><button class="btn btn-hhc" onclick="rateup(1.0)">x1.0</button></div>
-          <div class="col-2"><button class="btn btn-hhc" onclick="rateup(1.5)">x1.5</button></div>
-          <div class="col-2"><button class="btn btn-hhc" onclick="rateup(2.0)">x2.0</button></div>
-          <div class="col-2"><button class="btn btn-hhc" onclick="rateup(2.5)">x2.5</button></div>
-        </div>
-        <div class="row g-1 mb-1">
-          <div class="col-2"><button class="btn btn-hhc" onclick="move(600)">10分</button></div>
-          <div class="col-2"><button class="btn btn-hhc" onclick="move(1200)">20分</button></div>
-          <div class="col-2"><button class="btn btn-hhc" onclick="move(1800)">30分</button></div>
-          <div class="col-2"><button class="btn btn-hhc" onclick="move(2400)">40分</button></div>
-          <div class="col-2"><button class="btn btn-hhc" onclick="move(3000)">50分</button></div>
-          <div class="col-2"><button class="btn btn-hhc" onclick="move(3600)">60分</button></div>
-        </div>
+		<div class="tab-content" id="tabContent">
+			<div class="tab-pane fade show active" id="message-tab-pane" role="tabpanel" aria-labelledby="message-tab">
+				<div class="mb-3">
+					<label for="messageSelect" class="form-label fs-5 fw-semibold text-primary">
+						🎧 礼拝説教を選んでください
+					</label>
+					<select class="form-select form-select-lg shadow-sm border-primary" id="messageSelect"></select>
+				</div>
+				<div id="message" class="mb-4"></div>
+				<div id="customPlayButton" class="text-center mb-3">
+					<button id="playToggle" class="btn btn-lg btn-success rounded-circle"
+						style="width: 80px; height: 80px; font-size: 2rem;">
+						▶
+					</button>
+				</div>
+				<div class="row g-1 mb-1">
+					<div class="col-3"><button class="btn btn-hhc" onclick="skip(-30)">30秒</button></div>
+					<div class="col-3"><button class="btn btn-hhc" onclick="skip(-5)">5秒</button></div>
+					<div class="col-3"><button class="btn btn-hhc" onclick="skip(5)">5秒&gt;&gt;</button></div>
+					<div class="col-3"><button class="btn btn-hhc" onclick="skip(30)">30秒&gt;&gt;</button></div>
+				</div>
+				<div class="row g-1 mb-1">
+					<div class="col-2"><button class="btn btn-hhc" onclick="rateup(0.5)">x0.5</button></div>
+					<div class="col-2"><button class="btn btn-hhc" onclick="rateup(0.8)">x0.8</button></div>
+					<div class="col-2"><button class="btn btn-hhc" onclick="rateup(1.0)">x1.0</button></div>
+					<div class="col-2"><button class="btn btn-hhc" onclick="rateup(1.5)">x1.5</button></div>
+					<div class="col-2"><button class="btn btn-hhc" onclick="rateup(2.0)">x2.0</button></div>
+					<div class="col-2"><button class="btn btn-hhc" onclick="rateup(2.5)">x2.5</button></div>
+				</div>
+				<div class="row g-1 mb-1">
+					<div class="col-2"><button class="btn btn-hhc" onclick="move(600)">10分</button></div>
+					<div class="col-2"><button class="btn btn-hhc" onclick="move(1200)">20分</button></div>
+					<div class="col-2"><button class="btn btn-hhc" onclick="move(1800)">30分</button></div>
+					<div class="col-2"><button class="btn btn-hhc" onclick="move(2400)">40分</button></div>
+					<div class="col-2"><button class="btn btn-hhc" onclick="move(3000)">50分</button></div>
+					<div class="col-2"><button class="btn btn-hhc" onclick="move(3600)">60分</button></div>
+				</div>
 
-        <div class="row mb-3 g-2">
-          <div class="col">
-            <button class="btn" onclick="toggleView('pptContainer')">
-              📽 スライドを見る
-            </button>
-          </div>
-          <div class="col">
-            <button class="btn" onclick="toggleView('weeklyReport')">
-              📰 週報を見る
-            </button>
-          </div>
-          <div class="col">
-            <button class="btn" onclick="toggleView('schedule')">
-              📅 予定表を見る
-            </button>
-          </div>
-        </div>
-
-
-        <div id="pptContainer" style="display: none;">
-          <div style="max-width: 1000px; margin: auto; aspect-ratio: 4 / 3; position: relative;">
-            <!-- ローディング表示 -->
-            <div id="pptLoading" class="d-flex justify-content-center align-items-center"
-              style="position: absolute; width: 100%; height: 100%; background: rgba(255,255,255,0.8); z-index: 1;">
-              <span class="spinner-border text-primary" role="status" aria-hidden="true"></span>
-              <span class="ms-2">読み込み中...</span>
-            </div>
-
-            <iframe id="pptFrame" src="" allowfullscreen
-              style="position: absolute; width: 100%; height: 100%; border: none; z-index: 2;">
-            </iframe>
-          </div>
-        </div>
-
-        <!-- 週報 -->
-        <div id="weeklyReport" style="display: none;" class="mb-4">
-          <div class="overflow-auto border rounded p-2" style="white-space: nowrap;">
-            <img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211927&authkey=%21AGrAIvgcSALoIlE"
-              style="height: auto; width: 1000px;" alt="週報（横スクロール可）">
-          </div>
-        </div>
-
-        <!-- 予定表 -->
-        <div id="schedule" style="display: none;" class="mb-4">
-          <div class="overflow-auto border rounded p-2" style="white-space: nowrap;">
-            <img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211348&authkey=%21AFqBOdaSYRks83Y"
-              style="height: auto; width: 500px;" alt="予定表（横スクロール可）">
-          </div>
-        </div>
+				<div class="row mb-3 g-2">
+					<div class="col">
+						<button class="btn" onclick="toggleView('pptContainer')">
+							📽 スライドを見る
+						</button>
+					</div>
+					<div class="col">
+						<button class="btn" onclick="toggleView('weeklyReport')">
+							📰 週報を見る
+						</button>
+					</div>
+					<div class="col">
+						<button class="btn" onclick="toggleView('schedule')">
+							📅 予定表を見る
+						</button>
+					</div>
+				</div>
 
 
+				<div id="pptContainer" style="display: none;">
+					<div style="max-width: 1000px; margin: auto; aspect-ratio: 4 / 3; position: relative;">
+						<!-- ローディング表示 -->
+						<div id="pptLoading" class="d-flex justify-content-center align-items-center"
+							style="position: absolute; width: 100%; height: 100%; background: rgba(255,255,255,0.8); z-index: 1;">
+							<span class="spinner-border text-primary" role="status" aria-hidden="true"></span>
+							<span class="ms-2">読み込み中...</span>
+						</div>
 
-      </div>
+						<iframe id="pptFrame" src="" allowfullscreen
+							style="position: absolute; width: 100%; height: 100%; border: none; z-index: 2;">
+						</iframe>
+					</div>
+				</div>
 
-      <div class="tab-pane fade" id="hymn-tab-pane" role="tabpanel" aria-labelledby="hymn-tab">
-        <div class="mb-3 text-center">
-          <div id="hymnButtons" class="d-flex flex-wrap justify-content-center"></div>
-        </div>
-        <div class="swiper mySwiper" id="hymnSwiper">
-          <div class="swiper-wrapper" id="hymnSlides"></div>
-          <div class="swiper-pagination"></div>
-        </div>
-      </div>
-    </div>
+				<!-- 週報 -->
+				<div id="weeklyReport" style="display: none;" class="mb-4">
+					<div class="overflow-auto border rounded p-2" style="white-space: nowrap;">
+						<img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211927&authkey=%21AGrAIvgcSALoIlE"
+							style="height: auto; width: 1000px;" alt="週報（横スクロール可）">
+					</div>
+				</div>
 
-  </div>
-  <script>
-    let list = [];
-    let swiperInstance;
-    let pptLoaded = false;
-
-    document.addEventListener("DOMContentLoaded", () => {
-      // 説教リスト
-      fetch("https://hitachihikari.net/message/list.json")
-        .then(res => res.json())
-        .then(data => {
-          list = data;
-          for (const item of list) {
-            const opt = document.createElement("option");
-            opt.value = item.val;
-            opt.text = item.txt;
-            document.getElementById("messageSelect").appendChild(opt);
-          }
-          audioset();
-        });
-
-      // 聖歌歌詞リスト
-      fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRGJMtcBrjSnLZZGMFKB0wPzh4v_hHF8nmIdpTzZtLcpx0LKM_VAruhWF9diTGVZ4kXewlbN_sIhcOC/pub?output=csv")
-        .then(res => res.text())
-        .then(csvText => {
-          const parsed = Papa.parse(csvText, { header: false });
-          const rows = parsed.data.slice(1);
-          const hymnData = rows.map(cols => ({
-            number: cols[1]?.trim(),
-            verse: cols[2],
-            text: cols[3],
-            meaning: cols[5]
-          }));
-
-          const numbers = [...new Set(hymnData.map(row => row.number))]
-            .map(n => parseInt(n))
-            .filter(n => !isNaN(n))
-            .sort((a, b) => a - b);
-
-          const hymnButtons = document.getElementById('hymnButtons');
-          numbers.forEach(num => {
-            const btn = document.createElement('button');
-            btn.className = 'btn btn-kashi';
-            btn.textContent = num;
-            btn.onclick = () => {
-  // すべてのボタンから active を除去
-  document.querySelectorAll('.btn-kashi').forEach(b => b.classList.remove('active'));
-  
-  // 押されたボタンに active を追加
-  btn.classList.add('active');
-
-  // 歌詞表示
-  showLyrics(num, hymnData);
-};
-            hymnButtons.appendChild(btn);
-          });
-        });
-
-      // スライド読み込み（初回）
-      const iframe = document.getElementById('pptFrame');
-      const loader = document.getElementById('pptLoading');
-      loader.style.display = 'flex';
-
-      iframe.onload = () => {
-        loader.style.display = 'none';
-        pptLoaded = true;
-      };
-
-      iframe.src = "https://onedrive.live.com/embed?cid=DF8117155F580907&resid=DF8117155F580907%211340&authkey=AF6P8Ar7u7YupbA&em=2&wdAr=1.00&wdEaa=0";
-
-      // 念のため5秒で非表示（失敗対策）
-      setTimeout(() => {
-        if (!pptLoaded) loader.style.display = 'none';
-      }, 5000);
-    });
-
-    function toggleView(targetId) {
-      document.getElementById('pptContainer').style.display = 'none';
-      document.getElementById('weeklyReport').style.display = 'none';
-      document.getElementById('schedule').style.display = 'none';
-
-      document.getElementById(targetId).style.display = 'block';
-
-      if (targetId === 'pptContainer') {
-        const loader = document.getElementById('pptLoading');
-        if (!pptLoaded) {
-          loader.style.display = 'flex';
-        } else {
-          loader.style.display = 'none';
-        }
-      }
-    }
+				<!-- 予定表 -->
+				<div id="schedule" style="display: none;" class="mb-4">
+					<div class="overflow-auto border rounded p-2" style="white-space: nowrap;">
+						<img src="https://onedrive.live.com/embed?resid=DF8117155F580907%211348&authkey=%21AFqBOdaSYRks83Y"
+							style="height: auto; width: 500px;" alt="予定表（横スクロール可）">
+					</div>
+				</div>
 
 
 
-    function audioset() {
-  const select = document.getElementById("messageSelect");
-  const selaudio = select.value.substring(0, 8);
-  const audio = new Audio("./m4a/" + selaudio + ".m4a");
-  audio.controls = true;
-  audio.style.width = '100%';
-  audio.id = "audio";
-  audio.preload = "auto";
+			</div>
 
-  const messageDiv = document.getElementById("message");
-  messageDiv.innerHTML = '';
-  messageDiv.appendChild(audio);
+			<div class="tab-pane fade" id="hymn-tab-pane" role="tabpanel" aria-labelledby="hymn-tab">
+				<div class="mb-3 text-center">
+					<div id="hymnButtons" class="d-flex flex-wrap justify-content-center"></div>
+				</div>
+				<div class="swiper mySwiper" id="hymnSwiper">
+					<div class="swiper-wrapper" id="hymnSlides"></div>
+					<div class="swiper-pagination"></div>
+				</div>
+			</div>
+		</div>
 
-  // 再生ボタン関連
-  const playBtnContainer = document.getElementById("customPlayButton");
-  const playToggle = document.getElementById("playToggle");
+	</div>
+	<script>
+		let list = [];
+		let swiperInstance;
+		let pptLoaded = false;
 
-  // イベントが重複しないように既存のリスナーを削除（ボタンを複製し直す手法）
-  const newPlayToggle = playToggle.cloneNode(true);
-  playToggle.parentNode.replaceChild(newPlayToggle, playToggle);
+		document.addEventListener("DOMContentLoaded", () => {
+			// 説教リスト
+			fetch("https://hitachihikari.net/message/list.json")
+				.then(res => res.json())
+				.then(data => {
+					list = data;
+					for (const item of list) {
+						const opt = document.createElement("option");
+						opt.value = item.val;
+						opt.text = item.txt;
+						document.getElementById("messageSelect").appendChild(opt);
+					}
+					audioset();
+				});
 
-  newPlayToggle.innerText = '▶';
-  playBtnContainer.style.display = 'block';
+			// 聖歌歌詞リスト
+			fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRGJMtcBrjSnLZZGMFKB0wPzh4v_hHF8nmIdpTzZtLcpx0LKM_VAruhWF9diTGVZ4kXewlbN_sIhcOC/pub?output=csv")
+				.then(res => res.text())
+				.then(csvText => {
+					const parsed = Papa.parse(csvText, { header: false });
+					const rows = parsed.data.slice(1);
+					const hymnData = rows.map(cols => ({
+						number: cols[1]?.trim(),
+						verse: cols[2],
+						text: cols[3],
+						meaning: cols[5]
+					}));
 
-  // 状態を追跡して同期させる
-  newPlayToggle.onclick = () => {
-    if (audio.paused) {
-      audio.play();
-      newPlayToggle.innerText = '⏸';
-    } else {
-      audio.pause();
-      newPlayToggle.innerText = '▶';
-    }
-  };
+					const numbers = [...new Set(hymnData.map(row => row.number))]
+						.map(n => parseInt(n))
+						.filter(n => !isNaN(n))
+						.sort((a, b) => a - b);
 
-  // 再生状態が変わったときにボタンの表示を更新
-  audio.addEventListener("play", () => {
-    newPlayToggle.innerText = '⏸';
-  });
+					const hymnButtons = document.getElementById('hymnButtons');
+					numbers.forEach(num => {
+						const btn = document.createElement('button');
+						btn.className = 'btn btn-kashi';
+						btn.textContent = num;
+						btn.onclick = () => {
+							// すべてのボタンから active を除去
+							document.querySelectorAll('.btn-kashi').forEach(b => b.classList.remove('active'));
 
-  audio.addEventListener("pause", () => {
-    newPlayToggle.innerText = '▶';
-  });
+							// 押されたボタンに active を追加
+							btn.classList.add('active');
 
-  audio.addEventListener("ended", () => {
-    newPlayToggle.innerText = '▶';
-  });
-}
+							// 歌詞表示
+							showLyrics(num, hymnData);
+						};
+						hymnButtons.appendChild(btn);
+					});
+				});
 
-    function skip(seconds) {
-      const audio = document.getElementById("audio");
-      if (audio) {
-        audio.play();
-        audio.currentTime += seconds;
-      }
-    }
+			// スライド読み込み（初回）
+			const iframe = document.getElementById('pptFrame');
+			const loader = document.getElementById('pptLoading');
+			loader.style.display = 'flex';
 
-    function move(seconds) {
-      const audio = document.getElementById("audio");
-      if (audio) {
-        audio.play();
-        audio.currentTime = seconds;
-      }
-    }
+			iframe.onload = () => {
+				loader.style.display = 'none';
+				pptLoaded = true;
+			};
 
-    function rateup(speed) {
-      const audio = document.getElementById("audio");
-      if (audio) {
-        audio.play();
-        audio.playbackRate = speed;
-      }
-    }
+			iframe.src = "https://onedrive.live.com/embed?cid=DF8117155F580907&resid=DF8117155F580907%211340&authkey=AF6P8Ar7u7YupbA&em=2&wdAr=1.00&wdEaa=0";
 
-    function showLyrics(number, data) {
-      const results = data.filter(entry => entry.number === number.toString());
-      const wrapper = document.getElementById('hymnSlides');
-      wrapper.innerHTML = '';
+			// 念のため5秒で非表示（失敗対策）
+			setTimeout(() => {
+				if (!pptLoaded) loader.style.display = 'none';
+			}, 5000);
+		});
 
-      if (!results.length) {
-        wrapper.innerHTML = `<div class="swiper-slide text-center"><p class="text-danger">番号 ${number} の歌詞が見つかりませんでした。</p></div>`;
-      } else {
-        results.forEach(({ verse, text, meaning }) => {
-          const slide = document.createElement('div');
-          slide.className = 'swiper-slide';
-          slide.innerHTML = `
+
+
+		function toggleView(targetId) {
+			document.getElementById('pptContainer').style.display = 'none';
+			document.getElementById('weeklyReport').style.display = 'none';
+			document.getElementById('schedule').style.display = 'none';
+
+			document.getElementById(targetId).style.display = 'block';
+
+			if (targetId === 'pptContainer') {
+				const loader = document.getElementById('pptLoading');
+				if (!pptLoaded) {
+					loader.style.display = 'flex';
+				} else {
+					loader.style.display = 'none';
+				}
+			}
+		}
+
+
+
+		function audioset() {
+			const select = document.getElementById("messageSelect");
+			const selaudio = select.value.substring(0, 8);
+			const audio = new Audio("./m4a/" + selaudio + ".m4a");
+			audio.controls = true;
+			audio.style.width = '100%';
+			audio.id = "audio";
+			audio.preload = "auto";
+
+			const messageDiv = document.getElementById("message");
+			messageDiv.innerHTML = '';
+			messageDiv.appendChild(audio);
+
+			const playBtnContainer = document.getElementById("customPlayButton");
+			const playToggle = document.getElementById("playToggle");
+
+			const newPlayToggle = playToggle.cloneNode(true);
+			playToggle.parentNode.replaceChild(newPlayToggle, playToggle);
+
+			newPlayToggle.innerText = '▶';
+			playBtnContainer.style.display = 'block';
+
+			// 保存キー
+			const storageKey = 'audioPosition_' + selaudio;
+
+			// 保存済みの再生位置から再開
+			const savedPosition = localStorage.getItem(storageKey);
+			if (savedPosition && !isNaN(savedPosition)) {
+				audio.currentTime = parseFloat(savedPosition);
+			}
+
+			// 再生ボタン処理
+			newPlayToggle.onclick = () => {
+				if (audio.paused) {
+					audio.play();
+					newPlayToggle.innerText = '⏸';
+				} else {
+					audio.pause();
+					newPlayToggle.innerText = '▶';
+				}
+			};
+
+			audio.addEventListener("play", () => {
+				newPlayToggle.innerText = '⏸';
+			});
+			audio.addEventListener("pause", () => {
+				newPlayToggle.innerText = '▶';
+			});
+			audio.addEventListener("ended", () => {
+				newPlayToggle.innerText = '▶';
+				clearInterval(saveInterval);
+				localStorage.removeItem(storageKey);
+			});
+
+			// 再生位置を定期保存
+			const saveInterval = setInterval(() => {
+				if (!audio.paused && !audio.ended) {
+					localStorage.setItem(storageKey, audio.currentTime);
+				}
+			}, 3000);
+		}
+
+
+		function skip(seconds) {
+			const audio = document.getElementById("audio");
+			if (audio) {
+				audio.play();
+				audio.currentTime += seconds;
+			}
+		}
+
+		function move(seconds) {
+			const audio = document.getElementById("audio");
+			if (audio) {
+				audio.play();
+				audio.currentTime = seconds;
+			}
+		}
+
+		function rateup(speed) {
+			const audio = document.getElementById("audio");
+			if (audio) {
+				audio.play();
+				audio.playbackRate = speed;
+			}
+		}
+
+		function showLyrics(number, data) {
+			const results = data.filter(entry => entry.number === number.toString());
+			const wrapper = document.getElementById('hymnSlides');
+			wrapper.innerHTML = '';
+
+			if (!results.length) {
+				wrapper.innerHTML = `<div class="swiper-slide text-center"><p class="text-danger">番号 ${number} の歌詞が見つかりませんでした。</p></div>`;
+			} else {
+				results.forEach(({ verse, text, meaning }) => {
+					const slide = document.createElement('div');
+					slide.className = 'swiper-slide';
+					slide.innerHTML = `
   <h5 class="mb-3">${number}番 第${verse}節</h5>
   <p class="fw-bold" style="font-size: 1.8rem;">${text?.replace(/\n/g, '<br>')}</p>
   <p class="text-secondary" style="font-size: 1.1rem;">${meaning?.replace(/\n/g, '<br>')}</p>
 `;
-          wrapper.appendChild(slide);
-        });
-      }
+					wrapper.appendChild(slide);
+				});
+			}
 
-      if (swiperInstance) swiperInstance.destroy(true, true);
-      swiperInstance = new Swiper('.mySwiper', {
-  direction: 'horizontal',
-  loop: false,
-  autoHeight: true,
-  pagination: {
-    el: '.swiper-pagination',
-    clickable: true,
-  }
-  // navigation は削除
-});
-      scrollToLyrics();
-    }
+			if (swiperInstance) swiperInstance.destroy(true, true);
+			swiperInstance = new Swiper('.mySwiper', {
+				direction: 'horizontal',
+				loop: false,
+				autoHeight: true,
+				pagination: {
+					el: '.swiper-pagination',
+					clickable: true,
+				}
+				// navigation は削除
+			});
+			scrollToLyrics();
+		}
 
-    function scrollToLyrics() {
-      const swiperContainer = document.getElementById('hymnSwiper');
-      const offsetTop = swiperContainer.getBoundingClientRect().top + window.scrollY;
+		function scrollToLyrics() {
+			const swiperContainer = document.getElementById('hymnSwiper');
+			const offsetTop = swiperContainer.getBoundingClientRect().top + window.scrollY;
 
-      window.scrollTo({
-        top: offsetTop,
-        behavior: 'smooth'
-      });
-    }
+			window.scrollTo({
+				top: offsetTop,
+				behavior: 'smooth'
+			});
+		}
 
-    function toggleView(targetId) {
-      document.getElementById('pptContainer').style.display = 'none';
-      document.getElementById('weeklyReport').style.display = 'none';
-      document.getElementById('schedule').style.display = 'none';
+		function toggleView(targetId) {
+			document.getElementById('pptContainer').style.display = 'none';
+			document.getElementById('weeklyReport').style.display = 'none';
+			document.getElementById('schedule').style.display = 'none';
 
-      document.getElementById(targetId).style.display = 'block';
+			document.getElementById(targetId).style.display = 'block';
 
-      if (targetId === 'pptContainer') {
-        const loader = document.getElementById('pptLoading');
-        const iframe = document.getElementById('pptFrame');
+			if (targetId === 'pptContainer') {
+				const loader = document.getElementById('pptLoading');
+				const iframe = document.getElementById('pptFrame');
 
-        if (!pptLoaded) {
-          loader.style.display = 'flex';
-          iframe.onload = () => {
-            loader.style.display = 'none';
-            pptLoaded = true;
-          };
-        } else {
-          loader.style.display = 'none'; // すぐ消す
-        }
-      }
-    }
+				if (!pptLoaded) {
+					loader.style.display = 'flex';
+					iframe.onload = () => {
+						loader.style.display = 'none';
+						pptLoaded = true;
+					};
+				} else {
+					loader.style.display = 'none'; // すぐ消す
+				}
+			}
+		}
 
-  </script>
+
+	</script>
 </body>
 
 </html>
