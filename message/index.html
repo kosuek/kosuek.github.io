@@ -183,6 +183,12 @@
           <select class="form-select form-select-lg shadow-sm border-primary" id="messageSelect"></select>
         </div>
         <div id="message" class="mb-4"></div>
+        <div id="customPlayButton" class="text-center my-3">
+  <button id="playToggle" class="btn btn-success rounded-circle shadow"
+    style="width: 72px; height: 72px; font-size: 2rem; color: white;">
+    ▶
+  </button>
+</div>
         <div class="row g-1 mb-1">
           <div class="col-3"><button class="btn btn-hhc" onclick="skip(-30)">30秒</button></div>
           <div class="col-3"><button class="btn btn-hhc" onclick="skip(-5)">5秒</button></div>
@@ -358,9 +364,10 @@
     }
 
 
-
-   function audioset() {
+function audioset() {
   const select = document.getElementById("messageSelect");
+  if (!select.value) return;
+
   const selaudio = select.value.substring(0, 8);
   const audio = new Audio("./m4a/" + selaudio + ".m4a");
   audio.controls = true;
@@ -374,32 +381,53 @@
 
   const storageKey = "audio_position_" + selaudio;
 
-  // 🔁 保存された位置から復元
   const savedTime = localStorage.getItem(storageKey);
   if (savedTime && !isNaN(savedTime)) {
     audio.currentTime = parseFloat(savedTime);
   }
 
-  // ⏱️ 再生中は定期的に保存
+  // ⏱️ 再生中に定期保存
   const intervalId = setInterval(() => {
     if (!audio.paused && !audio.ended) {
       localStorage.setItem(storageKey, audio.currentTime);
     }
   }, 3000);
 
-  // ⏸ 一時停止でも保存
+  // ⏸でも保存
   audio.addEventListener("pause", () => {
     localStorage.setItem(storageKey, audio.currentTime);
   });
 
-  // 🔚 再生が終わったら記録を削除
+  // 終了時に削除
   audio.addEventListener("ended", () => {
     localStorage.removeItem(storageKey);
     clearInterval(intervalId);
+    playToggle.innerText = '▶'; // 終了時にボタンを元に戻す
   });
 
+  // ✅ 再生/停止ボタンを毎回再設定
+  const playBtnContainer = document.getElementById("customPlayButton");
+  const oldBtn = document.getElementById("playToggle");
+  const newBtn = oldBtn.cloneNode(true); // ボタンをコピーしてイベントを初期化
+  oldBtn.parentNode.replaceChild(newBtn, oldBtn);
+
+  newBtn.innerText = '▶';
+  playBtnContainer.style.display = 'block';
+
+  newBtn.addEventListener("click", () => {
+    if (audio.paused) {
+      audio.play();
+      newBtn.innerText = '⏸';
+    } else {
+      audio.pause();
+      newBtn.innerText = '▶';
+    }
+  });
+
+  // 自動で再生開始
   audio.play();
 }
+
 
 
 
