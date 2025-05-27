@@ -359,7 +359,7 @@
 
 
 
-    function audioset() {
+   function audioset() {
   const select = document.getElementById("messageSelect");
   const selaudio = select.value.substring(0, 8);
   const audio = new Audio("./m4a/" + selaudio + ".m4a");
@@ -372,23 +372,27 @@
   messageDiv.innerHTML = '';
   messageDiv.appendChild(audio);
 
-  // 🔑 保存キー（ファイル名に応じて）
   const storageKey = "audio_position_" + selaudio;
 
-  // 🔄 保存されている再生位置を復元
+  // 🔁 保存された位置から復元
   const savedTime = localStorage.getItem(storageKey);
   if (savedTime && !isNaN(savedTime)) {
     audio.currentTime = parseFloat(savedTime);
   }
 
-  // ⏱️ 再生中に3秒ごとに位置を保存
+  // ⏱️ 再生中は定期的に保存
   const intervalId = setInterval(() => {
     if (!audio.paused && !audio.ended) {
       localStorage.setItem(storageKey, audio.currentTime);
     }
   }, 3000);
 
-  // 🔁 再生終了時には保存した位置を削除
+  // ⏸ 一時停止でも保存
+  audio.addEventListener("pause", () => {
+    localStorage.setItem(storageKey, audio.currentTime);
+  });
+
+  // 🔚 再生が終わったら記録を削除
   audio.addEventListener("ended", () => {
     localStorage.removeItem(storageKey);
     clearInterval(intervalId);
@@ -396,6 +400,7 @@
 
   audio.play();
 }
+
 
 
     function skip(seconds) {
