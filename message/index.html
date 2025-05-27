@@ -198,12 +198,12 @@
           <div class="col-2"><button class="btn btn-hhc" onclick="rateup(2.5)">x2.5</button></div>
         </div>
         <div class="row g-1 mb-1">
-          <div class="col-2"><button class="btn btn-hhc" onclick="move(10)">10秒</button></div>
-          <div class="col-2"><button class="btn btn-hhc" onclick="move(20)">20秒</button></div>
-          <div class="col-2"><button class="btn btn-hhc" onclick="move(30)">30秒</button></div>
-          <div class="col-2"><button class="btn btn-hhc" onclick="move(40)">40秒</button></div>
-          <div class="col-2"><button class="btn btn-hhc" onclick="move(50)">50秒</button></div>
-          <div class="col-2"><button class="btn btn-hhc" onclick="move(60)">60秒</button></div>
+          <div class="col-2"><button class="btn btn-hhc" onclick="move(600)">10分</button></div>
+          <div class="col-2"><button class="btn btn-hhc" onclick="move(1200)">20分</button></div>
+          <div class="col-2"><button class="btn btn-hhc" onclick="move(1800)">30分</button></div>
+          <div class="col-2"><button class="btn btn-hhc" onclick="move(2400)">40分</button></div>
+          <div class="col-2"><button class="btn btn-hhc" onclick="move(3000)">50分</button></div>
+          <div class="col-2"><button class="btn btn-hhc" onclick="move(3600)">60分</button></div>
         </div>
 
         <div class="row mb-3 g-2">
@@ -360,18 +360,43 @@
 
 
     function audioset() {
-      const select = document.getElementById("messageSelect");
-      const selaudio = select.value.substring(0, 8);
-      const audio = new Audio("./m4a/" + selaudio + ".m4a");
-      audio.controls = true;
-      audio.style.width = '100%';
-      audio.id = "audio";
-      audio.preload = "auto";
-      const messageDiv = document.getElementById("message");
-      messageDiv.innerHTML = '';
-      messageDiv.appendChild(audio);
-      audio.play();
+  const select = document.getElementById("messageSelect");
+  const selaudio = select.value.substring(0, 8);
+  const audio = new Audio("./m4a/" + selaudio + ".m4a");
+  audio.controls = true;
+  audio.style.width = '100%';
+  audio.id = "audio";
+  audio.preload = "auto";
+
+  const messageDiv = document.getElementById("message");
+  messageDiv.innerHTML = '';
+  messageDiv.appendChild(audio);
+
+  // 🔑 保存キー（ファイル名に応じて）
+  const storageKey = "audio_position_" + selaudio;
+
+  // 🔄 保存されている再生位置を復元
+  const savedTime = localStorage.getItem(storageKey);
+  if (savedTime && !isNaN(savedTime)) {
+    audio.currentTime = parseFloat(savedTime);
+  }
+
+  // ⏱️ 再生中に3秒ごとに位置を保存
+  const intervalId = setInterval(() => {
+    if (!audio.paused && !audio.ended) {
+      localStorage.setItem(storageKey, audio.currentTime);
     }
+  }, 3000);
+
+  // 🔁 再生終了時には保存した位置を削除
+  audio.addEventListener("ended", () => {
+    localStorage.removeItem(storageKey);
+    clearInterval(intervalId);
+  });
+
+  audio.play();
+}
+
 
     function skip(seconds) {
       const audio = document.getElementById("audio");
