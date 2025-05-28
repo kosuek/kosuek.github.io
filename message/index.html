@@ -514,8 +514,7 @@
 					slide.className = 'swiper-slide';
 					slide.innerHTML = `
   <div class="d-flex align-items-center mb-3">
-    <span class="badge bg-primary me-2" style="font-size: 1rem;">${number}</span>
-    <h5 class="mb-0">第 ${verse} 節</h5>
+    <h5 class="mb-0">${number}番 第 ${verse} 節</h5>
   </div>
   <p class="fw-bold" style="font-size: 1.8rem;">${text?.replace(/\n/g, '<br>')}</p>
   <p class="text-secondary" style="font-size: 1.1rem;">${meaning?.replace(/\n/g, '<br>')}</p>
