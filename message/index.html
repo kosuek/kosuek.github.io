@@ -319,24 +319,35 @@
 						.sort((a, b) => a - b);
 
 					const hymnButtons = document.getElementById('hymnButtons');
-					numbers.forEach(num => {
-						const btn = document.createElement('button');
-						btn.className = 'btn btn-kashi';
+numbers.forEach(num => {
+  const btn = document.createElement('button');
+  btn.className = 'btn btn-kashi';
 
-						// 該当番号の中でmeaningが空のものがあるか確認
-						const hasEmptyMeaning = hymnData.some(row => row.number === String(num) && (!row.meaning || row.meaning.trim() === ""));
+  // 意味が空のものが1つでもあれば色を変える
+  const hasEmptyMeaning = hymnData.some(row =>
+    row.number === String(num) && (!row.meaning || row.meaning.trim() === "")
+  );
 
-						// 空ならボタン色を変更（例：btn-secondary）
-						if (hasEmptyMeaning) {
-							btn.classList.add('btn-secondary'); // Bootstrapのグレー色
-						} else {
-							btn.classList.add('btn-outline-primary'); // 通常の青色
-						}
+  if (hasEmptyMeaning) {
+    btn.classList.add('btn-secondary');
+  } else {
+    btn.classList.add('btn-outline-primary');
+  }
 
-						btn.textContent = num;
-						btn.onclick = () => showLyrics(num, hymnData);
-						hymnButtons.appendChild(btn);
-					});
+  btn.textContent = num;
+
+  btn.onclick = () => {
+    // 色の切り替え（全ボタンからactive除去→このボタンに追加）
+    document.querySelectorAll('.btn-kashi').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    // 歌詞表示
+    showLyrics(num, hymnData);
+  };
+
+  hymnButtons.appendChild(btn);
+});
+
 				});
 
 			// スライド読み込み（初回）
@@ -478,10 +489,14 @@
 					const slide = document.createElement('div');
 					slide.className = 'swiper-slide';
 					slide.innerHTML = `
-  <h5 class="mb-3">第 ${verse} 節</h5>
+  <div class="d-flex align-items-center mb-3">
+    <span class="badge bg-primary me-2" style="font-size: 1rem;">${number}</span>
+    <h5 class="mb-0">第 ${verse} 節</h5>
+  </div>
   <p class="fw-bold" style="font-size: 1.8rem;">${text?.replace(/\n/g, '<br>')}</p>
   <p class="text-secondary" style="font-size: 1.1rem;">${meaning?.replace(/\n/g, '<br>')}</p>
 `;
+
 					wrapper.appendChild(slide);
 				});
 			}
