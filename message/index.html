@@ -65,6 +65,18 @@
 			border-radius: 0.5rem;
 			transition: all 0.2s ease-in-out;
 		}
+		
+.btn-empty-meaning {
+  background-color: #dee2e6 !important;  /* Bootstrapの明るいグレー */
+  color: #495057 !important;
+  border-color: #ced4da !important;
+  pointer-events: auto;
+}
+
+.btn-empty-meaning:hover {
+  background-color: #dee2e6 !important;  /* ホバーでも色変わらない */
+  color: #495057 !important;
+}
 
 		.logo-img {
 			height: auto;
@@ -329,10 +341,11 @@ numbers.forEach(num => {
   );
 
   if (hasEmptyMeaning) {
-    btn.classList.add('btn-secondary');
-  } else {
-    btn.classList.add('btn-outline-primary');
-  }
+  btn.classList.add('btn-empty-meaning');
+} else {
+  btn.classList.add('btn-outline-primary');
+}
+
 
   btn.textContent = num;
 
