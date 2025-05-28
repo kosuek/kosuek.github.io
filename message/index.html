@@ -55,16 +55,20 @@
 			transition: all 0.2s ease-in-out;
 		}
 
-		.btn-kashi {
-			font-weight: 500;
-			padding: 0.75rem;
-			font-size: 1rem;
-			border: 1px solid #6c757d;
-			background-color: #fff;
-			color: #495057;
-			border-radius: 0.5rem;
-			transition: all 0.2s ease-in-out;
-		}
+		#hymnButtons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start; /* 左揃えに */
+  gap: 0.5rem;
+}
+
+.btn-kashi {
+  width: 64px;                /* すべて同じ幅 */
+  text-align: left;         /* 中央揃え（左揃えにしたい場合は left） */
+  padding: 0.5rem 0.75rem;
+  margin: 0;                  /* 念のため余白リセット */
+  flex-shrink: 0;             /* 幅を維持 */
+}
 
 		.btn-empty-meaning {
 			background-color: #dee2e6 !important;
