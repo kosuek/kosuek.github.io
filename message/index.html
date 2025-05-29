@@ -469,6 +469,16 @@
 					newBtn.innerText = '▶';
 				}
 			});
+fetch("https://script.google.com/macros/s/AKfycbzA6FY3AqtS1JpXa5_TflPfJVGkACKWQE9p3br5sGHgkdloPMITqGRQC6hpc2kn3oPL3g/exec", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    event: "play",
+    userAgent: navigator.userAgent,
+    device: /mobile/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
+    extra: selaudio  // ファイル名（例：20240526など）
+  })
+});
 
 			// 自動で再生開始
 			audio.play();
