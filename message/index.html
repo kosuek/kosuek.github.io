@@ -157,6 +157,51 @@
 			background-color: #f8f9fa;
 			color: #000;
 		}
+
+		/* 縦向き or 小さい画面時 → 今まで通り 縦並び */
+		@media (max-width: 767.98px) and (orientation: portrait) {
+			.swiper-slide .lyrics-meaning-wrapper {
+				display: block;
+			}
+
+			.lyrics-meaning-wrapper .lyrics {
+				font-size: 1.8rem;
+				color: #212529;
+				margin-bottom: 1rem;
+			}
+
+			.lyrics-meaning-wrapper .meaning {
+				font-size: 1.1rem;
+				color: #6c757d;
+			}
+		}
+
+		/* 横並びのときは意味の文字サイズだけ揃える */
+		@media (min-width: 768px),
+		(orientation: landscape) {
+			.swiper-slide .lyrics-meaning-wrapper {
+				display: flex;
+				gap: 2rem;
+				align-items: flex-start;
+				justify-content: space-between;
+			}
+
+			.lyrics-meaning-wrapper .lyrics {
+				flex: 1;
+				font-size: 1.8rem;
+				/* そのまま */
+				color: #212529;
+				/* 通常の黒 */
+			}
+
+			.lyrics-meaning-wrapper .meaning {
+				flex: 1;
+				font-size: 1.8rem;
+				/* 意味も歌詞と同じ大きさにする */
+				color: #6c757d;
+				/* これまで通りのグレー */
+			}
+		}
 	</style>
 </head>
 
@@ -213,10 +258,10 @@
 					</button>
 				</div>
 				<div class="row g-1 mb-1">
-					<div class="col-3"><button class="btn btn-hhc" onclick="skip(-30)">‹‹30秒</button></div>
-					<div class="col-3"><button class="btn btn-hhc" onclick="skip(-5)">‹‹5秒</button></div>
-					<div class="col-3"><button class="btn btn-hhc" onclick="skip(5)">5秒››</button></div>
-					<div class="col-3"><button class="btn btn-hhc" onclick="skip(30)">30秒››</button></div>
+					<div class="col-3"><button class="btn btn-hhc" onclick="skip(-30)">30秒</button></div>
+					<div class="col-3"><button class="btn btn-hhc" onclick="skip(-5)">5秒</button></div>
+					<div class="col-3"><button class="btn btn-hhc" onclick="skip(5)">5秒&gt;&gt;</button></div>
+					<div class="col-3"><button class="btn btn-hhc" onclick="skip(30)">30秒&gt;&gt;</button></div>
 				</div>
 				<div class="row g-1 mb-1">
 					<div class="col-2"><button class="btn btn-hhc" onclick="rateup(0.5)">x0.5</button></div>
@@ -469,16 +514,6 @@
 					newBtn.innerText = '▶';
 				}
 			});
-fetch("https://script.google.com/macros/s/AKfycbzA6FY3AqtS1JpXa5_TflPfJVGkACKWQE9p3br5sGHgkdloPMITqGRQC6hpc2kn3oPL3g/exec", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    event: "play",
-    userAgent: navigator.userAgent,
-    device: /mobile/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
-    extra: selaudio  // ファイル名（例：20240526など）
-  })
-});
 
 			// 自動で再生開始
 			audio.play();
@@ -523,13 +558,12 @@ fetch("https://script.google.com/macros/s/AKfycbzA6FY3AqtS1JpXa5_TflPfJVGkACKWQE
 					const slide = document.createElement('div');
 					slide.className = 'swiper-slide';
 					slide.innerHTML = `
-  <div class="d-flex align-items-center mb-3">
-    <h5 class="mb-0">${number}番 第 ${verse} 節</h5>
-  </div>
-  <p class="fw-bold" style="font-size: 1.8rem;">${text?.replace(/\n/g, '<br>')}</p>
-  <p class="text-secondary" style="font-size: 1.1rem;">${meaning?.replace(/\n/g, '<br>')}</p>
-`;
-
+        <h5 class="mb-3">第 ${verse} 節</h5>
+        <div class="lyrics-meaning-wrapper">
+          <div class="lyrics">${text?.replace(/\n/g, '<br>')}</div>
+          <div class="meaning">${meaning?.replace(/\n/g, '<br>')}</div>
+        </div>
+      `;
 					wrapper.appendChild(slide);
 				});
 			}
@@ -538,7 +572,7 @@ fetch("https://script.google.com/macros/s/AKfycbzA6FY3AqtS1JpXa5_TflPfJVGkACKWQE
 			swiperInstance = new Swiper('.mySwiper', {
 				direction: 'horizontal',
 				loop: false,
-				autoHeight: true, // ← 追加！
+				autoHeight: true,
 				pagination: {
 					el: '.swiper-pagination',
 					clickable: true,
@@ -550,6 +584,7 @@ fetch("https://script.google.com/macros/s/AKfycbzA6FY3AqtS1JpXa5_TflPfJVGkACKWQE
 			});
 			scrollToLyrics();
 		}
+
 
 		function scrollToLyrics() {
 			const swiperContainer = document.getElementById('hymnSwiper');
