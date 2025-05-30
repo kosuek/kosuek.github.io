@@ -472,52 +472,81 @@
 
 			const storageKey = "audio_position_" + selaudio;
 
+			// 位置復元
 			const savedTime = localStorage.getItem(storageKey);
 			if (savedTime && !isNaN(savedTime)) {
 				audio.currentTime = parseFloat(savedTime);
 			}
 
-			// ⏱️ 再生中に定期保存
+			// 定期保存
 			const intervalId = setInterval(() => {
 				if (!audio.paused && !audio.ended) {
 					localStorage.setItem(storageKey, audio.currentTime);
 				}
 			}, 3000);
 
-			// ⏸でも保存
+			// pause でも保存
 			audio.addEventListener("pause", () => {
 				localStorage.setItem(storageKey, audio.currentTime);
 			});
 
-			// 終了時に削除
+			// 終了時削除
 			audio.addEventListener("ended", () => {
 				localStorage.removeItem(storageKey);
-				clearInterval(intervalId);
-				playToggle.innerText = '▶'; // 終了時にボタンを元に戻す
+				playIcon.innerText = '▶';
 			});
 
-			// ✅ 再生/停止ボタンを毎回再設定
+			// 🎁 ▶ ⏸ ボタン同期
 			const playBtnContainer = document.getElementById("customPlayButton");
 			const oldBtn = document.getElementById("playToggle");
-			const newBtn = oldBtn.cloneNode(true); // ボタンをコピーしてイベントを初期化
+			const newBtn = oldBtn.cloneNode(true);
 			oldBtn.parentNode.replaceChild(newBtn, oldBtn);
 
-			newBtn.innerText = '▶';
+			const playIcon = newBtn;
+			playIcon.innerText = '▶';
 			playBtnContainer.style.display = 'block';
 
+			// ボタンクリック → audioを再生・停止
 			newBtn.addEventListener("click", () => {
 				if (audio.paused) {
 					audio.play();
-					newBtn.innerText = '⏸';
 				} else {
 					audio.pause();
-					newBtn.innerText = '▶';
 				}
+				// ボタンの見た目は audio のイベントで更新する
 			});
 
-			// 自動で再生開始
+			// audio イベントで確実に同期
+			audio.addEventListener("play", () => {
+				playIcon.innerText = '⏸';
+			});
+
+			audio.addEventListener("pause", () => {
+				playIcon.innerText = '▶';
+			});
+
+			audio.addEventListener("ended", () => {
+				playIcon.innerText = '▶';
+			});
+
+			// 自動再生
 			audio.play();
+
+			// 🔔 再生ログ送信（オプション）
+			fetch("https://script.google.com/macros/s/AKfycbzA6FY3AqtS1JpXa5_TflPfJVGkACKWQE9p3br5sGHgkdloPMITqGRQC6hpc2kn3oPL3g/exec", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					event: "play",
+					userAgent: navigator.userAgent,
+					device: /mobile/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
+					extra: selaudio
+				})
+			}).then(res => res.text())
+				.then(text => console.log("ログ送信成功:", text))
+				.catch(err => console.error("ログ送信失敗:", err));
 		}
+
 
 
 
