@@ -502,19 +502,7 @@
 			const newBtn = oldBtn.cloneNode(true);
 			oldBtn.parentNode.replaceChild(newBtn, oldBtn);
 
-			const playIcon = newBtn;
-			playIcon.innerText = '▶';
-			playBtnContainer.style.display = 'block';
-
-			// ボタンクリック → audioを再生・停止
-			newBtn.addEventListener("click", () => {
-				if (audio.paused) {
-					audio.play();
-				} else {
-					audio.pause();
-				}
-				// ボタンの見た目は audio のイベントで更新する
-			});
+			const playIcon = newBtn;  // ★ ココを先に定義！
 
 			// audio イベントで確実に同期
 			audio.addEventListener("play", () => {
@@ -525,6 +513,19 @@
 				playIcon.innerText = '▶';
 			});
 
+			audio.addEventListener("ended", () => {
+				localStorage.removeItem(storageKey);
+				playIcon.innerText = '▶';
+			});
+
+			// ボタンクリック → audioを再生・停止
+			newBtn.addEventListener("click", () => {
+				if (audio.paused) {
+					audio.play();
+				} else {
+					audio.pause();
+				}
+			});
 			audio.addEventListener("ended", () => {
 				playIcon.innerText = '▶';
 			});
@@ -583,16 +584,16 @@
 			if (!results.length) {
 				wrapper.innerHTML = `<div class="swiper-slide text-center"><p class="text-danger">番号 ${number} の歌詞が見つかりませんでした。</p></div>`;
 			} else {
-				results.forEach(({ verse, text, meaning }) => {
+				results.forEach(({ number, verse, text, meaning }) => {
 					const slide = document.createElement('div');
 					slide.className = 'swiper-slide';
 					slide.innerHTML = `
-        <h5 class="mb-3">第 ${verse} 節</h5>
-        <div class="lyrics-meaning-wrapper">
-          <div class="lyrics">${text?.replace(/\n/g, '<br>')}</div>
-          <div class="meaning">${meaning?.replace(/\n/g, '<br>')}</div>
-        </div>
-      `;
+                <h5 class="mb-3">聖歌 ${number}番・第 ${verse} 節</h5>
+                <div class="lyrics-meaning-wrapper">
+                    <div class="lyrics">${text?.replace(/\n/g, '<br>')}</div>
+                    <div class="meaning">${meaning?.replace(/\n/g, '<br>')}</div>
+                </div>
+            `;
 					wrapper.appendChild(slide);
 				});
 			}
@@ -613,6 +614,7 @@
 			});
 			scrollToLyrics();
 		}
+
 
 
 		function scrollToLyrics() {
