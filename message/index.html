@@ -534,15 +534,15 @@
 			audio.play();
 
 			// 🔔 再生ログ送信（オプション）
-			fetch("https://script.google.com/macros/s/AKfycbyk7i3skJBatTxkCTb6MOZe4Ptsla9t32tTHmrHApbzxY8NDU7N2JlMzxLPheo_mAukpQ/exec", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-					event: "play",
-					userAgent: navigator.userAgent,
-					device: /mobile/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
-					extra: selaudio
-				})
+			fetch("https://script.google.com/macros/s/AKfycbzg1N_q_T6euwF_90zwdpCiT5dHyl1N8cjkdoSQ6dsf0Pn9llewuU1SNk3zI_rTqZ3X8g/exec", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+        event: "play",
+        userAgent: navigator.userAgent,
+        device: /mobile/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
+        extra: selaudio
+    })
 			}).then(res => res.text())
 				.then(text => console.log("ログ送信成功:", text))
 				.catch(err => console.error("ログ送信失敗:", err));
