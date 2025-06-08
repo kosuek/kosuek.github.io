@@ -535,15 +535,15 @@
 
 			// 🔔 再生ログ送信（オプション）
 			fetch("https://script.google.com/macros/s/AKfycbzu8zCSDYQ5WufB028B-uNKznWnkUlGjPsvdyBIXT5zzQH4S_krHaPd4RFMDzEGlSF3Og/exec", {
-    method: "POST",
+				method: "POST",
 				mode: "no-cors",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-        event: "play",
-        userAgent: navigator.userAgent,
-        device: /mobile/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
-        extra: selaudio
-    })
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					event: "play",
+					userAgent: navigator.userAgent,
+					device: /mobile/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
+					extra: selaudio
+				})
 			}).then(res => res.text())
 				.then(text => console.log("ログ送信成功:", text))
 				.catch(err => console.error("ログ送信失敗:", err));
