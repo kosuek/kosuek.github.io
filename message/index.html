@@ -534,7 +534,7 @@
 			//audio.play();
 
 			// 🔔 再生ログ送信（オプション）
-			fetch("https://script.google.com/macros/s/AKfycbzoUzUJRDa85SGXvJQ9uyhJZmsY6NSEl5QG3Rk1Ki2qNYPKMoXYWEZdeIezUp6eazAONg/exec", {
+			fetch("https://script.google.com/macros/s/AKfycbzu8zCSDYQ5WufB028B-uNKznWnkUlGjPsvdyBIXT5zzQH4S_krHaPd4RFMDzEGlSF3Og/exec", {
 				method: "POST",
 				mode: "no-cors",
 				headers: { "Content-Type": "application/json" },
@@ -542,9 +542,7 @@
 					event: "play",
 					userAgent: navigator.userAgent,
 					device: /mobile/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
-					extra: selaudio,
-					data.currentTime || "",      // audio の再生位置
-					data.clientTime || ""        // ユーザーPCの時刻
+					extra: selaudio
 				})
 			}).then(res => res.text())
 				.then(text => console.log("ログ送信成功:", text))
