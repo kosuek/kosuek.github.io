@@ -454,102 +454,105 @@
 			}
 		}
 
+function audioset() {
+    const select = document.getElementById("messageSelect");
+    if (!select.value) return;
 
-		function audioset() {
-			const select = document.getElementById("messageSelect");
-			if (!select.value) return;
+    const selaudio = select.value.substring(0, 8);
+    const audio = new Audio("./m4a/" + selaudio + ".m4a");
+    audio.controls = true;
+    audio.style.width = '100%';
+    audio.id = "audio";
+    audio.preload = "auto";
 
-			const selaudio = select.value.substring(0, 8);
-			const audio = new Audio("./m4a/" + selaudio + ".m4a");
-			audio.controls = true;
-			audio.style.width = '100%';
-			audio.id = "audio";
-			audio.preload = "auto";
+    const messageDiv = document.getElementById("message");
+    messageDiv.innerHTML = '';
+    messageDiv.appendChild(audio);
 
-			const messageDiv = document.getElementById("message");
-			messageDiv.innerHTML = '';
-			messageDiv.appendChild(audio);
+    const storageKey = "audio_position_" + selaudio;
 
-			const storageKey = "audio_position_" + selaudio;
+    // 位置復元
+    const savedTime = localStorage.getItem(storageKey);
+    if (savedTime && !isNaN(savedTime)) {
+        audio.currentTime = parseFloat(savedTime);
+    }
 
-			// 位置復元
-			const savedTime = localStorage.getItem(storageKey);
-			if (savedTime && !isNaN(savedTime)) {
-				audio.currentTime = parseFloat(savedTime);
-			}
+    // 定期保存
+    const intervalId = setInterval(() => {
+        if (!audio.paused && !audio.ended) {
+            localStorage.setItem(storageKey, audio.currentTime);
+        }
+    }, 3000);
 
-			// 定期保存
-			const intervalId = setInterval(() => {
-				if (!audio.paused && !audio.ended) {
-					localStorage.setItem(storageKey, audio.currentTime);
-				}
-			}, 3000);
+    // 🎁 ▶ ⏸ ボタン同期
+    const playBtnContainer = document.getElementById("customPlayButton");
+    const oldBtn = document.getElementById("playToggle");
+    const newBtn = oldBtn.cloneNode(true);
+    oldBtn.parentNode.replaceChild(newBtn, oldBtn);
 
-			// pause でも保存
-			audio.addEventListener("pause", () => {
-				localStorage.setItem(storageKey, audio.currentTime);
-			});
+    const playIcon = newBtn;  // ★ ココを先に定義！
 
-			// 終了時削除
-			audio.addEventListener("ended", () => {
-				localStorage.removeItem(storageKey);
-				playIcon.innerText = '▶';
-			});
+    // 再生時ログ送信
+    audio.addEventListener("play", () => {
+        playIcon.innerText = '⏸';
+        const now = new Date().toISOString();
+        fetch("https://script.google.com/macros/s/AKfycbzg1N_q_T6euwF_90zwdpCiT5dHyl1N8cjkdoSQ6dsf0Pn9llewuU1SNk3zI_rTqZ3X8g/exec", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                event: "play",
+                userAgent: navigator.userAgent,
+                device: /mobile/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
+                extra: selaudio,
+                currentTime: audio.currentTime,
+                clientTime: now
+            })
+        })
+        .then(res => res.text())
+        .then(text => console.log("再生ログ送信成功:", text))
+        .catch(err => console.error("再生ログ送信失敗:", err));
+    });
 
-			// 🎁 ▶ ⏸ ボタン同期
-			const playBtnContainer = document.getElementById("customPlayButton");
-			const oldBtn = document.getElementById("playToggle");
-			const newBtn = oldBtn.cloneNode(true);
-			oldBtn.parentNode.replaceChild(newBtn, oldBtn);
+    // 停止時ログ送信
+    audio.addEventListener("pause", () => {
+        playIcon.innerText = '▶';
+        localStorage.setItem(storageKey, audio.currentTime);
+        const now = new Date().toISOString();
+        fetch("https://script.google.com/macros/s/AKfycbzg1N_q_T6euwF_90zwdpCiT5dHyl1N8cjkdoSQ6dsf0Pn9llewuU1SNk3zI_rTqZ3X8g/exec", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                event: "pause",
+                userAgent: navigator.userAgent,
+                device: /mobile/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
+                extra: selaudio,
+                currentTime: audio.currentTime,
+                clientTime: now
+            })
+        })
+        .then(res => res.text())
+        .then(text => console.log("停止ログ送信成功:", text))
+        .catch(err => console.error("停止ログ送信失敗:", err));
+    });
 
-			const playIcon = newBtn;  // ★ ココを先に定義！
+    // 終了時
+    audio.addEventListener("ended", () => {
+        localStorage.removeItem(storageKey);
+        playIcon.innerText = '▶';
+    });
 
-			// audio イベントで確実に同期
-			audio.addEventListener("play", () => {
-				playIcon.innerText = '⏸';
-			});
+    // ボタンクリック → 再生・停止
+    newBtn.addEventListener("click", () => {
+        if (audio.paused) {
+            audio.play();
+        } else {
+            audio.pause();
+        }
+    });
 
-			audio.addEventListener("pause", () => {
-				playIcon.innerText = '▶';
-			});
-
-			audio.addEventListener("ended", () => {
-				localStorage.removeItem(storageKey);
-				playIcon.innerText = '▶';
-			});
-
-			// ボタンクリック → audioを再生・停止
-			newBtn.addEventListener("click", () => {
-				if (audio.paused) {
-					audio.play();
-				} else {
-					audio.pause();
-				}
-			});
-			audio.addEventListener("ended", () => {
-				playIcon.innerText = '▶';
-			});
-
-			// 自動再生
-			//audio.play();
-
-			// 🔔 再生ログ送信（オプション）
-			fetch("https://script.google.com/macros/s/AKfycbzu8zCSDYQ5WufB028B-uNKznWnkUlGjPsvdyBIXT5zzQH4S_krHaPd4RFMDzEGlSF3Og/exec", {
-    method: "POST",
-				mode: "no-cors",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-        event: "play",
-        userAgent: navigator.userAgent,
-        device: /mobile/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
-        extra: selaudio
-    })
-			}).then(res => res.text())
-				.then(text => console.log("ログ送信成功:", text))
-				.catch(err => console.error("ログ送信失敗:", err));
-		}
-
-
+    // 自動再生
+    audio.play();
+}
 
 
 
