@@ -39,15 +39,16 @@
     const originalText = "神は実に、そのひとり子をお与えになったほどに、世を愛された。";
 
     function makeBlanksWithAnswers(text, percentHidden = 0.3) {
-      const words = text.split(/([、。をにがはのとでへ、。！？」」]|[\s]+)/);
-      const wordIndices = words.map((w, i) => i).filter(i => words[i].match(/[ぁ-んァ-ン一-龥]/));
-      const hideCount = Math.floor(wordIndices.length * percentHidden);
-      const targets = wordIndices.sort(() => Math.random() - 0.5).slice(0, hideCount);
-      return words.map((w, i) =>
-        targets.includes(i)
-          ? `<span class="blank" data-answer="${w}">●●</span>`
-          : w
-      ).join('');
+  const words = text.split(/([、。をにがはのとでへ、。！？」」]|[\s]+)/);
+  const wordIndices = words.map((w, i) => i).filter(i => words[i].match(/[ぁ-んァ-ン一-龥ァ-ヶーａ-ｚＡ-Ｚa-zA-Z]/));
+  const hideCount = Math.floor(wordIndices.length * percentHidden);
+  const targets = wordIndices.sort(() => Math.random() - 0.5).slice(0, hideCount);
+
+  return words.map((w, i) =>
+    targets.includes(i)
+      ? `<span class="blank" data-answer="${w}">${'●'.repeat(w.length)}</span>`
+      : w
+  ).join('');
     }
 
     function updateVerse(percent) {
