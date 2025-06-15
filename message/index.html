@@ -831,14 +831,27 @@
 
 			function makeBlanksWithAnswers(text, percentHidden = 0.3) {
 				const segmenter = new TinySegmenter();
-				const words = segmenter.segment(text); // ← これが文節の配列になります
+				let words = segmenter.segment(text);
 
-				const wordIndices = words.map((_, i) => i);  // 全インデックス
+				// 1文字語を前にくっつける（助詞など）
+				for (let i = words.length - 1; i > 0; i--) {
+					if (words[i].length === 1 && words[i].match(/[ぁ-んァ-ン一-龥]/)) {
+						words[i - 1] += words[i];
+						words.splice(i, 1);
+					}
+				}
+
+				// 句読点以外の単語インデックスだけを対象にする
+				const wordIndices = words.map((_, i) => i).filter(i =>
+					!words[i].match(/^[、。！？「」『』（）\[\]｛｝\s]+$/)
+				);
+
 				const hideCount = percentHidden >= 1.0
 					? wordIndices.length
 					: Math.max(1, Math.floor(wordIndices.length * percentHidden));
 
 				const targets = wordIndices.sort(() => Math.random() - 0.5).slice(0, hideCount);
+
 				let colorToggle = true;
 
 				return words.map((w, i) => {
@@ -851,6 +864,7 @@
 					}
 				}).join('');
 			}
+
 
 
 
