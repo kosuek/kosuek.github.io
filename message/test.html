@@ -687,10 +687,14 @@
 				newBtn.addEventListener("click", () => {
 					if (audio.paused) {
 						audio.play();
+						sendLog("audio_play", {
+							filename: selaudio
+						});
 					} else {
 						audio.pause();
 					}
 				});
+
 
 				// ✅ 再生ログ送信（統一関数に変更）
 				sendLog("audio_play", {
