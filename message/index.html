@@ -32,6 +32,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
 	<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+	<script src="https://unpkg.com/tiny-segmenter"></script>
 	<style>
 		body {
 			font-family: 'Noto Sans JP', sans-serif;
@@ -201,6 +202,24 @@
 				color: #6c757d;
 				/* これまで通りのグレー */
 			}
+		}
+
+		.blank {
+			display: inline-block;
+			font-family: "Noto Sans JP", monospace;
+			padding: 0 0.3em;
+			min-width: 1.2em;
+			white-space: nowrap;
+			text-align: center;
+			vertical-align: middle;
+			overflow: hidden;
+			border-bottom: 1px dotted #ccc;
+			cursor: pointer;
+		}
+
+
+		.revealed {
+			font-weight: bold;
 		}
 	</style>
 </head>
@@ -811,33 +830,28 @@
 
 
 			function makeBlanksWithAnswers(text, percentHidden = 0.3) {
-				if (percentHidden >= 1.0) {
-					// 全部隠す（句読点など除く）
-					return text.replace(/[^、。！？「」『』（）\[\]｛｝\s\r\n]/g, char =>
-						`<span class="blank" data-answer="${char}">●</span>`);
-				}
+				const segmenter = new TinySegmenter();
+				const words = segmenter.segment(text); // ← これが文節の配列になります
 
-				const words = text.split(/([、。！？「」『』（）\[\]｛｝\s]+)/); // 句読点や空白で区切る
-				const wordIndices = words.map((w, i) => i).filter(i =>
-					words[i].match(/[ぁ-んァ-ン一-龥ァ-ヶーａ-ｚＡ-Ｚa-zA-Z]/)
-				);
+				const wordIndices = words.map((_, i) => i);  // 全インデックス
+				const hideCount = percentHidden >= 1.0
+					? wordIndices.length
+					: Math.max(1, Math.floor(wordIndices.length * percentHidden));
 
-				const hideCount = Math.floor(wordIndices.length * percentHidden);
 				const targets = wordIndices.sort(() => Math.random() - 0.5).slice(0, hideCount);
-
-				let colorToggle = true; // 最初は黒（true → ●、false → ○）
+				let colorToggle = true;
 
 				return words.map((w, i) => {
 					if (targets.includes(i)) {
 						const maskChar = colorToggle ? '●' : '○';
-						colorToggle = !colorToggle; // 次の単語では交互に切り替える
-						const masked = maskChar.repeat([...w].length);
-						return `<span class="blank" data-answer="${w}">${masked}</span>`;
+						colorToggle = !colorToggle;
+						return `<span class="blank" data-answer="${w}">${maskChar.repeat([...w].length)}</span>`;
 					} else {
 						return w;
 					}
 				}).join('');
 			}
+
 
 
 			// (1) "updateVerseFromData" が定義されていないため、代わりに「updateVerse」の内部で直接書き換える
