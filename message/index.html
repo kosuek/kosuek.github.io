@@ -811,23 +811,34 @@
 
 
 			function makeBlanksWithAnswers(text, percentHidden = 0.3) {
-
 				if (percentHidden >= 1.0) {
-					// 句読点以外すべて隠す
-					return text.replace(/[^、。！？「」『』（）\[\]｛｝\s\r\n]/g, (char) => `<span class="blank" data-answer="${char}">${'●'}</span>`);
+					// 全部隠す（句読点など除く）
+					return text.replace(/[^、。！？「」『』（）\[\]｛｝\s\r\n]/g, char =>
+						`<span class="blank" data-answer="${char}">●</span>`);
 				}
 
-				const words = text.split(/([、。をにがはのとでへ、。！？」」]|[\s]+)/);
-				const wordIndices = words.map((w, i) => i).filter(i => words[i].match(/[ぁ-んァ-ン一-龥ァ-ヶーａ-ｚＡ-Ｚa-zA-Z]/));
+				const words = text.split(/([、。！？「」『』（）\[\]｛｝\s]+)/); // 句読点や空白で区切る
+				const wordIndices = words.map((w, i) => i).filter(i =>
+					words[i].match(/[ぁ-んァ-ン一-龥ァ-ヶーａ-ｚＡ-Ｚa-zA-Z]/)
+				);
+
 				const hideCount = Math.floor(wordIndices.length * percentHidden);
 				const targets = wordIndices.sort(() => Math.random() - 0.5).slice(0, hideCount);
 
-				return words.map((w, i) =>
-					targets.includes(i)
-						? `<span class="blank" data-answer="${w}">${'●'.repeat(w.length)}</span>`
-						: w
-				).join('');
+				let colorToggle = true; // 最初は黒（true → ●、false → ○）
+
+				return words.map((w, i) => {
+					if (targets.includes(i)) {
+						const maskChar = colorToggle ? '●' : '○';
+						colorToggle = !colorToggle; // 次の単語では交互に切り替える
+						const masked = maskChar.repeat([...w].length);
+						return `<span class="blank" data-answer="${w}">${masked}</span>`;
+					} else {
+						return w;
+					}
+				}).join('');
 			}
+
 
 			// (1) "updateVerseFromData" が定義されていないため、代わりに「updateVerse」の内部で直接書き換える
 			// (2) 難易度を変更したらすぐ反映させるよう、"updateVerse" を要動
