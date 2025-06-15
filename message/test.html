@@ -32,6 +32,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
 	<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+	<script src="https://unpkg.com/tiny-segmenter"></script>
 	<style>
 		body {
 			font-family: 'Noto Sans JP', sans-serif;
@@ -202,6 +203,24 @@
 				/* これまで通りのグレー */
 			}
 		}
+
+		.blank {
+			display: inline-block;
+			font-family: "Noto Sans JP", monospace;
+			padding: 0 0.3em;
+			min-width: 1.2em;
+			white-space: nowrap;
+			text-align: center;
+			vertical-align: middle;
+			overflow: hidden;
+			border-bottom: 1px dotted #ccc;
+			cursor: pointer;
+		}
+
+
+		.revealed {
+			font-weight: bold;
+		}
 	</style>
 </head>
 
@@ -242,7 +261,12 @@
 			</li>
 			<li class="nav-item" role="presentation">
 				<button class="nav-link" id="test-tab" data-bs-toggle="tab" data-bs-target="#test-tab-pane"
-					type="button" role="tab" aria-controls="test-tab-pane" aria-selected="false">暗唱聖句</button>
+					type="button" role="tab" aria-controls="test-tab-pane" aria-selected="false">実験1 暗唱聖句</button>
+			</li>
+			<li class="nav-item" role="presentation">
+				<button class="nav-link" id="test2-tab" data-bs-toggle="tab" data-bs-target="#test2-tab-pane"
+					type="button" role="tab" aria-controls="test2-tab-pane" aria-selected="false">実験2 coming
+					soon!</button>
 			</li>
 		</ul>
 
@@ -351,6 +375,21 @@
 			</div>
 
 			<div class="tab-pane fade" id="test-tab-pane" role="tabpanel" aria-labelledby="test-tab">
+				説教中にでてきた"暗唱したほしい聖書個所"を覚えるゲームにしてみました！難易度選べます！
+				他にも追加したい聖句があれば、ぜひ教えてください！
+				<details class="mb-3">
+					<summary class="fs-5 fw-semibold text-primary">🎮 暗唱聖句ゲームのやり方（タップで開く）</summary>
+					<div class="mt-2">
+						<ol>
+							<li>下の「No.◯◯」ボタンから、出題する聖句を選びます。</li>
+							<li>「難易度」を選ぶと、隠れる文字の量が変わります。</li>
+							<li>虫食い表示された聖句が表示されます。</li>
+							<li>◯◯（●）のところを押すと、正解の文字が出てきます。</li>
+							<li>覚えてから答え合わせをしてみましょう！</li>
+						</ol>
+						<p class="mb-0">💡 文字サイズは「＋」「－」ボタンで調整できます。</p>
+					</div>
+				</details>
 
 				<div id="verseButtons" class="mb-3 d-flex flex-wrap gap-2"></div>
 				<div class="controls mb-2">
@@ -358,15 +397,27 @@
 					<label><input type="radio" name="level" value="0.1"> やさしい</label>
 					<label><input type="radio" name="level" value="0.3" checked> ふつう</label>
 					<label><input type="radio" name="level" value="0.6"> むずかしい</label>
+					<label><input type="radio" name="level" value="1.0"> 超むず</label>
 				</div>
+				<div class="mb-2">
+					<strong>文字サイズ：</strong>
+					<button class="btn btn-outline-secondary btn-sm" id="fontMinus">－</button>
+					<button class="btn btn-outline-secondary btn-sm" id="fontPlus">＋</button>
+				</div>
+
+
+
 				<h3>暗唱聖句：<span id="verseTitle">選択してください</span></h3>
-				<div id="verse" style="margin-top: 1em;"></div>
-
-
-
-
+				<div id="verse" class="verse-area" style="margin-top: 1em;"></div>
 
 			</div>
+
+			<div class="tab-pane fade" id="test2-tab-pane" role="tabpanel" aria-labelledby="test-tab">
+				coming soon!
+			</div>
+
+
+
 		</div>
 
 
@@ -374,6 +425,8 @@
 			let list = [];
 			let swiperInstance;
 			let pptLoaded = false;
+			let currentVerse = null;
+
 
 			document.addEventListener("DOMContentLoaded", () => {
 				// 説教リスト
@@ -464,7 +517,6 @@
 				// Google SheetsのCSV URL
 				const verseCsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRqLECO6yni4jcicwjRBODdGoTRYIQQbHDMfwn8QJ3o8Cb_KakgDV7mr6Qx6r5D5QP3iyfRFWtpCDpy/pub?output=csv";
 				let verseList = [];
-				let currentVerse = null;
 
 				// CSVを読み込んでボタン生成
 				fetch(verseCsvUrl)
@@ -504,9 +556,44 @@
 				// 難易度変更時の更新
 				function updateVerse(percent) {
 					if (!currentVerse) return;
-					const html = makeBlanksWithAnswers(currentVerse['本文'], percent);
-					document.getElementById("verse").innerHTML = `<p><strong>${currentVerse['聖書個所']}</strong><br>${html}</p>`;
+
+					const verseContainer = document.getElementById("verse");
+					const reference = currentVerse['聖書個所'] || '（不明）';
+					const text = currentVerse['本文'] || '';
+
+					// 再度 makeBlanksWithAnswers を呼び出して、DOM を上書き
+					const html = `<p><strong>${reference}</strong><br>${makeBlanksWithAnswers(text, percent)}</p>`;
+					verseContainer.innerHTML = html;
 				}
+
+				document.querySelectorAll('input[name="level"]').forEach(radio => {
+					radio.addEventListener("change", e => {
+						if (currentVerse) {
+							updateVerse(parseFloat(e.target.value));
+						}
+					});
+				});
+
+				let currentFontSize = 24;  // 初期フォントサイズ（px）
+
+				function applyFontSize() {
+					document.getElementById("verse").style.fontSize = currentFontSize + "px";
+				}
+
+				document.getElementById("fontPlus").addEventListener("click", () => {
+					if (currentFontSize < 60) {
+						currentFontSize += 2;
+						applyFontSize();
+					}
+				});
+
+				document.getElementById("fontMinus").addEventListener("click", () => {
+					if (currentFontSize > 12) {
+						currentFontSize -= 2;
+						applyFontSize();
+					}
+				});
+
 
 			});
 
@@ -562,12 +649,16 @@
 					}
 				}, 3000);
 
-				// pause でも保存
+				// pause 時保存 & 停止ログ送信
 				audio.addEventListener("pause", () => {
 					localStorage.setItem(storageKey, audio.currentTime);
+					sendLog("audio_stop", {
+						filename: selaudio,
+						currentTime: audio.currentTime
+					});
 				});
 
-				// 終了時削除
+				// 終了時
 				audio.addEventListener("ended", () => {
 					localStorage.removeItem(storageKey);
 					playIcon.innerText = '▶';
@@ -578,10 +669,8 @@
 				const oldBtn = document.getElementById("playToggle");
 				const newBtn = oldBtn.cloneNode(true);
 				oldBtn.parentNode.replaceChild(newBtn, oldBtn);
+				const playIcon = newBtn;
 
-				const playIcon = newBtn;  // ★ ココを先に定義！
-
-				// audio イベントで確実に同期
 				audio.addEventListener("play", () => {
 					playIcon.innerText = '⏸';
 				});
@@ -595,7 +684,6 @@
 					playIcon.innerText = '▶';
 				});
 
-				// ボタンクリック → audioを再生・停止
 				newBtn.addEventListener("click", () => {
 					if (audio.paused) {
 						audio.play();
@@ -603,27 +691,11 @@
 						audio.pause();
 					}
 				});
-				audio.addEventListener("ended", () => {
-					playIcon.innerText = '▶';
+
+				// ✅ 再生ログ送信（統一関数に変更）
+				sendLog("audio_play", {
+					filename: selaudio
 				});
-
-				// 自動再生
-				//audio.play();
-
-				// 🔔 再生ログ送信（オプション）
-				fetch("https://script.google.com/macros/s/AKfycbxXZLDgDZnPgZn3QFFCVlglutf4zU0k7UoMeZLhY6IIzx5us7M-7F9OOs5K5rdNLoZjWg/exec", {
-					method: "POST",
-					mode: "no-cors",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({
-						event: "play",
-						userAgent: navigator.userAgent,
-						device: /mobile/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
-						extra: selaudio
-					})
-				}).then(res => res.text())
-					.then(text => console.log("ログ送信成功:", text))
-					.catch(err => console.error("ログ送信失敗:", err));
 			}
 
 
@@ -743,29 +815,64 @@
 
 
 			function makeBlanksWithAnswers(text, percentHidden = 0.3) {
-				const words = text.split(/([、。をにがはのとでへ、。！？」」]|[\s]+)/);
-				const wordIndices = words.map((w, i) => i).filter(i => words[i].match(/[ぁ-んァ-ン一-龥ァ-ヶーａ-ｚＡ-Ｚa-zA-Z]/));
-				const hideCount = Math.floor(wordIndices.length * percentHidden);
+				const segmenter = new TinySegmenter();
+				let words = segmenter.segment(text);
+
+				// 1文字語を前にくっつける（助詞など）
+				for (let i = words.length - 1; i > 0; i--) {
+					if (words[i].length === 1 && words[i].match(/[ぁ-んァ-ン一-龥]/)) {
+						words[i - 1] += words[i];
+						words.splice(i, 1);
+					}
+				}
+
+				// 句読点以外の単語インデックスだけを対象にする
+				const wordIndices = words.map((_, i) => i).filter(i =>
+					!words[i].match(/^[、。！？「」『』（）\[\]｛｝\s]+$/)
+				);
+
+				const hideCount = percentHidden >= 1.0
+					? wordIndices.length
+					: Math.max(1, Math.floor(wordIndices.length * percentHidden));
+
 				const targets = wordIndices.sort(() => Math.random() - 0.5).slice(0, hideCount);
 
-				return words.map((w, i) =>
-					targets.includes(i)
-						? `<span class="blank" data-answer="${w}">${'●'.repeat(w.length)}</span>`
-						: w
-				).join('');
+				let colorToggle = true;
+
+				return words.map((w, i) => {
+					if (targets.includes(i)) {
+						const maskChar = colorToggle ? '●' : '○';
+						colorToggle = !colorToggle;
+						return `<span class="blank" data-answer="${w}">${maskChar.repeat([...w].length)}</span>`;
+					} else {
+						return w;
+					}
+				}).join('');
 			}
+
+
+
+
+			// (1) "updateVerseFromData" が定義されていないため、代わりに「updateVerse」の内部で直接書き換える
+			// (2) 難易度を変更したらすぐ反映させるよう、"updateVerse" を要動
 
 			function updateVerse(percent) {
-				updateVerseFromData(percent);
+				if (!currentVerse) return;
+
+				const verseContainer = document.getElementById("verse");
+				const reference = currentVerse['聖書個所'] || '（不明）';
+				const text = currentVerse['本文'] || '';
+
+				const html = `<p><strong>${reference}</strong><br>${makeBlanksWithAnswers(text, percent)}</p>`;
+				verseContainer.innerHTML = html;
+				applyFontSize();
 			}
 
-			document.querySelectorAll('input[name="level"]').forEach(radio => {
-				radio.addEventListener("change", e => {
-					if (currentVerse) {
-						updateVerse(parseFloat(e.target.value));
-					}
-				});
-			});
+			// 難易度ラジオボタンに変更相応のリスナーをつける
+			// ここに再度更めて追加
+
+
+
 
 
 			document.addEventListener("click", function (e) {
@@ -807,6 +914,71 @@
 					document.getElementById('iosInstallGuide').style.display = 'block';
 				}
 			});
+
+
+			// 共通ログ送信関数
+			function sendLog(event, data = {}) {
+				fetch("https://script.google.com/macros/s/AKfycbxXZLDgDZnPgZn3QFFCVlglutf4zU0k7UoMeZLhY6IIzx5us7M-7F9OOs5K5rdNLoZjWg/exec", {
+					method: "POST",
+					mode: "no-cors",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						event,
+						userAgent: navigator.userAgent,
+						device: /mobile/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
+						timestamp: Date.now(),
+						...data
+					})
+				});
+			}
+
+			// 暗唱聖句ボタン押下時
+			btn.onclick = () => {
+				currentVerse = row;
+				updateVerse(getCurrentLevel());
+				document.getElementById("verseTitle").textContent = `${row['聖書個所'] || '（不明）'}`;
+				sendLog("verse_select", {
+					number: row['番号'],
+					verse: row['聖書個所']
+				});
+			};
+
+			// 難易度変更時
+			const radios = document.querySelectorAll('input[name="level"]');
+			radios.forEach((radio) => {
+				radio.addEventListener("change", () => {
+					const level = getCurrentLevel();
+					updateVerse(level);
+					sendLog("level_change", { level });
+				});
+			});
+
+			// マスク解除（答えを見る）時
+			document.addEventListener("click", function (e) {
+				if (e.target.classList.contains("blank")) {
+					sendLog("reveal_word", {
+						answer: e.target.dataset.answer
+					});
+					e.target.textContent = e.target.dataset.answer;
+					e.target.classList.remove("blank");
+					e.target.classList.add("revealed");
+				}
+			});
+
+			// フォントサイズ変更
+			let fontSize = 20;
+			document.getElementById("fontPlus").onclick = () => {
+				fontSize += 2;
+				updateFontSize();
+				sendLog("font_resize", { action: "plus", fontSize });
+			};
+			document.getElementById("fontMinus").onclick = () => {
+				fontSize = Math.max(10, fontSize - 2);
+				updateFontSize();
+				sendLog("font_resize", { action: "minus", fontSize });
+			};
+
+
 
 		</script>
 </body>
