@@ -649,20 +649,8 @@
 					}
 				}, 3000);
 
-				// pause 時保存 & 停止ログ送信
-				audio.addEventListener("pause", () => {
-					localStorage.setItem(storageKey, audio.currentTime);
-					sendLog("audio_stop", {
-						filename: selaudio,
-						currentTime: audio.currentTime
-					});
-				});
-
-				// 終了時
-				audio.addEventListener("ended", () => {
-					localStorage.removeItem(storageKey);
-					playIcon.innerText = '▶';
-				});
+				// 再生状態管理
+				let isPlaying = false;
 
 				// 🎁 ▶ ⏸ ボタン同期
 				const playBtnContainer = document.getElementById("customPlayButton");
@@ -673,17 +661,28 @@
 
 				audio.addEventListener("play", () => {
 					playIcon.innerText = '⏸';
+					isPlaying = true;
 				});
 
 				audio.addEventListener("pause", () => {
 					playIcon.innerText = '▶';
+					if (isPlaying) {
+						sendLog("audio_stop", {
+							filename: selaudio,
+							currentTime: audio.currentTime
+						});
+						isPlaying = false;
+					}
+					localStorage.setItem(storageKey, audio.currentTime);
 				});
 
 				audio.addEventListener("ended", () => {
 					localStorage.removeItem(storageKey);
 					playIcon.innerText = '▶';
+					isPlaying = false;
 				});
 
+				// ▶ ボタン押下時
 				newBtn.addEventListener("click", () => {
 					if (audio.paused) {
 						audio.play();
@@ -694,8 +693,8 @@
 						audio.pause();
 					}
 				});
-
 			}
+
 
 
 
