@@ -426,21 +426,23 @@
 			let swiperInstance;
 			let pptLoaded = false;
 			let currentVerse = null;
-
+			let selaudio = ""; // グローバル
 
 			document.addEventListener("DOMContentLoaded", () => {
-				// 説教リスト
 				fetch("https://hitachihikari.net/message/list.json")
 					.then(res => res.json())
 					.then(data => {
 						list = data;
+						const select = document.getElementById("messageSelect");
 						for (const item of list) {
 							const opt = document.createElement("option");
 							opt.value = item.val;
 							opt.text = item.txt;
-							document.getElementById("messageSelect").appendChild(opt);
+							select.appendChild(opt);
 						}
-						audioset();
+
+						audioset();  // 最初の説教を表示
+						select.addEventListener("change", audioset);  // 説教変更時に呼び出す
 					});
 
 				// 聖歌歌詞リスト
@@ -626,7 +628,7 @@
 				const select = document.getElementById("messageSelect");
 				if (!select.value) return;
 
-				const selaudio = select.value.substring(0, 8);
+				const selaudio = select.value.substring(0, 8);  // ←重要
 				const audio = new Audio("./m4a/" + selaudio + ".m4a");
 				audio.controls = true;
 				audio.style.width = '100%';
@@ -638,24 +640,19 @@
 				messageDiv.appendChild(audio);
 
 				const storageKey = "audio_position_" + selaudio;
-
-				// 位置復元
 				const savedTime = localStorage.getItem(storageKey);
 				if (savedTime && !isNaN(savedTime)) {
 					audio.currentTime = parseFloat(savedTime);
 				}
 
-				// 定期保存
 				const intervalId = setInterval(() => {
 					if (!audio.paused && !audio.ended) {
 						localStorage.setItem(storageKey, audio.currentTime);
 					}
 				}, 3000);
 
-				// 再生状態管理
 				let isPlaying = false;
 
-				// 🎁 ▶ ⏸ ボタン同期
 				const playBtnContainer = document.getElementById("customPlayButton");
 				const oldBtn = document.getElementById("playToggle");
 				const newBtn = oldBtn.cloneNode(true);
@@ -666,7 +663,6 @@
 					playIcon.innerText = '⏸';
 					isPlaying = true;
 				});
-
 				audio.addEventListener("pause", () => {
 					playIcon.innerText = '▶';
 					if (isPlaying) {
@@ -685,13 +681,10 @@
 					isPlaying = false;
 				});
 
-				// ▶ ボタン押下時
 				newBtn.addEventListener("click", () => {
 					if (audio.paused) {
 						audio.play();
-						sendLog("audio_play", {
-							filename: selaudio
-						});
+						sendLog("audio_play", { filename: selaudio });
 					} else {
 						audio.pause();
 					}
@@ -699,9 +692,20 @@
 			}
 
 
-
-
-
+			function sendLog(eventType, data) {
+				fetch("https://script.google.com/macros/s/【あなたのGAS URL】/exec", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						event: eventType,
+						userAgent: navigator.userAgent,
+						device: /mobile/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
+						...data
+					})
+				}).then(res => res.text())
+					.then(text => console.log("ログ送信成功:", text))
+					.catch(err => console.error("ログ送信失敗:", err));
+			}
 
 			function skip(seconds) {
 				const audio = document.getElementById("audio");
