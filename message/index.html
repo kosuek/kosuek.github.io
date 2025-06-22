@@ -532,7 +532,7 @@
 							const no = row['番号']?.trim();
 							const btn = document.createElement("button");
 							btn.className = "btn btn-outline-primary btn-sm";
-							btn.textContent = `No.${no}`;
+							btn.textContent = `${no}`;
 							btn.onclick = () => {
 								currentVerse = row;
 								updateVerse(getCurrentLevel());
