@@ -238,6 +238,9 @@
 				</svg>
 				ホームページへ戻る
 			</a>
+			<button class="btn btn-outline-primary shadow-sm rounded-pill px-4 py-2 fw-bold d-flex align-items-center gap-2 onclick="location.reload()">
+				🔄 アプリ更新
+			</button>
 		</div>
 
 		<div id="installPromptContainer" class="text-center my-3" style="display: none;">
@@ -971,7 +974,6 @@
 			});
 
 			// フォントサイズ変更
-			let fontSize = 20;
 			document.getElementById("fontPlus").onclick = () => {
 				fontSize += 2;
 				updateFontSize();
