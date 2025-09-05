@@ -836,7 +836,11 @@
 
 				// 句読点以外の単語インデックスだけを対象にする
 				const wordIndices = words.map((_, i) => i).filter(i =>
-					!words[i].match(/^[、。！？「」『』（）\[\]｛｝\s]+$/)
+				//	!words[i].match(/^[、。！？「」『』（）\[\]｛｝\s]+$/)
+				!words[i].match(/^[、。！？「」『』（）\[\]｛｝\s\p{P}\p{S}]+$/u) 
+				&& 
+				!words[i].match(/^\d+$/)
+
 				);
 
 				const hideCount = percentHidden >= 1.0
