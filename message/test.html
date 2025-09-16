@@ -421,615 +421,425 @@
 				coming soon!
 			</div>
 
+			<script>
+				// --- グローバル変数 ---
+				let list = [];
+				let swiperInstance;
+				let pptLoaded = false;
+				let currentVerse = null;
+				let selaudio = "";
+				let deferredPrompt = null;
+				let fontSize = 40;
 
+				// --- 初期化 ---
+				document.addEventListener("DOMContentLoaded", () => {
+					initMessage();
+					initHymn();
+					initVerse();
+					initSlide();
+					initInstallPrompt();
+				});
 
-		</div>
-
-
-		<script>
-			let list = [];
-			let swiperInstance;
-			let pptLoaded = false;
-			let currentVerse = null;
-			let selaudio = ""; // グローバル
-
-			document.addEventListener("DOMContentLoaded", () => {
-				// 初期化
-				initMessage();
-				initHymn();
-				initVerse();
-				initSlide();
-				initInstallPrompt();
-			});
-
-			// 説教機能
-			function initMessage() {
-				// 説教リスト取得・表示・イベント登録
-				fetch("https://hitachihikari.net/message/list.json")
-					.then(res => res.json())
-					.then(data => {
-						list = data;
-						const select = document.getElementById("messageSelect");
-						for (const item of list) {
-							const opt = document.createElement("option");
-							opt.value = item.val;
-							opt.text = item.txt;
-							select.appendChild(opt);
-						}
-
-						audioset();  // 最初の説教を表示
-						select.addEventListener("change", audioset);  // 説教変更時に呼び出す
-					});
-
-			}
-
-			// 聖歌機能
-			function initHymn() {
-				// 聖歌リスト取得・ボタン生成・歌詞表示
-
-				// 聖歌歌詞リスト
-				fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRGJMtcBrjSnLZZGMFKB0wPzh4v_hHF8nmIdpTzZtLcpx0LKM_VAruhWF9diTGVZ4kXewlbN_sIhcOC/pub?output=csv")
-					.then(res => res.text())
-					.then(csvText => {
-						const parsed = Papa.parse(csvText, { header: false });
-						const rows = parsed.data.slice(1);
-						const hymnData = rows.map(cols => ({
-							number: cols[1]?.trim(),
-							verse: cols[2],
-							text: cols[3],
-							meaning: cols[5]
-						}));
-
-						const numbers = [...new Set(hymnData.map(row => row.number))]
-							.map(n => parseInt(n))
-							.filter(n => !isNaN(n))
-							.sort((a, b) => a - b);
-
-						const hymnButtons = document.getElementById('hymnButtons');
-						numbers.forEach(num => {
-							const btn = document.createElement('button');
-							btn.className = 'btn btn-kashi';
-
-							// 意味が空のものが1つでもあれば色を変える
-							const hasEmptyMeaning = hymnData.some(row =>
-								row.number === String(num) && (!row.meaning || row.meaning.trim() === "")
-							);
-
-							if (hasEmptyMeaning) {
-								btn.classList.add('btn-empty-meaning');
-							} else {
-								btn.classList.add('btn-outline-primary');
+				// --- 説教機能 ---
+				function initMessage() {
+					fetch("https://hitachihikari.net/message/list.json")
+						.then(res => res.json())
+						.then(data => {
+							list = data;
+							const select = document.getElementById("messageSelect");
+							for (const item of list) {
+								const opt = document.createElement("option");
+								opt.value = item.val;
+								opt.text = item.txt;
+								select.appendChild(opt);
 							}
-
-
-							btn.textContent = num;
-
-							btn.onclick = () => {
-								// 色の切り替え（全ボタンからactive除去→このボタンに追加）
-								document.querySelectorAll('.btn-kashi').forEach(b => b.classList.remove('active'));
-								btn.classList.add('active');
-
-								// 歌詞表示
-								showLyrics(num, hymnData);
-							};
-
-							hymnButtons.appendChild(btn);
+							audioset();
+							select.addEventListener("change", audioset);
 						});
+				}
 
+				function audioset() {
+					const select = document.getElementById("messageSelect");
+					if (!select.value) return;
+
+					const selaudio = select.value.substring(0, 8);
+					const audio = new Audio("./m4a/" + selaudio + ".m4a");
+					audio.controls = true;
+					audio.style.width = '100%';
+					audio.id = "audio";
+					audio.preload = "auto";
+
+					const messageDiv = document.getElementById("message");
+					messageDiv.innerHTML = '';
+					messageDiv.appendChild(audio);
+
+					const storageKey = "audio_position_" + selaudio;
+					const savedTime = localStorage.getItem(storageKey);
+					if (savedTime && !isNaN(savedTime)) {
+						audio.currentTime = parseFloat(savedTime);
+					}
+
+					const intervalId = setInterval(() => {
+						if (!audio.paused && !audio.ended) {
+							localStorage.setItem(storageKey, audio.currentTime);
+						}
+					}, 3000);
+
+					let isPlaying = false;
+
+					const playBtnContainer = document.getElementById("customPlayButton");
+					const oldBtn = document.getElementById("playToggle");
+					const newBtn = oldBtn.cloneNode(true);
+					oldBtn.parentNode.replaceChild(newBtn, oldBtn);
+					const playIcon = newBtn;
+
+					audio.addEventListener("play", () => {
+						playIcon.innerText = '⏸';
+						isPlaying = true;
 					});
-
-
-
-
-			}
-
-			// 暗唱聖句機能
-			function initVerse() {
-				// 聖句リスト取得・ボタン生成・難易度/文字サイズ管理
-
-				// 暗唱聖句の読み込み
-				// Google SheetsのCSV URL
-				const verseCsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRqLECO6yni4jcicwjRBODdGoTRYIQQbHDMfwn8QJ3o8Cb_KakgDV7mr6Qx6r5D5QP3iyfRFWtpCDpy/pub?output=csv";
-				let verseList = [];
-
-				// CSVを読み込んでボタン生成
-				fetch(verseCsvUrl)
-					.then(res => res.text())
-					.then(csvText => {
-						const parsed = Papa.parse(csvText, { header: true });
-						verseList = parsed.data.filter(row => row['本文']?.trim());
-
-						const container = document.getElementById("verseButtons");
-						verseList.forEach(row => {
-							const no = row['番号']?.trim();
-							const btn = document.createElement("button");
-							btn.className = "btn btn-outline-primary btn-sm";
-							btn.textContent = `${no}`;
-							btn.onclick = () => {
-								currentVerse = row;
-								updateVerse(getCurrentLevel());
-								document.getElementById("verseTitle").textContent = `${row['聖書個所'] || '（不明）'}`;
-							};
-							container.appendChild(btn);
-						});
-
-						// 初期表示：No.1
-						const first = verseList.find(row => row['番号']?.trim() === "1");
-						if (first) {
-							currentVerse = first;
-							updateVerse(0.1);
-							document.getElementById("verseTitle").textContent = first['聖書個所'] || '（不明）';
+					audio.addEventListener("pause", () => {
+						playIcon.innerText = '▶';
+						if (isPlaying) {
+							sendLog("audio_stop", {
+								filename: selaudio,
+								currentTime: audio.currentTime
+							});
+							isPlaying = false;
+						}
+						localStorage.setItem(storageKey, audio.currentTime);
+					});
+					audio.addEventListener("ended", () => {
+						localStorage.removeItem(storageKey);
+						playIcon.innerText = '▶';
+						isPlaying = false;
+					});
+					newBtn.addEventListener("click", () => {
+						if (audio.paused) {
+							audio.play();
+							sendLog("audio_play", { filename: selaudio });
+						} else {
+							audio.pause();
 						}
 					});
+				}
 
-				// 難易度ラジオボタンのイベント
+				function skip(seconds) {
+					const audio = document.getElementById("audio");
+					if (audio) {
+						audio.play();
+						audio.currentTime += seconds;
+					}
+				}
+				function move(seconds) {
+					const audio = document.getElementById("audio");
+					if (audio) {
+						audio.play();
+						audio.currentTime = seconds;
+					}
+				}
+				function rateup(speed) {
+					const audio = document.getElementById("audio");
+					if (audio) {
+						audio.play();
+						audio.playbackRate = speed;
+					}
+				}
+
+				// --- 聖歌機能 ---
+				function initHymn() {
+					fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRGJMtcBrjSnLZZGMFKB0wPzh4v_hHF8nmIdpTzZtLcpx0LKM_VAruhWF9diTGVZ4kXewlbN_sIhcOC/pub?output=csv")
+						.then(res => res.text())
+						.then(csvText => {
+							const parsed = Papa.parse(csvText, { header: false });
+							const rows = parsed.data.slice(1);
+							const hymnData = rows.map(cols => ({
+								number: cols[1]?.trim(),
+								verse: cols[2],
+								text: cols[3],
+								meaning: cols[5]
+							}));
+
+							const numbers = [...new Set(hymnData.map(row => row.number))]
+								.map(n => parseInt(n))
+								.filter(n => !isNaN(n))
+								.sort((a, b) => a - b);
+
+							const hymnButtons = document.getElementById('hymnButtons');
+							numbers.forEach(num => {
+								const btn = document.createElement('button');
+								btn.className = 'btn btn-kashi';
+								const hasEmptyMeaning = hymnData.some(row =>
+									row.number === String(num) && (!row.meaning || row.meaning.trim() === "")
+								);
+								if (hasEmptyMeaning) {
+									btn.classList.add('btn-empty-meaning');
+								} else {
+									btn.classList.add('btn-outline-primary');
+								}
+								btn.textContent = num;
+								btn.onclick = () => {
+									document.querySelectorAll('.btn-kashi').forEach(b => b.classList.remove('active'));
+									btn.classList.add('active');
+									showLyrics(num, hymnData);
+								};
+								hymnButtons.appendChild(btn);
+							});
+						});
+				}
+
+				function showLyrics(number, data) {
+					const results = data.filter(entry => entry.number === number.toString());
+					const wrapper = document.getElementById('hymnSlides');
+					wrapper.innerHTML = '';
+					if (!results.length) {
+						wrapper.innerHTML = `<div class="swiper-slide text-center"><p class="text-danger">番号 ${number} の歌詞が見つかりませんでした。</p></div>`;
+					} else {
+						results.forEach(({ number, verse, text, meaning }) => {
+							const slide = document.createElement('div');
+							slide.className = 'swiper-slide';
+							slide.innerHTML = `
+                    <h5 class="mb-3">聖歌 ${number}番・第 ${verse} 節</h5>
+                    <div class="lyrics-meaning-wrapper">
+                        <div class="lyrics">${text?.replace(/\n/g, '<br>')}</div>
+                        <div class="meaning">${meaning?.replace(/\n/g, '<br>')}</div>
+                    </div>
+                `;
+							wrapper.appendChild(slide);
+						});
+					}
+					if (swiperInstance) swiperInstance.destroy(true, true);
+					swiperInstance = new Swiper('.mySwiper', {
+						direction: 'horizontal',
+						loop: false,
+						autoHeight: true,
+						pagination: {
+							el: '.swiper-pagination',
+							clickable: true,
+						},
+						navigation: {
+							nextEl: '.swiper-button-next',
+							prevEl: '.swiper-button-prev',
+						},
+					});
+					scrollToLyrics();
+				}
+
+				function scrollToLyrics() {
+					const swiperContainer = document.getElementById('hymnSwiper');
+					const offsetTop = swiperContainer.getBoundingClientRect().top + window.scrollY;
+					window.scrollTo({
+						top: offsetTop,
+						behavior: 'smooth'
+					});
+				}
+
+				// --- 暗唱聖句機能 ---
+				function initVerse() {
+					const verseCsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRqLECO6yni4jcicwjRBODdGoTRYIQQbHDMfwn8QJ3o8Cb_KakgDV7mr6Qx6r5D5QP3iyfRFWtpCDpy/pub?output=csv";
+					let verseList = [];
+					fetch(verseCsvUrl)
+						.then(res => res.text())
+						.then(csvText => {
+							const parsed = Papa.parse(csvText, { header: true });
+							verseList = parsed.data.filter(row => row['本文']?.trim());
+							const container = document.getElementById("verseButtons");
+							verseList.forEach(row => {
+								const no = row['番号']?.trim();
+								const btn = document.createElement("button");
+								btn.className = "btn btn-outline-primary btn-sm";
+								btn.textContent = `${no}`;
+								btn.onclick = () => {
+									currentVerse = row;
+									updateVerse(getCurrentLevel());
+									document.getElementById("verseTitle").textContent = `${row['聖書個所'] || '（不明）'}`;
+									sendLog("verse_select", {
+										number: row['番号'],
+										verse: row['聖書個所']
+									});
+								};
+								container.appendChild(btn);
+							});
+							const first = verseList.find(row => row['番号']?.trim() === "1");
+							if (first) {
+								currentVerse = first;
+								updateVerse(0.1);
+								document.getElementById("verseTitle").textContent = first['聖書個所'] || '（不明）';
+							}
+						});
+					document.querySelectorAll('input[name="level"]').forEach(radio => {
+						radio.addEventListener("change", e => {
+							if (currentVerse) {
+								const level = getCurrentLevel();
+								updateVerse(level);
+								sendLog("level_change", { level });
+							}
+						});
+					});
+					document.getElementById("fontPlus").onclick = () => {
+						fontSize = Math.min(60, fontSize + 2);
+						updateFontSize();
+						sendLog("font_resize", { action: "plus", fontSize });
+					};
+					document.getElementById("fontMinus").onclick = () => {
+						fontSize = Math.max(10, fontSize - 2);
+						updateFontSize();
+						sendLog("font_resize", { action: "minus", fontSize });
+					};
+					applyFontSize();
+				}
+
 				function getCurrentLevel() {
 					return parseFloat(document.querySelector('input[name="level"]:checked').value);
 				}
 
-				// 難易度変更時の更新
 				function updateVerse(percent) {
 					if (!currentVerse) return;
-
 					const verseContainer = document.getElementById("verse");
 					const reference = currentVerse['聖書個所'] || '（不明）';
 					const text = currentVerse['本文'] || '';
-
-					// 再度 makeBlanksWithAnswers を呼び出して、DOM を上書き
 					const html = `<p><strong>${reference}</strong><br>${makeBlanksWithAnswers(text, percent)}</p>`;
 					verseContainer.innerHTML = html;
+					applyFontSize();
 				}
-
-				document.querySelectorAll('input[name="level"]').forEach(radio => {
-					radio.addEventListener("change", e => {
-						if (currentVerse) {
-							updateVerse(parseFloat(e.target.value));
-						}
-					});
-				});
-
-				let currentFontSize = 40;  // 初期フォントサイズ（px）
-				applyFontSize();
 
 				function applyFontSize() {
-					document.getElementById("verse").style.fontSize = currentFontSize + "px";
+					document.getElementById("verse").style.fontSize = fontSize + "px";
 				}
 
-				document.getElementById("fontPlus").addEventListener("click", () => {
-					if (currentFontSize < 60) {
-						currentFontSize += 2;
-						applyFontSize();
-					}
-				});
-
-				document.getElementById("fontMinus").addEventListener("click", () => {
-					if (currentFontSize > 12) {
-						currentFontSize -= 2;
-						applyFontSize();
-					}
-				});
-			}
-
-			// スライド機能
-			function initSlide() {
-				// スライド表示・ローディング管理
-				// スライド読み込み（初回）
-				const iframe = document.getElementById('pptFrame');
-				const loader = document.getElementById('pptLoading');
-				loader.style.display = 'flex';
-
-				iframe.onload = () => {
-					loader.style.display = 'none';
-					pptLoaded = true;
-				};
-
-				iframe.src = "https://onedrive.live.com/embed?cid=DF8117155F580907&resid=DF8117155F580907%211340&authkey=AF6P8Ar7u7YupbA&em=2&wdAr=1.00&wdEaa=0";
-
-				// 念のため5秒で非表示（失敗対策）
-				setTimeout(() => {
-					if (!pptLoaded) loader.style.display = 'none';
-				}, 5000);
-
-
-			}
-
-			// PWAインストール案内
-			function initInstallPrompt() {
-				// インストールボタン表示・イベント登録
-			}
-
-
-
-			document.getElementById("playToggle").addEventListener("click", () => {
-				audioset(); // 毎回プレイヤーを生成・同期し直す
-			});
-
-
-
-
-			function toggleView(targetId) {
-				document.getElementById('pptContainer').style.display = 'none';
-				document.getElementById('weeklyReport').style.display = 'none';
-				document.getElementById('schedule').style.display = 'none';
-
-				document.getElementById(targetId).style.display = 'block';
-
-				if (targetId === 'pptContainer') {
-					const loader = document.getElementById('pptLoading');
-					if (!pptLoaded) {
-						loader.style.display = 'flex';
-					} else {
-						loader.style.display = 'none';
-					}
-				}
-			}
-
-
-			function audioset() {
-				const select = document.getElementById("messageSelect");
-				if (!select.value) return;
-
-				const selaudio = select.value.substring(0, 8);  // ←重要
-				const audio = new Audio("./m4a/" + selaudio + ".m4a");
-				audio.controls = true;
-				audio.style.width = '100%';
-				audio.id = "audio";
-				audio.preload = "auto";
-
-				const messageDiv = document.getElementById("message");
-				messageDiv.innerHTML = '';
-				messageDiv.appendChild(audio);
-
-				const storageKey = "audio_position_" + selaudio;
-				const savedTime = localStorage.getItem(storageKey);
-				if (savedTime && !isNaN(savedTime)) {
-					audio.currentTime = parseFloat(savedTime);
-				}
-
-				const intervalId = setInterval(() => {
-					if (!audio.paused && !audio.ended) {
-						localStorage.setItem(storageKey, audio.currentTime);
-					}
-				}, 3000);
-
-				let isPlaying = false;
-
-				const playBtnContainer = document.getElementById("customPlayButton");
-				const oldBtn = document.getElementById("playToggle");
-				const newBtn = oldBtn.cloneNode(true);
-				oldBtn.parentNode.replaceChild(newBtn, oldBtn);
-				const playIcon = newBtn;
-
-				audio.addEventListener("play", () => {
-					playIcon.innerText = '⏸';
-					isPlaying = true;
-				});
-				audio.addEventListener("pause", () => {
-					playIcon.innerText = '▶';
-					if (isPlaying) {
-						sendLog("audio_stop", {
-							filename: selaudio,
-							currentTime: audio.currentTime
-						});
-						isPlaying = false;
-					}
-					localStorage.setItem(storageKey, audio.currentTime);
-				});
-
-				audio.addEventListener("ended", () => {
-					localStorage.removeItem(storageKey);
-					playIcon.innerText = '▶';
-					isPlaying = false;
-				});
-
-				newBtn.addEventListener("click", () => {
-					if (audio.paused) {
-						audio.play();
-						sendLog("audio_play", { filename: selaudio });
-					} else {
-						audio.pause();
-					}
-				});
-			}
-
-
-			function sendLog(eventType, data) {
-				fetch("https://script.google.com/macros/s/【あなたのGAS URL】/exec", {
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({
-						event: eventType,
-						userAgent: navigator.userAgent,
-						device: /mobile/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
-						...data
-					})
-				}).then(res => res.text())
-					.then(text => console.log("ログ送信成功:", text))
-					.catch(err => console.error("ログ送信失敗:", err));
-			}
-
-			function skip(seconds) {
-				const audio = document.getElementById("audio");
-				if (audio) {
-					audio.play();
-					audio.currentTime += seconds;
-				}
-			}
-
-			function move(seconds) {
-				const audio = document.getElementById("audio");
-				if (audio) {
-					audio.play();
-					audio.currentTime = seconds;
-				}
-			}
-
-			function rateup(speed) {
-				const audio = document.getElementById("audio");
-				if (audio) {
-					audio.play();
-					audio.playbackRate = speed;
-				}
-			}
-
-			function showLyrics(number, data) {
-				const results = data.filter(entry => entry.number === number.toString());
-				const wrapper = document.getElementById('hymnSlides');
-				wrapper.innerHTML = '';
-
-				if (!results.length) {
-					wrapper.innerHTML = `<div class="swiper-slide text-center"><p class="text-danger">番号 ${number} の歌詞が見つかりませんでした。</p></div>`;
-				} else {
-					results.forEach(({ number, verse, text, meaning }) => {
-						const slide = document.createElement('div');
-						slide.className = 'swiper-slide';
-						slide.innerHTML = `
-                <h5 class="mb-3">聖歌 ${number}番・第 ${verse} 節</h5>
-                <div class="lyrics-meaning-wrapper">
-                    <div class="lyrics">${text?.replace(/\n/g, '<br>')}</div>
-                    <div class="meaning">${meaning?.replace(/\n/g, '<br>')}</div>
-                </div>
-            `;
-						wrapper.appendChild(slide);
-					});
-				}
-
-				if (swiperInstance) swiperInstance.destroy(true, true);
-				swiperInstance = new Swiper('.mySwiper', {
-					direction: 'horizontal',
-					loop: false,
-					autoHeight: true,
-					pagination: {
-						el: '.swiper-pagination',
-						clickable: true,
-					},
-					navigation: {
-						nextEl: '.swiper-button-next',
-						prevEl: '.swiper-button-prev',
-					},
-				});
-				scrollToLyrics();
-			}
-
-
-
-			function scrollToLyrics() {
-				const swiperContainer = document.getElementById('hymnSwiper');
-				const offsetTop = swiperContainer.getBoundingClientRect().top + window.scrollY;
-
-				window.scrollTo({
-					top: offsetTop,
-					behavior: 'smooth'
-				});
-			}
-
-			function toggleView(targetId) {
-				document.getElementById('pptContainer').style.display = 'none';
-				document.getElementById('weeklyReport').style.display = 'none';
-				document.getElementById('schedule').style.display = 'none';
-
-				document.getElementById(targetId).style.display = 'block';
-
-				if (targetId === 'pptContainer') {
-					const loader = document.getElementById('pptLoading');
-					const iframe = document.getElementById('pptFrame');
-
-					if (!pptLoaded) {
-						loader.style.display = 'flex';
-						iframe.onload = () => {
-							loader.style.display = 'none';
-							pptLoaded = true;
-						};
-					} else {
-						loader.style.display = 'none'; // すぐ消す
-					}
-				}
-			}
-			let deferredPrompt = null;
-
-			window.addEventListener('beforeinstallprompt', (e) => {
-				// デフォルトのプロンプト表示をキャンセル
-				e.preventDefault();
-				deferredPrompt = e;
-
-				// インストールボタンを表示
-				const installContainer = document.getElementById('installPromptContainer');
-				if (installContainer) {
-					installContainer.style.display = 'block';
-				}
-			});
-
-
-			function makeBlanksWithAnswers(text, percentHidden = 0.3) {
-				const segmenter = new TinySegmenter();
-				let words = segmenter.segment(text);
-
-				// 1文字語を前にくっつける（助詞など）
-				for (let i = words.length - 1; i > 0; i--) {
-					if (words[i].length === 1 && words[i].match(/[ぁ-んァ-ン一-龥]/)) {
-						words[i - 1] += words[i];
-						words.splice(i, 1);
-					}
-				}
-
-				// 句読点以外の単語インデックスだけを対象にする
-				const wordIndices = words.map((_, i) => i).filter(i =>
-					//	!words[i].match(/^[、。！？「」『』（）\[\]｛｝\s]+$/)
-					!words[i].match(/^[、。！？「」『』（）\[\]｛｝\s\p{P}\p{S}]+$/u)
-					&&
-					!words[i].match(/^\d+$/)
-
-				);
-
-				const hideCount = percentHidden >= 1.0
-					? wordIndices.length
-					: Math.max(1, Math.floor(wordIndices.length * percentHidden));
-
-				const targets = wordIndices.sort(() => Math.random() - 0.5).slice(0, hideCount);
-
-				let colorToggle = true;
-
-				return words.map((w, i) => {
-					if (targets.includes(i)) {
-						const maskChar = colorToggle ? '●' : '○';
-						colorToggle = !colorToggle;
-						return `<span class="blank" data-answer="${w}">${maskChar.repeat([...w].length)}</span>`;
-					} else {
-						return w;
-					}
-				}).join('');
-			}
-
-
-
-
-			// (1) "updateVerseFromData" が定義されていないため、代わりに「updateVerse」の内部で直接書き換える
-			// (2) 難易度を変更したらすぐ反映させるよう、"updateVerse" を要動
-
-			function updateVerse(percent) {
-				if (!currentVerse) return;
-
-				const verseContainer = document.getElementById("verse");
-				const reference = currentVerse['聖書個所'] || '（不明）';
-				const text = currentVerse['本文'] || '';
-
-				const html = `<p><strong>${reference}</strong><br>${makeBlanksWithAnswers(text, percent)}</p>`;
-				verseContainer.innerHTML = html;
-				applyFontSize();
-			}
-
-			// 難易度ラジオボタンに変更相応のリスナーをつける
-			// ここに再度更めて追加
-
-
-
-
-
-			document.addEventListener("click", function (e) {
-				if (e.target.classList.contains("blank")) {
-					e.target.textContent = e.target.dataset.answer;
-					e.target.classList.remove("blank");
-					e.target.classList.add("revealed");
-				}
-			});
-
-			updateVerse(0.1); // 初期表示
-
-
-
-
-
-			document.getElementById('installBtn').addEventListener('click', () => {
-				if (deferredPrompt) {
-					deferredPrompt.prompt(); // インストールダイアログ表示
-
-					deferredPrompt.userChoice.then((choiceResult) => {
-						if (choiceResult.outcome === 'accepted') {
-							console.log('PWA インストール成功');
-						} else {
-							console.log('PWA インストール拒否');
+				function makeBlanksWithAnswers(text, percentHidden = 0.3) {
+					const segmenter = new TinySegmenter();
+					let words = segmenter.segment(text);
+					for (let i = words.length - 1; i > 0; i--) {
+						if (words[i].length === 1 && words[i].match(/[ぁ-んァ-ン一-龥]/)) {
+							words[i - 1] += words[i];
+							words.splice(i, 1);
 						}
-						// 二度表示されないように消す
-						deferredPrompt = null;
-						document.getElementById('installPromptContainer').style.display = 'none';
+					}
+					const wordIndices = words.map((_, i) => i).filter(i =>
+						!words[i].match(/^[、。！？「」『』（）\[\]｛｝\s\p{P}\p{S}]+$/u)
+						&& !words[i].match(/^\d+$/)
+					);
+					const hideCount = percentHidden >= 1.0
+						? wordIndices.length
+						: Math.max(1, Math.floor(wordIndices.length * percentHidden));
+					const targets = wordIndices.sort(() => Math.random() - 0.5).slice(0, hideCount);
+					let colorToggle = true;
+					return words.map((w, i) => {
+						if (targets.includes(i)) {
+							const maskChar = colorToggle ? '●' : '○';
+							colorToggle = !colorToggle;
+							return `<span class="blank" data-answer="${w}">${maskChar.repeat([...w].length)}</span>`;
+						} else {
+							return w;
+						}
+					}).join('');
+				}
+
+				// --- スライド・週報・予定表 ---
+				function initSlide() {
+					const iframe = document.getElementById('pptFrame');
+					const loader = document.getElementById('pptLoading');
+					loader.style.display = 'flex';
+					iframe.onload = () => {
+						loader.style.display = 'none';
+						pptLoaded = true;
+					};
+					iframe.src = "https://onedrive.live.com/embed?cid=DF8117155F580907&resid=DF8117155F580907%211340&authkey=AF6P8Ar7u7YupbA&em=2&wdAr=1.00&wdEaa=0";
+					setTimeout(() => {
+						if (!pptLoaded) loader.style.display = 'none';
+					}, 5000);
+				}
+
+				function toggleView(targetId) {
+					document.getElementById('pptContainer').style.display = 'none';
+					document.getElementById('weeklyReport').style.display = 'none';
+					document.getElementById('schedule').style.display = 'none';
+					document.getElementById(targetId).style.display = 'block';
+					if (targetId === 'pptContainer') {
+						const loader = document.getElementById('pptLoading');
+						const iframe = document.getElementById('pptFrame');
+						if (!pptLoaded) {
+							loader.style.display = 'flex';
+							iframe.onload = () => {
+								loader.style.display = 'none';
+								pptLoaded = true;
+							};
+						} else {
+							loader.style.display = 'none';
+						}
+					}
+				}
+
+				// --- PWAインストール ---
+				function initInstallPrompt() {
+					// インストールボタン表示・イベント登録
+				}
+
+				window.addEventListener('beforeinstallprompt', (e) => {
+					e.preventDefault();
+					deferredPrompt = e;
+					const installContainer = document.getElementById('installPromptContainer');
+					if (installContainer) {
+						installContainer.style.display = 'block';
+					}
+				});
+
+				document.getElementById('installBtn').addEventListener('click', () => {
+					if (deferredPrompt) {
+						deferredPrompt.prompt();
+						deferredPrompt.userChoice.then((choiceResult) => {
+							if (choiceResult.outcome === 'accepted') {
+								console.log('PWA インストール成功');
+							} else {
+								console.log('PWA インストール拒否');
+							}
+							deferredPrompt = null;
+							document.getElementById('installPromptContainer').style.display = 'none';
+						});
+					}
+				});
+
+				window.addEventListener('load', () => {
+					const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+					const isInStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+					if (isIOS && !isInStandalone) {
+						document.getElementById('iosInstallGuide').style.display = 'block';
+					}
+				});
+
+				// --- 共通・ユーティリティ ---
+				function sendLog(event, data = {}) {
+					fetch("https://script.google.com/macros/s/AKfycbxXZLDgDZnPgZn3QFFCVlglutf4zU0k7UoMeZLhY6IIzx5us7M-7F9OOs5K5rdNLoZjWg/exec", {
+						method: "POST",
+						mode: "no-cors",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify({
+							event,
+							userAgent: navigator.userAgent,
+							device: /mobile/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
+							timestamp: Date.now(),
+							...data
+						})
 					});
 				}
-			});
 
-			window.addEventListener('load', () => {
-				const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-				const isInStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-
-				if (isIOS && !isInStandalone) {
-					document.getElementById('iosInstallGuide').style.display = 'block';
-				}
-			});
-
-
-			// 共通ログ送信関数
-			function sendLog(event, data = {}) {
-				fetch("https://script.google.com/macros/s/AKfycbxXZLDgDZnPgZn3QFFCVlglutf4zU0k7UoMeZLhY6IIzx5us7M-7F9OOs5K5rdNLoZjWg/exec", {
-					method: "POST",
-					mode: "no-cors",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({
-						event,
-						userAgent: navigator.userAgent,
-						device: /mobile/i.test(navigator.userAgent) ? "Mobile" : "Desktop",
-						timestamp: Date.now(),
-						...data
-					})
+				// --- イベント登録 ---
+				document.addEventListener("click", function (e) {
+					if (e.target.classList.contains("blank")) {
+						sendLog("reveal_word", {
+							answer: e.target.dataset.answer
+						});
+						e.target.textContent = e.target.dataset.answer;
+						e.target.classList.remove("blank");
+						e.target.classList.add("revealed");
+					}
 				});
-			}
+			</script>
 
-			// 暗唱聖句ボタン押下時
-			btn.onclick = () => {
-				currentVerse = row;
-				updateVerse(getCurrentLevel());
-				document.getElementById("verseTitle").textContent = `${row['聖書個所'] || '（不明）'}`;
-				sendLog("verse_select", {
-					number: row['番号'],
-					verse: row['聖書個所']
-				});
-			};
-
-			// 難易度変更時
-			const radios = document.querySelectorAll('input[name="level"]');
-			radios.forEach((radio) => {
-				radio.addEventListener("change", () => {
-					const level = getCurrentLevel();
-					updateVerse(level);
-					sendLog("level_change", { level });
-				});
-			});
-
-			// マスク解除（答えを見る）時
-			document.addEventListener("click", function (e) {
-				if (e.target.classList.contains("blank")) {
-					sendLog("reveal_word", {
-						answer: e.target.dataset.answer
-					});
-					e.target.textContent = e.target.dataset.answer;
-					e.target.classList.remove("blank");
-					e.target.classList.add("revealed");
-				}
-			});
-
-			// フォントサイズ変更
-			document.getElementById("fontPlus").onclick = () => {
-				fontSize += 2;
-				updateFontSize();
-				sendLog("font_resize", { action: "plus", fontSize });
-			};
-			document.getElementById("fontMinus").onclick = () => {
-				fontSize = Math.max(10, fontSize - 2);
-				updateFontSize();
-				sendLog("font_resize", { action: "minus", fontSize });
-			};
+		</div>
 
 
 
-		</script>
 </body>
 
 </html>
