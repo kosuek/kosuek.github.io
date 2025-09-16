@@ -4,7 +4,7 @@
 <head>
 	<title>ひたち光教会アプリ</title>
 	<meta name="robots" content="noindex,nofollow,noarchive" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" , maximum-scale=1.0, user-scalable=no>
 	<meta charset="utf-8">
 	<meta property="og:url" content="https://hitachihikari.net/message/">
 	<meta property="og:title" content="ひたち光教会アプリ">
@@ -238,6 +238,11 @@
 				</svg>
 				ホームページへ戻る
 			</a>
+			<button
+				class="btn btn-outline-primary shadow-sm rounded-pill px-4 py-2 fw-bold d-flex align-items-center gap-2"
+				onclick="location.reload()">
+				🔄 アプリ更新
+			</button>
 		</div>
 
 		<div id="installPromptContainer" class="text-center my-3" style="display: none;">
@@ -375,7 +380,7 @@
 			</div>
 
 			<div class="tab-pane fade" id="test-tab-pane" role="tabpanel" aria-labelledby="test-tab">
-				説教中にでてきた"暗唱してほしい聖書個所"を覚えるゲームにしてみました！難易度選べます！
+				毎週の"黄金の聖句"と説教中にでてきた"暗唱してほしい聖書個所"を覚えるゲームにしてみました！難易度選べます！
 				他にも追加したい聖句があれば、ぜひ教えてください！
 				<details class="mb-3">
 					<summary class="fs-5 fw-semibold text-primary">🎮 暗唱聖句ゲームのやり方（タップで開く）</summary>
@@ -429,6 +434,17 @@
 			let selaudio = ""; // グローバル
 
 			document.addEventListener("DOMContentLoaded", () => {
+				// 初期化
+				initMessage();
+				initHymn();
+				initVerse();
+				initSlide();
+				initInstallPrompt();
+			});
+
+			// 説教機能
+			function initMessage() {
+				// 説教リスト取得・表示・イベント登録
 				fetch("https://hitachihikari.net/message/list.json")
 					.then(res => res.json())
 					.then(data => {
@@ -444,6 +460,12 @@
 						audioset();  // 最初の説教を表示
 						select.addEventListener("change", audioset);  // 説教変更時に呼び出す
 					});
+
+			}
+
+			// 聖歌機能
+			function initHymn() {
+				// 聖歌リスト取得・ボタン生成・歌詞表示
 
 				// 聖歌歌詞リスト
 				fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRGJMtcBrjSnLZZGMFKB0wPzh4v_hHF8nmIdpTzZtLcpx0LKM_VAruhWF9diTGVZ4kXewlbN_sIhcOC/pub?output=csv")
@@ -496,24 +518,14 @@
 
 					});
 
-				// スライド読み込み（初回）
-				const iframe = document.getElementById('pptFrame');
-				const loader = document.getElementById('pptLoading');
-				loader.style.display = 'flex';
-
-				iframe.onload = () => {
-					loader.style.display = 'none';
-					pptLoaded = true;
-				};
-
-				iframe.src = "https://onedrive.live.com/embed?cid=DF8117155F580907&resid=DF8117155F580907%211340&authkey=AF6P8Ar7u7YupbA&em=2&wdAr=1.00&wdEaa=0";
-
-				// 念のため5秒で非表示（失敗対策）
-				setTimeout(() => {
-					if (!pptLoaded) loader.style.display = 'none';
-				}, 5000);
 
 
+
+			}
+
+			// 暗唱聖句機能
+			function initVerse() {
+				// 聖句リスト取得・ボタン生成・難易度/文字サイズ管理
 
 				// 暗唱聖句の読み込み
 				// Google SheetsのCSV URL
@@ -532,7 +544,7 @@
 							const no = row['番号']?.trim();
 							const btn = document.createElement("button");
 							btn.className = "btn btn-outline-primary btn-sm";
-							btn.textContent = `No.${no}`;
+							btn.textContent = `${no}`;
 							btn.onclick = () => {
 								currentVerse = row;
 								updateVerse(getCurrentLevel());
@@ -576,7 +588,8 @@
 					});
 				});
 
-				let currentFontSize = 24;  // 初期フォントサイズ（px）
+				let currentFontSize = 40;  // 初期フォントサイズ（px）
+				applyFontSize();
 
 				function applyFontSize() {
 					document.getElementById("verse").style.fontSize = currentFontSize + "px";
@@ -595,9 +608,37 @@
 						applyFontSize();
 					}
 				});
+			}
+
+			// スライド機能
+			function initSlide() {
+				// スライド表示・ローディング管理
+				// スライド読み込み（初回）
+				const iframe = document.getElementById('pptFrame');
+				const loader = document.getElementById('pptLoading');
+				loader.style.display = 'flex';
+
+				iframe.onload = () => {
+					loader.style.display = 'none';
+					pptLoaded = true;
+				};
+
+				iframe.src = "https://onedrive.live.com/embed?cid=DF8117155F580907&resid=DF8117155F580907%211340&authkey=AF6P8Ar7u7YupbA&em=2&wdAr=1.00&wdEaa=0";
+
+				// 念のため5秒で非表示（失敗対策）
+				setTimeout(() => {
+					if (!pptLoaded) loader.style.display = 'none';
+				}, 5000);
 
 
-			});
+			}
+
+			// PWAインストール案内
+			function initInstallPrompt() {
+				// インストールボタン表示・イベント登録
+			}
+
+
 
 			document.getElementById("playToggle").addEventListener("click", () => {
 				audioset(); // 毎回プレイヤーを生成・同期し直す
@@ -833,7 +874,11 @@
 
 				// 句読点以外の単語インデックスだけを対象にする
 				const wordIndices = words.map((_, i) => i).filter(i =>
-					!words[i].match(/^[、。！？「」『』（）\[\]｛｝\s]+$/)
+					//	!words[i].match(/^[、。！？「」『』（）\[\]｛｝\s]+$/)
+					!words[i].match(/^[、。！？「」『』（）\[\]｛｝\s\p{P}\p{S}]+$/u)
+					&&
+					!words[i].match(/^\d+$/)
+
 				);
 
 				const hideCount = percentHidden >= 1.0
@@ -971,7 +1016,6 @@
 			});
 
 			// フォントサイズ変更
-			let fontSize = 20;
 			document.getElementById("fontPlus").onclick = () => {
 				fontSize += 2;
 				updateFontSize();
