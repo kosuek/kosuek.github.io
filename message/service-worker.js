@@ -4,27 +4,30 @@ const urlsToCache = [
   './index.html',
   './hhc-icon-512.png',
   './manifest.json',
-  './logo.png',
-  'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css',
-  'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js',
-  'https://code.jquery.com/jquery.js',
-  'https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js',
-  'https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css',
-  'https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js'
+  './logo.png'
 ];
 
-self.addEventListener('install', event => {
+// ① install：同一オリジンだけ確実にキャッシュ
+self.addEventListener('install', (event) => {
+  self.skipWaiting(); // ② 初回から新SWを有効化
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(urlsToCache);
+    caches.open(CACHE_NAME).then(async (cache) => {
+      // 念のため try/catch で失敗しても install を壊さない
+      for (const url of urlsToCache) {
+        try { await cache.add(url); } catch (e) { /* 無視 */ }
+      }
     })
   );
 });
 
-self.addEventListener('fetch', event => {
+// ③ activate：すぐ制御を握る
+self.addEventListener('activate', (event) => {
+  event.waitUntil(clients.claim());
+});
+
+// ④ fetch：キャッシュ優先
+self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.match(event.request).then(response => {
-      return response || fetch(event.request);
-    })
+    caches.match(event.request).then((res) => res || fetch(event.request))
   );
 });
