@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>コーヒー記録ミニPWA</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root { --max-content-width: 720px; }
+    body { background: #f8fafc; }
+    .app { max-width: var(--max-content-width); }
+    .time-mono { font-variant-numeric: tabular-nums; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+    .sticky-footer-space { height: 100px; } /* 大きいボタンぶん余白 */
+    .fixed-bottom-wrap { background: rgba(248, 250, 252, 0.9); backdrop-filter: blur(6px); }
+    /* でかボタン */
+    #addBtn {
+      font-size: 1.5rem;
+      padding-top: 1.25rem;
+      padding-bottom: 1.25rem;
+    }
+  </style>
+</head>
+<body class="fs-5"><!-- 全体文字大きめ -->
+
+  <main class="container py-4 app">
+    <header class="mb-3">
+      <h1 class="h2 fw-bold">コーヒー記録 ☕</h1>
+      <p class="text-muted mb-1">ボタンを押すだけで時間と一緒に保存。上限に達したら警告、超えたらアラート。</p>
+      <div class="d-flex gap-3 align-items-baseline">
+        <div><span class="badge text-bg-secondary">今日</span> <span id="todayStr" class="fw-semibold"></span></div>
+        <div class="ms-auto small text-muted">現在時刻: <span id="nowClock" class="time-mono"></span></div>
+      </div>
+    </header>
+
+    <section class="mb-3" id="alertArea" aria-live="polite"></section>
+
+    <section class="card shadow-sm mb-3">
+      <div class="card-body">
+        <div class="d-flex align-items-center gap-3 flex-wrap">
+          <div class="display-5 fw-bold" id="todayCount">0</div>
+          <div class="text-muted">今日の合計杯数</div>
+          <div class="ms-auto flex-grow-1" style="min-width:300px;">
+            <div class="input-group input-group-lg">
+              <span class="input-group-text">1日の上限</span>
+              <input type="number" min="1" step="1" class="form-control" id="limitInput" aria-label="1日の上限">
+              <button class="btn btn-outline-primary" id="saveLimitBtn">保存</button>
+            </div>
+            <div class="form-text">上限到達で警告、超過でアラートします。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card shadow-sm mb-3">
+      <div class="card-body">
+        <h2 class="h5 mb-3">飲んだ時間リスト</h2>
+        <ol id="timeList" class="list-group list-group-numbered"></ol>
+        <p class="text-center text-muted small mt-3 mb-3" id="noDataHint" style="display:none;">まだ記録がありません。</p>
+
+        <!-- クリア操作 -->
+        <div class="d-flex gap-2">
+          <button id="undoBtn" class="btn btn-outline-danger flex-fill">直前を削除</button>
+          <button id="clearBtn" class="btn btn-outline-danger flex-fill">今日を全部クリア</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="sticky-footer-space"></div>
+  </main>
+
+  <!-- 固定ボタン -->
+  <div class="fixed-bottom fixed-bottom-wrap border-top">
+    <div class="container app py-3">
+      <button id="addBtn" class="btn btn-primary w-100 shadow">☕ コーヒーを飲んだ（記録）</button>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // ====== 設定 ======
+    const TZ = 'Asia/Tokyo';
+    const STORAGE_KEY = 'coffeeLogs';       // { 'YYYY-MM-DD': [ISO8601, ...], ... }
+    const LIMIT_KEY   = 'coffeeDailyLimit'; // number
+
+    // ====== フォーマッタ ======
+    const fmtDate = new Intl.DateTimeFormat('ja-JP', { timeZone: TZ, dateStyle: 'long' });
+    const fmtTime = new Intl.DateTimeFormat('ja-JP', { timeZone: TZ, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+    const elTodayStr = document.getElementById('todayStr');
+    const elClock    = document.getElementById('nowClock');
+    const elCount    = document.getElementById('todayCount');
+    const elList     = document.getElementById('timeList');
+    const elNoData   = document.getElementById('noDataHint');
+    const elLimitInp = document.getElementById('limitInput');
+    const elAlert    = document.getElementById('alertArea');
+
+    // 安全に要素を取得（存在しない場合でも落ちないように）
+    const elAddBtn   = document.getElementById('addBtn');
+    const elSaveBtn  = document.getElementById('saveLimitBtn');
+    const elUndoBtn  = document.getElementById('undoBtn');
+    const elClearBtn = document.getElementById('clearBtn');
+
+    // ====== Util ======
+    function todayKey() {
+      const now = new Date();
+      const y = new Intl.DateTimeFormat('ja-JP', { timeZone: TZ, year: 'numeric' }).format(now);
+      const m = new Intl.DateTimeFormat('ja-JP', { timeZone: TZ, month: '2-digit' }).format(now);
+      const d = new Intl.DateTimeFormat('ja-JP', { timeZone: TZ, day: '2-digit' }).format(now);
+      return `${y}-${m}-${d}`;
+    }
+    function loadLogs() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+      catch { return {}; }
+    }
+    function saveLogs(obj) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
+    }
+    function getLimit() {
+      const v = parseInt(localStorage.getItem(LIMIT_KEY) || '3', 10);
+      return Number.isFinite(v) && v > 0 ? v : 3;
+    }
+    function setLimit(v) {
+      localStorage.setItem(LIMIT_KEY, String(Math.max(1, Math.floor(v))));
+    }
+    function getTodayRecords() {
+      const logs = loadLogs();
+      return logs[todayKey()] || [];
+    }
+    function setTodayRecords(arr) {
+      const logs = loadLogs();
+      logs[todayKey()] = Array.isArray(arr) ? arr : [];
+      saveLogs(logs);
+    }
+    function toJstTimeStr(iso) {
+      return fmtTime.format(new Date(iso));
+    }
+
+    // ====== 描画 ======
+    function renderDateHeader() {
+      const now = new Date();
+      elTodayStr.textContent = fmtDate.format(now);
+      elClock.textContent = fmtTime.format(now);
+    }
+    function renderList() {
+      const rows = getTodayRecords();
+      elList.innerHTML = '';
+      if (!rows.length) {
+        elNoData.style.display = '';
+      } else {
+        elNoData.style.display = 'none';
+        for (const iso of [...rows].reverse()) {
+          const li = document.createElement('li');
+          li.className = 'list-group-item d-flex justify-content-between align-items-center';
+          li.innerHTML = `<span class="time-mono">${toJstTimeStr(iso)}</span><span class="badge text-bg-light">記録</span>`;
+          elList.appendChild(li);
+        }
+      }
+      elCount.textContent = rows.length;
+    }
+    function showAlert(message, type = 'warning') {
+      elAlert.innerHTML = `
+        <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+          ${message}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>`;
+    }
+    function checkLimitAndAlert() {
+      const limit = getLimit();
+      const n = getTodayRecords().length;
+      if (n > limit) {
+        showAlert(`上限 ${limit} 杯を超えました（現在 ${n} 杯）。今日はここまでにしましょう。`, 'danger');
+        try { navigator.vibrate && navigator.vibrate([60, 40, 60]); } catch {}
+      } else if (n === limit) {
+        showAlert(`上限 ${limit} 杯に達しました。以降は控えめに。`, 'warning');
+        try { navigator.vibrate && navigator.vibrate([40, 30, 40]); } catch {}
+      }
+    }
+    function render() {
+      renderDateHeader();
+      renderList();
+      elLimitInp.value = getLimit();
+    }
+
+    // ====== 動作 ======
+    function addRecord() {
+      const logs = loadLogs();
+      const key = todayKey();
+      const iso = new Date().toISOString();
+      logs[key] = logs[key] || [];
+      logs[key].push(iso);
+      saveLogs(logs);
+      try { navigator.vibrate && navigator.vibrate(20); } catch {}
+      render();
+      checkLimitAndAlert();
+    }
+    function undoLast() {
+      const logs = loadLogs();
+      const key = todayKey();
+      if (logs[key] && logs[key].length) {
+        logs[key].pop();
+        saveLogs(logs);
+        render();
+        showAlert('直前の記録を削除しました。', 'secondary');
+      } else {
+        showAlert('削除する記録がありません。', 'secondary');
+      }
+    }
+    function clearToday() {
+      if (!confirm('今日の記録をすべて削除しますか？')) return;
+      setTodayRecords([]);
+      render();
+      showAlert('今日の記録をすべて削除しました。', 'secondary');
+    }
+
+    // ====== イベント紐付け（要素が無い場合でも落ちないように） ======
+    elAddBtn  && elAddBtn.addEventListener('click', addRecord);
+    elSaveBtn && elSaveBtn.addEventListener('click', () => {
+      const v = parseInt(elLimitInp.value, 10);
+      if (!Number.isFinite(v) || v < 1) {
+        showAlert('上限は1以上の整数で入力してください。', 'secondary');
+        return;
+      }
+      setLimit(v);
+      checkLimitAndAlert();
+      showAlert(`上限を ${getLimit()} 杯に設定しました。`, 'success');
+    });
+    elUndoBtn && elUndoBtn.addEventListener('click', undoLast);
+    elClearBtn && elClearBtn.addEventListener('click', clearToday);
+
+    // 時計更新 & 日付跨ぎ検知
+    let lastKey = todayKey();
+    setInterval(() => {
+      renderDateHeader();
+      const k = todayKey();
+      if (k !== lastKey) { lastKey = k; render(); }
+    }, 1000);
+
+    // 初期描画
+    render();
+    checkLimitAndAlert();
+
+    // ====== ミニSW（オフライン対応） ======
+    if ('serviceWorker' in navigator) {
+      const swCode = `
+        const CACHE = 'coffee-mini-pwa-v1';
+        self.addEventListener('install', (e) => {
+          e.waitUntil((async () => {
+            const c = await caches.open(CACHE);
+            await c.addAll(['./']);
+            self.skipWaiting();
+          })());
+        });
+        self.addEventListener('activate', (e) => {
+          e.waitUntil((async () => {
+            const keys = await caches.keys();
+            await Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)));
+            self.clients.claim();
+          })());
+        });
+        self.addEventListener('fetch', (e) => {
+          const req = e.request;
+          e.respondWith((async () => {
+            const cache = await caches.open(CACHE);
+            const cached = await cache.match(req, { ignoreSearch: true });
+            if (cached) return cached;
+            try {
+              const res = await fetch(req);
+              if (new URL(req.url).origin === location.origin && req.method === 'GET') {
+                cache.put(req, res.clone());
+              }
+              return res;
+            } catch {
+              const fallback = await cache.match('./');
+              return fallback || new Response('Offline', { status: 503, statusText: 'Offline' });
+            }
+          })());
+        });
+      `;
+      const blob = new Blob([swCode], { type: 'text/javascript' });
+      const swUrl = URL.createObjectURL(blob);
+      navigator.serviceWorker.register(swUrl).catch(console.warn);
+    }
+
+    // ====== 簡易マニフェスト ======
+    (function injectManifest() {
+      const manifest = {
+        name: "コーヒー記録ミニPWA",
+        short_name: "コーヒー記録",
+        start_url: "./",
+        display: "standalone",
+        background_color: "#f8fafc",
+        theme_color: "#0d6efd",
+        icons: []
+      };
+      const mBlob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
+      const mUrl = URL.createObjectURL(mBlob);
+      const link = document.createElement('link');
+      link.rel = 'manifest';
+      link.href = mUrl;
+      document.head.appendChild(link);
+    })();
+  </script>
+</body>
+</html>
