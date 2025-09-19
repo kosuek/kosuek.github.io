@@ -1,287 +1,321 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>coffee counter — コーヒーの飲みすぎ防止に、1タップ記録</title>
-  <meta name="description" content="coffee counter は、コーヒーを飲んだタイミングを1タップで記録できるミニPWA。今日の合計杯数と時刻リスト、上限到達アラートで飲みすぎを防ぎます。">
-  <meta name="theme-color" content="#6f4e37">
-  <!-- OGP -->
-  <meta property="og:title" content="coffee counter">
-  <meta property="og:description" content="1タップでコーヒー記録。上限到達でアラート。">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="">
-  <meta property="og:locale" content="ja_JP">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PWAギャラリー | こーすけのアプリ</title>
+  <meta name="description" content="こーすけさんが作ったPWAを一覧で紹介・検索・タグ絞り込みできるポータルページです。" />
+  <meta property="og:title" content="PWAギャラリー | こーすけのアプリ" />
+  <meta property="og:description" content="作成したPWAを一覧で紹介・検索・タグ絞り込みできるポータルページ。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="./og.png" />
+  <meta name="theme-color" content="#0d6efd" />
 
-  <!-- Bootstrap 5 & Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <!-- Bootstrap 5.3 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
 
   <style>
-    :root{
-      --coffee-bg: #f7f3ee;
-      --coffee-text: #3b2f2f;
-      --coffee-accent: #6f4e37;
-      --coffee-accent-2:#a47148;
-      --coffee-card:#fffdfa;
-      --coffee-border:#e6ddd3;
+    :root {
+      --brand: #0d6efd;
     }
-    body{ background:var(--coffee-bg); color:var(--coffee-text); }
-    .btn-coffee{ background:var(--coffee-accent); border-color:var(--coffee-accent); color:#fff; }
-    .btn-coffee:hover{ background:#5b3f2e; border-color:#5b3f2e; color:#fff; }
-    .link-coffee{ color:var(--coffee-accent); }
-    .link-coffee:hover{ color:#5b3f2e; }
-    .hero{
-      background:linear-gradient(180deg, #f3ece5 0%, #f7f3ee 60%);
-      border-bottom:1px solid var(--coffee-border);
+    body { background: #f7f8fb; }
+    .navbar-brand span { font-weight: 800; letter-spacing: 0.5px; }
+    .hero {
+      background: linear-gradient(135deg, rgba(13,110,253,.12), rgba(13,110,253,.02));
+      border-bottom: 1px solid rgba(13,110,253,.15);
     }
-    .badge-coffee{ background:var(--coffee-accent-2); }
-    .card{ background:var(--coffee-card); border:1px solid var(--coffee-border); }
-    .phone-frame{
-      border:10px solid #222; border-bottom-width:14px; border-radius:28px; width:320px; height:640px;
-      box-shadow:0 10px 30px rgba(0,0,0,.1);
-      background:#fff; overflow:hidden;
+    .card {
+      border: 1px solid rgba(0,0,0,.06);
+      box-shadow: 0 4px 20px rgba(0,0,0,.05);
+      transition: transform .2s ease, box-shadow .2s ease;
     }
-    .mini-shot{
-      height:200px; background:linear-gradient(135deg,#ebe3db,#fff); border:1px dashed #c9b9a7;
-      border-radius:.75rem; display:flex; align-items:center; justify-content:center; color:#8a6a4d;
-      font-size:.95rem;
+    .card:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,0,0,.08); }
+    .tag { font-size: .8rem; }
+    .badge-pwa { background: #198754; }
+    .badge-wip { background: #ffc107; color: #111; }
+    .app-icon {
+      width: 56px; height: 56px; border-radius: 14px; object-fit: cover; background:#e9ecef;
+      border: 1px solid rgba(0,0,0,.06);
     }
-    .feature-icon{
-      width:48px; height:48px; border-radius:12px; background:#efe7df; display:flex; align-items:center; justify-content:center;
-      color:var(--coffee-accent); font-size:1.4rem;
+    .muted { color: #6c757d; }
+    .footer { color: #6c757d; }
+    .filter-chip {
+      border-radius: 999px; border: 1px solid rgba(0,0,0,.08); background:#fff;
     }
-    footer{ border-top:1px solid var(--coffee-border); }
+    .filter-chip.active { background: var(--brand); color: #fff; border-color: var(--brand); }
+    .empty-state { border: 2px dashed rgba(0,0,0,.12); border-radius: 16px; }
+    .install-tip { font-size: .9rem; }
   </style>
 </head>
 <body>
+  <!-- NAV -->
+  <nav class="navbar navbar-expand-lg bg-white sticky-top border-bottom">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+        <i class="bi bi-grid-fill text-primary"></i>
+        <span>こーすけのPWAギャラリー</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="#apps">アプリ一覧</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">このページについて</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">お問い合わせ</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-  <!-- Hero -->
-  <header class="hero">
-    <div class="container py-5">
+  <!-- HERO -->
+  <section class="hero py-5">
+    <div class="container">
       <div class="row align-items-center g-4">
         <div class="col-lg-7">
-          <span class="badge badge-coffee mb-3">ミニPWA</span>
-          <h1 class="display-5 fw-bold mb-3">coffee counter ☕</h1>
-          <p class="lead mb-4">1タップで「いま飲んだ」を記録。<br class="d-none d-md-inline">今日の合計杯数と時刻リスト、上限到達アラートで飲みすぎの悪循環をストップ。</p>
+          <h1 class="display-6 fw-bold mb-3">作ったPWAを<br class="d-none d-md-inline"/>ひと目で探せるポータル</h1>
+          <p class="lead text-secondary mb-4">生活・教会・ユーティリティなど、こーすけさん制作のPWAコレクション。検索・タグで絞り込み、デモとGitHubにすぐ飛べます。</p>
           <div class="d-flex flex-wrap gap-2">
-            <!-- ▶ あなたのPWAのURLに差し替え -->
-            <a class="btn btn-coffee btn-lg px-4" href="https://kosuek.github.io/coffeecount.html" target="_blank" rel="noopener">アプリを開く</a>
-            <!-- 任意：GitHubや使い方記事など -->
-            <a class="btn btn-outline-dark btn-lg px-4" href="#" target="_blank" rel="noopener"><i class="bi bi-github me-2"></i>GitHub</a>
+            <a href="#apps" class="btn btn-primary btn-lg"><i class="bi bi-lightning-charge-fill me-2"></i>今すぐ探す</a>
+            <a href="#about" class="btn btn-outline-primary btn-lg"><i class="bi bi-info-circle me-2"></i>使い方を見る</a>
           </div>
-          <p class="mt-3 text-muted small mb-0">インストール不要で使えます（追加すればホーム画面から1発起動）。</p>
+          <p class="install-tip text-secondary mt-3"><i class="bi bi-phone"></i> スマホではブラウザの <em>共有</em> や <em>追加</em> メニューからホーム画面に追加できます。</p>
         </div>
-        <div class="col-lg-5 d-flex justify-content-lg-end justify-content-center">
-          <!-- ここにスクショを貼るのがベスト。無ければダミー枠 -->
-          <div class="phone-frame bg-white d-flex align-items-center justify-content-center">
-            <div class="text-center px-3">
-              <i class="bi bi-cup-hot display-4 text-secondary"></i>
-              <p class="mt-3 mb-0">スクリーンショットをここに<br>（画像を <code>img</code> で差し替え）</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- Features -->
-  <section class="py-5">
-    <div class="container">
-      <h2 class="h3 fw-bold mb-4">できること</h2>
-      <div class="row g-4">
-        <div class="col-md-6">
-          <div class="card h-100">
-            <div class="card-body d-flex gap-3">
-              <div class="feature-icon"><i class="bi bi-tropical-storm"></i></div>
+        <div class="col-lg-5">
+          <div class="p-4 bg-white rounded-4 border h-100">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <img src="./icons/apphub.png" alt="AppHub" class="app-icon"/>
               <div>
-                <h3 class="h5 fw-semibold mb-2">ワンタップ記録</h3>
-                <p class="mb-0 text-muted">ボタンを押すだけで時刻を保存。今日の合計杯数が自動で更新されます。</p>
+                <div class="small text-secondary">Current build</div>
+                <div class="fw-bold">v1.0.0 • <span id="today"></span></div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="card h-100">
-            <div class="card-body d-flex gap-3">
-              <div class="feature-icon"><i class="bi bi-bell"></i></div>
-              <div>
-                <h3 class="h5 fw-semibold mb-2">上限到達でアラート</h3>
-                <p class="mb-0 text-muted">自分で上限を設定。到達で警告、超過で強めのアラートを表示します（バイブ対応端末は振動）。</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="card h-100">
-            <div class="card-body d-flex gap-3">
-              <div class="feature-icon"><i class="bi bi-list-check"></i></div>
-              <div>
-                <h3 class="h5 fw-semibold mb-2">時刻リスト & 取り消し</h3>
-                <p class="mb-0 text-muted">今日の記録はリストで確認。直前削除や「今日を全部クリア」にも対応。</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="card h-100">
-            <div class="card-body d-flex gap-3">
-              <div class="feature-icon"><i class="bi bi-cloud-check"></i></div>
-              <div>
-                <h3 class="h5 fw-semibold mb-2">オフラインでもOK</h3>
-                <p class="mb-0 text-muted">初回アクセス後はオフラインでも開けます（PWA対応）。データは端末内に保存されます。</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ミニスクショ枠（任意差し替え） -->
-      <div class="row g-3 mt-4">
-        <div class="col-md-4"><div class="mini-shot">スクショ A を入れる</div></div>
-        <div class="col-md-4"><div class="mini-shot">スクショ B を入れる</div></div>
-        <div class="col-md-4"><div class="mini-shot">スクショ C を入れる</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- How it works -->
-  <section class="py-5">
-    <div class="container">
-      <h2 class="h3 fw-bold mb-4">使い方（3ステップ）</h2>
-      <div class="row g-4">
-        <div class="col-md-4">
-          <div class="card h-100">
-            <div class="card-body">
-              <div class="d-flex align-items-center gap-2 mb-2"><span class="badge badge-coffee">1</span><span class="fw-semibold">開く</span></div>
-              <p class="mb-0 text-muted">下のボタンからアプリを開きます。可能ならホーム画面に追加。</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card h-100">
-            <div class="card-body">
-              <div class="d-flex align-items-center gap-2 mb-2"><span class="badge badge-coffee">2</span><span class="fw-semibold">上限設定</span></div>
-              <p class="mb-0 text-muted">自分に合った1日の上限杯数を設定して保存します。</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card h-100">
-            <div class="card-body">
-              <div class="d-flex align-items-center gap-2 mb-2"><span class="badge badge-coffee">3</span><span class="fw-semibold">押すだけ</span></div>
-              <p class="mb-0 text-muted">コーヒーを飲んだら「☕」ボタンを押す。合計と時刻が自動で記録されます。</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="text-center mt-4">
-        <a class="btn btn-coffee btn-lg px-4" href="https://kosuek.github.io/coffeecount.html" target="_blank" rel="noopener">アプリを開く</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Install guide -->
-  <section class="py-5">
-    <div class="container">
-      <h2 class="h3 fw-bold mb-3">ホーム画面に追加（任意）</h2>
-      <p class="text-muted">インストールしなくても使えますが、追加すると起動が速く、アドレスバー無しの全画面になります。</p>
-      <div class="accordion" id="installGuide">
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="iosHead">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#ios" aria-expanded="true" aria-controls="ios">
-              iPhone / iPad（Safari）
-            </button>
-          </h2>
-          <div id="ios" class="accordion-collapse collapse show" aria-labelledby="iosHead" data-bs-parent="#installGuide">
-            <div class="accordion-body">
-              ① Safariでアプリを開く → ② 共有メニュー（<i class="bi bi-box-arrow-up"></i>） → ③ 「ホーム画面に追加」
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="androidHead">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#android" aria-expanded="false" aria-controls="android">
-              Android（Chrome）
-            </button>
-          </h2>
-          <div id="android" class="accordion-collapse collapse" aria-labelledby="androidHead" data-bs-parent="#installGuide">
-            <div class="accordion-body">
-              ① Chromeでアプリを開く → ② 右上メニュー（⋮） → ③ 「ホーム画面に追加」または「アプリをインストール」
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="desktopHead">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#desktop" aria-expanded="false" aria-controls="desktop">
-              パソコン（Chrome / Edge）
-            </button>
-          </h2>
-          <div id="desktop" class="accordion-collapse collapse" aria-labelledby="desktopHead" data-bs-parent="#installGuide">
-            <div class="accordion-body">
-              ① ブラウザでアプリを開く → ② アドレスバー右端の「インストール」アイコン（<i class="bi bi-download"></i>）→ ③ インストール
-            </div>
+            <ul class="list-unstyled mb-0 small text-secondary">
+              <li class="mb-1"><i class="bi bi-check2-circle text-success me-1"></i> PWA（マニフェスト/Service Worker）準備済</li>
+              <li class="mb-1"><i class="bi bi-check2-circle text-success me-1"></i> レスポンシブ・モバイル最適化</li>
+              <li class="mb-1"><i class="bi bi-check2-circle text-success me-1"></i> タグ・テキストで瞬時に絞込</li>
+            </ul>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FAQ / Privacy -->
-  <section class="py-5">
+  <!-- FILTERS -->
+  <section id="apps" class="py-5">
     <div class="container">
-      <div class="row g-4">
-        <div class="col-lg-6">
-          <h2 class="h4 fw-bold mb-3">よくある質問</h2>
-          <div class="card mb-2">
-            <div class="card-body">
-              <p class="fw-semibold mb-1">Q. データはどこに保存されますか？</p>
-              <p class="mb-0 text-muted">A. 端末内（ブラウザのlocalStorage）に保存されます。サーバーには送信されません。</p>
-            </div>
-          </div>
-          <div class="card mb-2">
-            <div class="card-body">
-              <p class="fw-semibold mb-1">Q. オフラインでも使えますか？</p>
-              <p class="mb-0 text-muted">A. はい。初回アクセス後はオフラインでも開けます。</p>
-            </div>
-          </div>
-          <div class="card mb-2">
-            <div class="card-body">
-              <p class="fw-semibold mb-1">Q. 間違って押したら？</p>
-              <p class="mb-0 text-muted">A. 「直前を削除」または「今日を全部クリア」で取り消せます。</p>
-            </div>
-          </div>
+      <div class="d-flex flex-column flex-md-row align-items-stretch align-items-md-center gap-3 mb-3">
+        <div class="input-group input-group-lg">
+          <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+          <input id="q" type="search" class="form-control" placeholder="アプリ名・説明・タグで検索…" />
         </div>
-        <div class="col-lg-6">
-          <h2 class="h4 fw-bold mb-3">プライバシー</h2>
-          <div class="card">
-            <div class="card-body">
-              <ul class="mb-0 text-muted">
-                <li>記録データは端末内にのみ保存され、外部送信されません。</li>
-                <li>PWAキャッシュは動作安定のために利用されます。</li>
-                <li>アンインストール/ブラウザのストレージ削除でデータは消去されます。</li>
-              </ul>
-            </div>
-          </div>
-          <p class="small text-muted mt-2 mb-0">※ 必要に応じて、独自のプライバシーポリシーURLをここに追記してください。</p>
+        <div class="d-flex flex-wrap gap-2">
+          <button class="btn filter-chip active" data-tag="all"><i class="bi bi-ui-checks-grid me-1"></i>すべて</button>
+          <button class="btn filter-chip" data-tag="記録">記録</button>
+          <button class="btn filter-chip" data-tag="ユーティリティ">ユーティリティ</button>
+          <button class="btn filter-chip" data-tag="教会">教会</button>
+          <button class="btn filter-chip" data-tag="交通">交通</button>
         </div>
+      </div>
+
+      <div id="appsGrid" class="row g-4"></div>
+
+      <div id="empty" class="empty-state text-center p-5 mt-4 d-none">
+        <i class="bi bi-emoji-frown display-6 d-block mb-3 text-secondary"></i>
+        <p class="mb-1 fw-bold">見つかりませんでした</p>
+        <p class="text-secondary mb-0">検索条件やタグを変えてお試しください。</p>
       </div>
     </div>
   </section>
 
-  <footer class="py-4">
-    <div class="container d-flex flex-wrap gap-2 align-items-center">
-      <div class="me-auto">
-        <span class="fw-semibold">coffee counter</span>
-        <span class="text-muted">— コーヒーを「適量」で楽しむために</span>
-      </div>
-      <div class="d-flex gap-2">
-        <a class="btn btn-outline-dark" href="https://kosuek.github.io/coffeecount.html" target="_blank" rel="noopener"><i class="bi bi-play-circle me-2"></i>アプリを開く</a>
-        <a class="btn btn-outline-secondary" href="#" target="_blank" rel="noopener"><i class="bi bi-github me-2"></i>GitHub</a>
+  <!-- ABOUT -->
+  <section id="about" class="py-5 bg-white border-top">
+    <div class="container">
+      <h2 class="h4 fw-bold mb-3">このページについて</h2>
+      <p class="mb-2">このページは、こーすけさんがこれまでに作ったPWA（Progressive Web App）を見やすくまとめたポータルです。各カードから <span class="fw-semibold">デモ（公開URL）</span> と <span class="fw-semibold">GitHub</span> へ移動できます。</p>
+      <ul>
+        <li>タグでの絞り込み、テキスト検索に対応</li>
+        <li>カードの順序は <code>apps</code> 配列の並び順で制御</li>
+        <li>アイコン画像は <code>icon</code> プロパティ（正方形推奨）</li>
+      </ul>
+      <div class="alert alert-info">新しいアプリを追加するには、下の <code>// apps</code> 配列にオブジェクトを1行足すだけです。</div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="py-5">
+    <div class="container">
+      <h2 class="h4 fw-bold mb-3">お問い合わせ</h2>
+      <p class="mb-1">不具合のご連絡や改善要望は、各GitHub Issuesをご利用ください。直接の連絡が必要な場合は、ページ下部の連絡先リンクからお願いします。</p>
+    </div>
+  </section>
+
+  <footer class="py-4 border-top">
+    <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between gap-2 footer">
+      <div>© <span id="year"></span> Kosuke Suzuki</div>
+      <div class="d-flex align-items-center gap-3">
+        <a class="link-secondary" href="#apps"><i class="bi bi-grid"></i> 一覧</a>
+        <a class="link-secondary" href="#about"><i class="bi bi-info-circle"></i> 使い方</a>
       </div>
     </div>
   </footer>
+
+  <template id="app-card-tpl">
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card h-100">
+        <div class="card-body d-flex flex-column">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <img class="app-icon" alt="App icon" />
+            <div class="flex-grow-1">
+              <div class="d-flex align-items-center gap-2 flex-wrap">
+                <h3 class="h5 fw-bold mb-0 app-title"></h3>
+                <span class="badge badge-pwa">PWA</span>
+                <span class="badge badge-wip d-none">WIP</span>
+              </div>
+              <div class="small text-secondary mt-1 app-sub"></div>
+            </div>
+          </div>
+          <p class="text-secondary flex-grow-1 app-desc"></p>
+          <div class="d-flex flex-wrap gap-1 mb-3 app-tags"></div>
+          <div class="d-flex gap-2 flex-wrap">
+            <a class="btn btn-primary btn-sm app-demo" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right me-1"></i>デモ</a>
+            <a class="btn btn-outline-secondary btn-sm app-github" target="_blank" rel="noopener"><i class="bi bi-github me-1"></i>GitHub</a>
+            <a class="btn btn-outline-primary btn-sm app-install d-none" target="_blank" rel="noopener"><i class="bi bi-phone me-1"></i>ホームに追加</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    // ========= 設定（ここだけ編集すればOK） =========
+    /**
+     * アプリ配列
+     * - title: アプリ名
+     * - subtitle: 短い補足
+     * - desc: 説明文（1〜2文）
+     * - tags: ["記録","ユーティリティ","教会","交通" など]
+     * - demo: 公開URL（GitHub Pages など）
+     * - github: リポジトリURL
+     * - icon: 56x56 以上の正方形推奨
+     * - pwa: true/false（バッジ表示用）
+     * - wip: true/false（WIPバッジ表示）
+     */
+    const apps = [
+      {
+        title: "coffee counter ☕",
+        subtitle: "コーヒー杯数トラッカー",
+        desc: "1日のコーヒー杯数をワンタップで記録。PWA対応でオフラインでも使えます。",
+        tags: ["記録", "ユーティリティ"],
+        demo: "#TODO-coffee-demo",
+        github: "#TODO-coffee-repo",
+        icon: "./icons/coffee.png",
+        pwa: true,
+        wip: false,
+      },
+      {
+        title: "行き帰りメール",
+        subtitle: "家に帰るメール作成",
+        desc: "定型文をワンタップで作成・共有。PWAで素早く立ち上がり。",
+        tags: ["ユーティリティ"],
+        demo: "#TODO-ikikaeri-demo",
+        github: "#TODO-ikikaeri-repo",
+        icon: "./icons/mail.png",
+        pwa: true,
+        wip: false,
+      },
+      {
+        title: "ひたち光教会アプリ",
+        subtitle: "聖歌表示・説教音声再生",
+        desc: "教会向けに聖歌の歌詞表示と説教音声再生を統合。PWAでスマホ利用を最適化。",
+        tags: ["教会"],
+        demo: "#TODO-hhc-demo",
+        github: "#TODO-hhc-repo",
+        icon: "./icons/church.png",
+        pwa: true,
+        wip: false,
+      },
+      {
+        title: "暗唱聖句トレーナー",
+        subtitle: "虫食い練習",
+        desc: "スプレッドシート連携の虫食い表示で、聖句の暗唱をサポート。",
+        tags: ["教会", "記録"],
+        demo: "#TODO-memory-demo",
+        github: "#TODO-memory-repo",
+        icon: "./icons/bible.png",
+        pwa: true,
+        wip: true,
+      },
+      {
+        title: "帰宅時間お知らせ",
+        subtitle: "通勤時刻表 + 徒歩時間",
+        desc: "最初の1回だけAPI取得、その後はローカル保持で軽快に運用。",
+        tags: ["交通", "ユーティリティ"],
+        demo: "#TODO-commute-demo",
+        github: "#TODO-commute-repo",
+        icon: "./icons/clock.png",
+        pwa: true,
+        wip: true,
+      },
+    ];
+
+    // ========= ここから下は触らなくてOK =========
+    const grid = document.getElementById('appsGrid');
+    const tpl = document.getElementById('app-card-tpl');
+    const q = document.getElementById('q');
+    const empty = document.getElementById('empty');
+    const chips = [...document.querySelectorAll('.filter-chip')];
+
+    const render = (items) => {
+      grid.innerHTML = '';
+      items.forEach(app => {
+        const node = tpl.content.cloneNode(true);
+        node.querySelector('.app-title').textContent = app.title;
+        node.querySelector('.app-sub').textContent = app.subtitle || '';
+        node.querySelector('.app-desc').textContent = app.desc || '';
+        node.querySelector('.app-demo').href = app.demo || '#';
+        node.querySelector('.app-github').href = app.github || '#';
+        node.querySelector('img.app-icon').src = app.icon || 'data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"56\" height=\"56\"><rect width=\"100%\" height=\"100%\" fill=\"%23e9ecef\"/></svg>';
+        node.querySelector('.badge-pwa').classList.toggle('d-none', !app.pwa);
+        node.querySelector('.badge-wip').classList.toggle('d-none', !app.wip);
+        const tagsWrap = node.querySelector('.app-tags');
+        (app.tags||[]).forEach(t => {
+          const b = document.createElement('span');
+          b.className = 'badge text-bg-light border text-secondary tag';
+          b.textContent = t;
+          tagsWrap.appendChild(b);
+        });
+        grid.appendChild(node);
+      });
+      empty.classList.toggle('d-none', items.length > 0);
+    };
+
+    let activeTag = 'all';
+    const applyFilter = () => {
+      const text = q.value.trim().toLowerCase();
+      const filtered = apps.filter(a => {
+        const inTag = activeTag === 'all' || (a.tags||[]).includes(activeTag);
+        const hay = [a.title, a.subtitle, a.desc, ...(a.tags||[])].join(' ').toLowerCase();
+        const inText = text === '' || hay.includes(text);
+        return inTag && inText;
+      });
+      render(filtered);
+    };
+
+    q.addEventListener('input', applyFilter);
+    chips.forEach(c => c.addEventListener('click', () => {
+      chips.forEach(x => x.classList.remove('active'));
+      c.classList.add('active');
+      activeTag = c.dataset.tag;
+      applyFilter();
+    }));
+
+    // 初期化
+    document.getElementById('today').textContent = new Date().toLocaleDateString('ja-JP');
+    document.getElementById('year').textContent = new Date().getFullYear();
+    render(apps);
+  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
