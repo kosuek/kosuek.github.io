@@ -1,0 +1,256 @@
+<!--
+Files: index.html / manifest.webmanifest / sw.js
+Place the three files in the same folder. Serve over HTTPS (e.g., GitHub Pages) for installable PWA.
+-->
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>卓球スコア & サーブ表示</title>
+  <meta name="theme-color" content="#0d6efd" />
+  <link rel="manifest" href="./manifest.webmanifest">
+  <style>
+    :root { --radius: 14px; }
+    html,body{height:100%}
+    body{margin:0;background:#0b1020;color:#f7f9ff;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Noto Sans JP",sans-serif}
+    .wrap{max-width:980px;margin:auto;padding:16px}
+    .card{background:#111a34;border-radius:var(--radius);padding:16px}
+    .row{display:flex;gap:16px;flex-wrap:wrap}
+    .col{flex:1 1 300px}
+    h1{font-size:20px;margin:0 0 12px}
+    h2{font-size:18px;margin:8px 0}
+    .score{font-size:clamp(56px,12vw,120px);font-weight:800;margin:4px 0}
+    .name{display:block;width:100%;text-align:center;border:0;border-bottom:2px dashed #6ea8fe;background:transparent;color:#fff;font-size:24px;padding:6px 8px;border-radius:0}
+    .serve-dot{width:14px;height:14px;border-radius:50%;display:inline-block;margin-right:6px;background:#6ea8fe;box-shadow:0 0 0 6px rgba(110,168,254,.15)}
+    .pill{display:inline-block;padding:4px 10px;border-radius:999px;background:#172650}
+    .btn{cursor:pointer;border:1px solid #3a4d89;background:#192855;color:#fff;padding:12px 16px;border-radius:12px;font-weight:700}
+    .btn:active{transform:translateY(1px)}
+    .btn-ghost{background:transparent}
+    .btn-primary{background:#0d6efd;border-color:#0d6efd}
+    .btn-warning{background:#ffb020;border-color:#ffb020;color:#111}
+    .btn-danger{background:#ef476f;border-color:#ef476f}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+    .tiny{opacity:.8;font-size:.9rem}
+    .center{text-align:center}
+    .spacer{height:6px}
+    .footer{opacity:.7;text-align:center;margin-top:10px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="row" style="align-items:center;justify-content:space-between">
+      <h1>卓球スコア & サーブ表示</h1>
+      <div class="row" style="gap:8px">
+        <button class="btn btn-ghost" id="btn-full">全画面</button>
+        <button class="btn btn-warning" id="btn-reset">リセット</button>
+      </div>
+    </header>
+
+    <div class="card" style="margin-top:12px">
+      <div class="row" style="align-items:flex-start">
+        <!-- Player A -->
+        <div class="col center">
+          <input id="nameA" class="name" value="A" aria-label="Aの名前"/>
+          <div class="spacer"></div>
+          <div><span id="serveA" class="serve-dot" hidden></span><span class="pill">ゲーム: <span id="gamesA">0</span></span></div>
+          <div class="score" id="scoreA" aria-live="polite">0</div>
+          <div class="grid">
+            <button class="btn btn-primary" data-inc="A">+1</button>
+            <button class="btn btn-ghost" data-dec="A">−1</button>
+          </div>
+        </div>
+
+        <!-- Center controls -->
+        <div class="col center" style="min-width:260px">
+          <div class="tiny">サーブ交代: <span id="serveEveryText">2</span>点毎（デュース以降は1点毎）</div>
+          <div class="spacer"></div>
+          <button class="btn" id="btn-swap">左右入替</button>
+          <div class="spacer"></div>
+          <div class="row center" style="justify-content:center">
+            <button class="btn" id="btn-undo">元に戻す</button>
+            <button class="btn" id="btn-switchServe">サーブ交代</button>
+            <button class="btn" id="btn-switchEnds">エンド交代</button>
+          </div>
+          <div class="spacer"></div>
+          <details>
+            <summary class="tiny">設定</summary>
+            <div class="row" style="margin-top:8px">
+              <div class="col">
+                <label class="tiny">1ゲームの目標点</label>
+                <input type="number" id="targetPoints" min="5" value="11" class="name" style="border-bottom-color:#34d399"/>
+              </div>
+              <div class="col">
+                <label class="tiny">何ゲーム先取（マッチ）</label>
+                <select id="bestOf" class="name" style="border-bottom-color:#f59e0b">
+                  <option value="1">1</option>
+                  <option value="3" selected>3</option>
+                  <option value="5">5</option>
+                  <option value="7">7</option>
+                </select>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <!-- Player B -->
+        <div class="col center">
+          <input id="nameB" class="name" value="B" aria-label="Bの名前"/>
+          <div class="spacer"></div>
+          <div><span id="serveB" class="serve-dot" hidden></span><span class="pill">ゲーム: <span id="gamesB">0</span></span></div>
+          <div class="score" id="scoreB" aria-live="polite">0</div>
+          <div class="grid">
+            <button class="btn btn-primary" data-inc="B">+1</button>
+            <button class="btn btn-ghost" data-dec="B">−1</button>
+          </div>
+        </div>
+      </div>
+      <div class="center tiny" id="statusText" style="margin-top:8px">サーブ: <span id="serveName">A</span></div>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+      <div class="row center" style="justify-content:center">
+        <button class="btn btn-primary" id="btn-nextGame">ゲーム確定（次へ）</button>
+      </div>
+      <div class="tiny center" style="margin-top:8px">初期値: 3ゲームマッチ／1ゲーム11点。10-10以降はデュース（2点差が付くまで）。</div>
+    </div>
+
+    <div class="footer tiny">v1.1 • オフライン対応 • ローカル保存</div>
+  </div>
+
+<script>
+const $ = (s)=>document.querySelector(s);
+const vibrate = (n=12)=>{ if(navigator.vibrate) navigator.vibrate(n); };
+
+const state = {
+  nameA:'A', nameB:'B',
+  scoreA:0, scoreB:0,
+  gamesA:0, gamesB:0,
+  server:'A',
+  targetPoints:11, // ← 1ゲーム何点（編集可）
+  bestOf:3,        // ← 何ゲームマッチ（編集可: 1/3/5/7）
+  rotateEvery:2,   // 基本は2点毎
+  history:[]
+};
+
+const els = {
+  nameA:$('#nameA'), nameB:$('#nameB'),
+  scoreA:$('#scoreA'), scoreB:$('#scoreB'),
+  gamesA:$('#gamesA'), gamesB:$('#gamesB'),
+  serveA:$('#serveA'), serveB:$('#serveB'),
+  serveName:$('#serveName'),
+  targetPoints:$('#targetPoints'), bestOf:$('#bestOf'),
+  serveEveryText:$('#serveEveryText'),
+  statusText:$('#statusText')
+};
+
+function save(){ localStorage.setItem('ttscore', JSON.stringify(state)); }
+function load(){ try{ Object.assign(state, JSON.parse(localStorage.getItem('ttscore')||'{}')); }catch{} }
+
+function pushHistory(){ state.history.push(JSON.stringify(state)); if(state.history.length>200) state.history.shift(); }
+function popHistory(){ if(!state.history.length) return; Object.assign(state, JSON.parse(state.history.pop())); sync(); vibrate(8); }
+
+function rotateServeIfNeeded(){
+  const tp = state.targetPoints;
+  const a = state.scoreA, b = state.scoreB;
+  const total = a + b;
+  const deuce = (a >= tp-1) && (b >= tp-1); // 10-10 以降
+  const unit = deuce ? 1 : state.rotateEvery; // デュース後は1点毎
+  if(total > 0 && total % unit === 0) state.server = (state.server==='A') ? 'B' : 'A';
+}
+
+function checkGameEnd(){
+  const tp = state.targetPoints;
+  const a = state.scoreA, b = state.scoreB;
+  const lead = Math.abs(a-b);
+  if((a>=tp || b>=tp) && lead>=2){
+    if(a>b) state.gamesA++; else state.gamesB++;
+    // 次ゲームのサーブは交代
+    state.server = (state.server==='A')?'B':'A';
+    state.scoreA = 0; state.scoreB = 0;
+    // マッチ終了チェック
+    const need = Math.floor(state.bestOf/2)+1; // 3→2本先取 等
+    if(state.gamesA===need || state.gamesB===need){
+      alert(`マッチ終了: ${(state.gamesA>state.gamesB? state.nameA : state.nameB)} の勝ち`);
+    }
+  }
+}
+
+function pointTo(p){ pushHistory(); if(p==='A') state.scoreA++; else state.scoreB++; rotateServeIfNeeded(); checkGameEnd(); sync(); vibrate(); }
+function minusPoint(p){ pushHistory(); if(p==='A' && state.scoreA>0) state.scoreA--; if(p==='B' && state.scoreB>0) state.scoreB--; sync(); vibrate(5); }
+function swapEnds(){ [state.nameA,state.nameB] = [state.nameB,state.nameA]; [state.scoreA,state.scoreB] = [state.scoreB,state.scoreA]; [state.gamesA,state.gamesB] = [state.gamesB,state.gamesA]; state.server = (state.server==='A')?'B':'A'; }
+
+function sync(){
+  els.nameA.value = state.nameA; els.nameB.value = state.nameB;
+  els.scoreA.textContent = state.scoreA; els.scoreB.textContent = state.scoreB;
+  els.gamesA.textContent = state.gamesA; els.gamesB.textContent = state.gamesB;
+  els.targetPoints.value = state.targetPoints; els.bestOf.value = state.bestOf;
+  els.serveEveryText.textContent = state.rotateEvery;
+  els.serveA.hidden = state.server !== 'A';
+  els.serveB.hidden = state.server !== 'B';
+  els.serveName.textContent = (state.server==='A') ? state.nameA : state.nameB;
+  // ステータス表示
+  const tp = state.targetPoints; const a = state.scoreA, b = state.scoreB;
+  const deuce = (a >= tp-1) && (b >= tp-1);
+  const gpA = (a >= tp-1) && (a > b);
+  const gpB = (b >= tp-1) && (b > a);
+  els.statusText.textContent = `サーブ: ${(state.server==='A'? state.nameA : state.nameB)}${deuce? ' • デュース中' : gpA? ` • ${state.nameA}がゲームポイント` : gpB? ` • ${state.nameB}がゲームポイント` : ''}`;
+  save();
+}
+
+// Event wiring
+addEventListener('click', (e)=>{
+  const inc = e.target.closest('[data-inc]'); if(inc) pointTo(inc.getAttribute('data-inc'));
+  const dec = e.target.closest('[data-dec]'); if(dec) minusPoint(dec.getAttribute('data-dec'));
+});
+$('#btn-undo').addEventListener('click', popHistory);
+$('#btn-switchServe').addEventListener('click', ()=>{ pushHistory(); state.server = (state.server==='A')?'B':'A'; sync(); });
+$('#btn-switchEnds').addEventListener('click', ()=>{ pushHistory(); swapEnds(); sync(); });
+$('#btn-swap').addEventListener('click', ()=>{ pushHistory(); swapEnds(); sync(); });
+$('#btn-nextGame').addEventListener('click', ()=>{ pushHistory(); checkGameEnd(); sync(); });
+$('#btn-reset').addEventListener('click', ()=>{ pushHistory(); Object.assign(state,{scoreA:0,scoreB:0,gamesA:0,gamesB:0,server:'A'}); sync(); });
+
+// Settings
+els.targetPoints.addEventListener('change', ()=>{ pushHistory(); state.targetPoints = Math.max(5, parseInt(els.targetPoints.value||'11',10)); sync(); });
+els.bestOf.addEventListener('change', ()=>{ pushHistory(); state.bestOf = parseInt(els.bestOf.value,10); sync(); });
+els.nameA.addEventListener('change', ()=>{ state.nameA = els.nameA.value.trim()||'A'; sync(); });
+els.nameB.addEventListener('change', ()=>{ state.nameB = els.nameB.value.trim()||'B'; sync(); });
+
+// Fullscreen
+$('#btn-full').addEventListener('click', ()=>{ const el=document.documentElement; if(!document.fullscreenElement){ el.requestFullscreen?.(); } else { document.exitFullscreen?.(); }});
+
+// Boot
+load();
+sync();
+
+// SW
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js'); }
+</script>
+</body>
+</html>
+
+<!-- manifest.webmanifest -->
+<!-- Save as a separate file named: manifest.webmanifest -->
+{
+  "name": "卓球スコア & サーブ表示",
+  "short_name": "TTスコア",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0b1020",
+  "theme_color": "#0d6efd",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
+
+<!-- sw.js -->
+/* Save as a separate file named: sw.js */
+self.addEventListener('install', e=>{
+  e.waitUntil(caches.open('ttscore-v1').then(c=>c.addAll([
+    './','./index.html','./manifest.webmanifest'
+  ])));
+});
+self.addEventListener('fetch', e=>{
+  e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request)));
+});
