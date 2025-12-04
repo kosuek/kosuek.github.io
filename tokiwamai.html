@@ -182,12 +182,16 @@
                            (user.germ * this.prices.germ) + 
                            (user.brown * this.prices.brown);
                 },
+               
                 calcUserShipping(user) {
                     if (this.totalWeight === 0) return 0;
                     const weight = this.calcUserWeight(user);
-                    // 重量比率で送料按分 (Math.ceilで切り上げして不足が出ないようにするか、roundにするかはお好みで)
-                    // ここでは一般的な四捨五入にしている
-                    return Math.round(this.shippingTotal * (weight / this.totalWeight));
+                    // 厳密な按分額
+                    const rawShare = this.shippingTotal * (weight / this.totalWeight);
+                    
+                    // 100円単位に四捨五入する計算
+                    // (数値を100で割り、四捨五入して、また100を掛ける)
+                    return Math.round(rawShare / 100) * 100;
                 },
                 calcUserTotal(user) {
                     return this.calcUserRicePrice(user) + this.calcUserShipping(user);
