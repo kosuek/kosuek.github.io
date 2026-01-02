@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Diary (Data Export)</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        :root {
+            --bg-color: #f3f4f6; --card-bg: #ffffff; --text-primary: #1f2937; --text-secondary: #6b7280;
+            --accent-color: #4f46e5; --accent-hover: #4338ca; --accent-light: #eef2ff;
+            --secondary-bg: #e5e7eb; --secondary-hover: #d1d5db; --danger-color: #ef4444;
+            --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05); --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --radius-md: 12px; --radius-lg: 16px;
+        }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; padding: 20px; max-width: 640px; margin: 0 auto; background: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .card { background: var(--card-bg); padding: 24px; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); margin-bottom: 24px; overflow: hidden; }
+        h3 { margin-top: 0; font-weight: 700; font-size: 1.25rem; margin-bottom: 16px; }
+        textarea, input[type="password"], input[type="text"] { width: 100%; padding: 16px; border: 2px solid transparent; background: var(--bg-color); border-radius: var(--radius-md); font-size: 16px; outline: none; transition: 0.3s; }
+        textarea:focus, input:focus { background: var(--card-bg); border-color: var(--accent-color); box-shadow: 0 0 0 3px var(--accent-light); }
+        textarea { height: 120px; margin-bottom: 16px; resize: vertical; }
+        input { margin-bottom: 16px; }
+        button { border: none; padding: 14px 24px; border-radius: var(--radius-md); cursor: pointer; width: 100%; font-size: 16px; font-weight: 600; display: inline-flex; justify-content: center; align-items: center; gap: 8px; transition: 0.2s; }
+        .btn-primary { background: var(--accent-color); color: white; }
+        .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+        .btn-secondary { background: var(--secondary-bg); color: var(--text-primary); }
+        .btn-secondary:hover { background: var(--secondary-hover); transform: translateY(-1px); }
+        .btn-text { background: transparent; color: var(--text-secondary); padding: 6px 10px; font-size: 13px; font-weight: normal; width: auto; border: 1px solid #e5e7eb; border-radius: 6px; }
+        .button-group { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        @media (max-width: 480px) { .button-group { grid-template-columns: 1fr; } }
+        .history-item { border-bottom: 1px solid #eee; padding-bottom: 24px; margin-bottom: 24px; position: relative; }
+        .history-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .btn-delete { position: absolute; top: 0; right: 0; background: transparent; color: #9ca3af; width: 32px; height: 32px; padding: 0; border-radius: 50%; font-size: 18px; line-height: 1; }
+        .btn-delete:hover { background: #fee2e2; color: var(--danger-color); }
+        .entry-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; padding-right: 40px; }
+        .entry-date { font-size: 0.85em; color: var(--text-secondary); font-weight: 500; }
+        .diary-text { font-size: 1.05rem; margin-bottom: 16px; white-space: pre-wrap; }
+        .ai-reply { background: var(--accent-light); padding: 20px; border-radius: var(--radius-md); position: relative; margin-top: 10px; white-space: pre-wrap; }
+        .ai-reply::before { content: "AI"; position: absolute; top: -10px; left: 20px; background: var(--accent-color); color: white; font-size: 12px; padding: 2px 8px; border-radius: 10px; font-weight: bold; }
+        .quiz-option { display: block; width: 100%; text-align: left; margin-bottom: 12px; padding: 16px 20px; border: 2px solid var(--bg-color); border-radius: var(--radius-md); background: var(--card-bg); cursor: pointer; transition: 0.2s; font-weight: 500; }
+        .quiz-option:hover { border-color: var(--accent-color); background: var(--accent-light); color: var(--accent-color); }
+        .progress-bar { height: 8px; background: var(--bg-color); border-radius: 4px; margin-bottom: 24px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--accent-color); width: 0%; transition: width 0.4s ease; }
+        .model-select { padding: 6px 12px; border-radius: 6px; border: 1px solid #e5e7eb; background: white; color: var(--text-primary); font-size: 13px; cursor: pointer; outline: none; }
+        .header-controls { display: flex; gap: 8px; align-items: center; }
+        .hidden { display: none; }
+        .header-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+        .header-row h3 { margin-bottom: 0; }
+        .error-msg { color: var(--danger-color); background: #fef2f2; padding: 12px; border-radius: var(--radius-md); margin-top: 16px; font-size: 0.9em; border-left: 4px solid var(--danger-color); }
+        /* CSVボタン用のスタイル */
+        .btn-export { background: #10b981; color: white; padding: 6px 12px; font-size: 13px; width: auto; box-shadow: none; }
+        .btn-export:hover { background: #059669; transform: translateY(-1px); }
+    </style>
+</head>
+<body>
+    <div class="card hidden" id="configArea">
+        <h3>まずは準備</h3>
+        <p style="color:var(--text-secondary); margin-bottom: 20px;">Gemini APIキーを入力してください。</p>
+        <input type="password" id="apiKeyInput" placeholder="APIキーを貼り付け">
+        <button class="btn-primary" onclick="saveApiKey()">次へ進む</button>
+    </div>
+    <div class="card hidden" id="quizArea" style="text-align: center;">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <h3 id="quizQuestion">質問</h3>
+        <div id="quizOptions"></div>
+        <div id="quizFreeText" class="hidden">
+            <textarea id="freeTextInput" placeholder="" style="height:150px; font-size:0.95rem;"></textarea>
+            <button class="btn-primary" onclick="handleFreeText()" style="margin-top:10px;">完了する</button>
+            <p style="color:#666; font-size:0.8em; margin-top:10px;">※特になければ空白のままでOKです</p>
+        </div>
+    </div>
+    <div class="card hidden" id="appArea">
+        <div class="header-row">
+            <h3>今日の日記</h3>
+            <div class="header-controls">
+                <select id="modelSelect" class="model-select" onchange="saveModelChoice()">
+                    <option value="gemini-2.5-flash">⚡ Flash</option>
+                    <option value="gemini-1.5-pro">🧠 Pro</option>
+                </select>
+                <button onclick="resetSettings()" class="btn-text">設定</button>
+            </div>
+        </div>
+        <textarea id="diaryInput" placeholder="思考や学びを書き出してください..."></textarea>
+        <div class="button-group">
+            <button class="btn-secondary" onclick="saveEntry(false)" id="saveBtn">✍️ 記録のみ</button>
+            <button class="btn-primary" onclick="saveEntry(true)" id="askBtn">🤖 AIに聞く</button>
+        </div>
+        <div id="errorDisplay" class="hidden error-msg"></div>
+    </div>
+    <div class="card hidden" id="historyCard">
+        <div class="header-row" style="margin-bottom: 24px;">
+            <h3>これまでの記録</h3>
+            <button onclick="downloadCSV()" class="btn-export">📥 CSV保存</button>
+        </div>
+        <div id="historyArea"></div>
+    </div>
+
+    <script>
+        let apiKey = localStorage.getItem("gemini_api_key");
+        let systemPrompt = localStorage.getItem("ai_system_prompt");
+        let entries = JSON.parse(localStorage.getItem("diary_entries") || "[]");
+        const MAX_HISTORY_CHARS = 25000;
+
+        const questions = [
+            { q: "口調のスタイルは？", type: "selection", options: [
+                { text: "親しみやすい（だよ、だね）", trait: "フレンドリーなタメ口で話してください。" },
+                { text: "丁寧・厳粛（です、ます）", trait: "礼儀正しく、落ち着いた敬語で話してください。" },
+                { text: "関西弁", trait: "関西弁で親しみやすく話してください。" }
+            ]},
+            { q: "返信の長さは？", type: "selection", options: [
+                { text: "簡潔に（要点のみ）", trait: "回答は簡潔に、要点のみを伝えてください。" },
+                { text: "普通", trait: "適切な長さで、読みやすさを重視してください。" },
+                { text: "詳細に（聖書の引用など含む）", trait: "回答は詳細に、必要であれば聖書の引用なども交えて深く記述してください。" }
+            ]},
+            { q: "AIの役割・スタンスは？", type: "selection", options: [
+                { text: "共感的なカウンセラー", trait: "ユーザーの感情に寄り添い、共感を最優先してください。" },
+                { text: "論理的な分析者", trait: "感情よりも論理と構造を重視し、客観的な分析を行ってください。" },
+                { text: "聖書の教師・コーチ", trait: "聖書の原則に基づき、時には厳しく、時には励ますコーチとして振る舞ってください。" }
+            ]},
+            { q: "ユーザーの呼び方は？", type: "selection", options: [
+                { text: "名前を指定", trait: "", askInput: true },
+                { text: "あなた", trait: "ユーザーを「あなた」と呼んでください。" }
+            ]},
+            { q: "特記事項・ルール（重要）", type: "free_text", 
+              placeholder: "例：\n・聖書引用は『新改訳2017』を使用してください\n・文末に必ず「知らんけど」をつけて（面白系）\n・私の思考の癖や矛盾があれば鋭く指摘して（真面目系）\n・慰めよりも「本質的な気づき」を優先してください" 
+            }
+        ];
+
+        let currentQuizIndex = 0;
+        let collectedTraits = [];
+
+        function init() {
+            if (!apiKey) showSection('configArea');
+            else if (!systemPrompt) startQuiz();
+            else { 
+                showSection('appArea'); 
+                document.getElementById('historyCard').classList.remove('hidden'); 
+                renderHistory(); 
+                const savedModel = localStorage.getItem("gemini_model");
+                if(savedModel) document.getElementById('modelSelect').value = savedModel;
+            }
+        }
+        function showSection(id) {
+            ['configArea', 'quizArea', 'appArea', 'historyCard'].forEach(s => document.getElementById(s).classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden');
+        }
+        function saveApiKey() {
+            const val = document.getElementById('apiKeyInput').value.trim();
+            if(!val) return alert("キーを入力してください");
+            localStorage.setItem("gemini_api_key", val);
+            apiKey = val; init();
+        }
+        function resetSettings() {
+            if(confirm("設定をやり直しますか？")) { localStorage.removeItem("ai_system_prompt"); location.reload(); }
+        }
+        function saveModelChoice() {
+            const val = document.getElementById('modelSelect').value;
+            localStorage.setItem("gemini_model", val);
+        }
+
+        function startQuiz() { showSection('quizArea'); currentQuizIndex=0; collectedTraits=[]; renderQuizQuestion(); }
+        function renderQuizQuestion() {
+            const q = questions[currentQuizIndex];
+            document.getElementById('quizQuestion').textContent = q.q;
+            document.getElementById('progressFill').style.width = `${(currentQuizIndex/questions.length)*100}%`;
+            const opts = document.getElementById('quizOptions');
+            const free = document.getElementById('quizFreeText');
+            
+            if(q.type === 'free_text') {
+                opts.classList.add('hidden'); free.classList.remove('hidden');
+                document.getElementById('freeTextInput').placeholder = q.placeholder;
+                document.getElementById('freeTextInput').value = "";
+                document.getElementById('freeTextInput').focus();
+            } else {
+                opts.classList.remove('hidden'); free.classList.add('hidden');
+                opts.innerHTML = '';
+                q.options.forEach(o => {
+                    const btn = document.createElement('div');
+                    btn.className = 'quiz-option'; btn.textContent = o.text;
+                    btn.onclick = () => handleAnswer(o); opts.appendChild(btn);
+                });
+            }
+        }
+        function handleAnswer(o) {
+            if(o.askInput) {
+                const name = prompt("呼び名を入力してください");
+                if(!name) return;
+                collectedTraits.push(`ユーザーを「${name}」と呼んでください。`);
+            } else collectedTraits.push(o.trait);
+            nextQ();
+        }
+        function handleFreeText() {
+            const val = document.getElementById('freeTextInput').value.trim();
+            if(val) collectedTraits.push(`【重要ルール】\n${val}`);
+            nextQ();
+        }
+        function nextQ() {
+            currentQuizIndex++;
+            if(currentQuizIndex < questions.length) renderQuizQuestion();
+            else { document.getElementById('progressFill').style.width='100%'; setTimeout(finishQuiz,500); }
+        }
+        function finishQuiz() {
+            const prompt = `あなたはユーザーの専属コーチAIです。以下の【設定・ルール】を厳格に遵守して対話してください。\n\n【設定・ルール】\n${collectedTraits.join('\n')}\n\n【指示】\nこれまでの文脈（過去の日記とやり取り）を踏まえた上で、今回の日記に対してフィードバックを行ってください。`;
+            localStorage.setItem("ai_system_prompt", prompt);
+            systemPrompt = prompt;
+            alert("設定完了。あなただけの環境が整いました。");
+            init();
+        }
+
+        async function saveEntry(withAi) {
+            const text = document.getElementById('diaryInput').value;
+            if (!text) return;
+            const saveBtn = document.getElementById('saveBtn');
+            const askBtn = document.getElementById('askBtn');
+            const err = document.getElementById('errorDisplay');
+            const model = document.getElementById('modelSelect').value;
+
+            saveBtn.disabled = true; askBtn.disabled = true; err.classList.add('hidden');
+
+            let reply = null;
+            try {
+                if (withAi) {
+                    askBtn.innerHTML = "思考中...";
+                    
+                    let contextText = "";
+                    let currentLength = 0;
+                    const contextList = [];
+                    
+                    for (const entry of entries) {
+                        const entryStr = `Date: ${entry.date}\nUser: ${entry.text}\nAI: ${entry.reply || "(返信なし)"}\n---\n`;
+                        if (currentLength + entryStr.length > MAX_HISTORY_CHARS) break;
+                        contextList.push(entryStr);
+                        currentLength += entryStr.length;
+                    }
+                    if (contextList.length > 0) contextText = "【過去のやり取り（文脈）】\n" + contextList.reverse().join("");
+
+                    const prompt = {
+                        contents: [{
+                            parts: [{ text: `${systemPrompt}\n\n${contextText}\n【今回の日記】\n${text}` }]
+                        }]
+                    };
+                    const dynamicUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+
+                    const res = await fetch(`${dynamicUrl}?key=${apiKey}`, {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(prompt)
+                    });
+                    const data = await res.json();
+                    if (!res.ok) throw new Error(data.error?.message || res.status);
+                    reply = data.candidates[0].content.parts[0].text;
+                }
+
+                entries.unshift({
+                    date: new Date().toLocaleString(undefined, {year:'numeric',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}),
+                    text: text,
+                    reply: reply
+                });
+                localStorage.setItem("diary_entries", JSON.stringify(entries));
+                document.getElementById('diaryInput').value = "";
+                renderHistory();
+            } catch (e) {
+                err.textContent = "Error: " + e.message; err.classList.remove('hidden');
+            } finally {
+                saveBtn.disabled = false; askBtn.disabled = false;
+                saveBtn.textContent = "✍️ 記録のみ"; askBtn.textContent = "🤖 AIに聞く";
+            }
+        }
+
+        function deleteEntry(i) {
+            if(!confirm("削除しますか？")) return;
+            entries.splice(i, 1);
+            localStorage.setItem("diary_entries", JSON.stringify(entries));
+            renderHistory();
+        }
+        function renderHistory() {
+            const area = document.getElementById('historyArea');
+            if (entries.length === 0) { area.innerHTML = "<p style='text-align:center;color:#999'>履歴なし</p>"; return; }
+            area.innerHTML = entries.map((e, i) => `
+                <div class="history-item">
+                    <button class="btn-delete" onclick="deleteEntry(${i})">×</button>
+                    <div class="entry-meta"><span class="entry-date">${e.date}</span></div>
+                    <div class="diary-text">${e.text}</div>
+                    ${e.reply ? `<div class="ai-reply">${e.reply}</div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        // 【新機能】CSVダウンロード処理
+        function downloadCSV() {
+            if (entries.length === 0) return alert("データがありません");
+
+            // BOM付きUTF-8でExcel文字化け防止
+            let csvContent = "\uFEFF"; 
+            csvContent += '"日付","日記","AIの返信"\n';
+
+            entries.forEach(e => {
+                const date = `"${e.date}"`;
+                // 改行やダブルクォートのエスケープ処理
+                const text = `"${e.text.replace(/"/g, '""')}"`;
+                const reply = `"${(e.reply || "").replace(/"/g, '""')}"`;
+                csvContent += `${date},${text},${reply}\n`;
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.setAttribute("href", url);
+            link.setAttribute("download", `ai_diary_backup_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        init();
+    </script>
+</body>
+</html>
