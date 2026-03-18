@@ -3,16 +3,29 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>帰り道 - 最大視認性版</title>
+  <title>帰り道 - サイバー・エディション</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
   <style>
-    /* 全体を1画面に固定 */
+    /* 全体のフォント定義 */
+    :root {
+      --bg-color: #121212; /* 深みのある黒 */
+      --table-past: #1a1a1a; /* 過去の便 */
+      --table-border: #333; /* 境界線 */
+      --text-main: #f8f9fa; /* オフホワイト */
+      --text-past: #6c757d; /* グレー */
+      --accent-blue: #007bff; /* 落ち着いた青 */
+      --accent-glow: rgba(13, 110, 253, 0.6); /* 青い光 */
+    }
+
     html, body {
       height: 100dvh;
       margin: 0;
       padding: 0;
       overflow: hidden;
-      background-color: #000; /* 背景を黒にしてコントラストを強調 */
+      background-color: var(--bg-color);
+      font-family: 'Noto Sans JP', sans-serif;
+      color: var(--text-main);
     }
 
     .container-fluid {
@@ -22,18 +35,187 @@
       padding: 0.5dvh !important;
     }
 
-    /* 時計：画面高の約18%を専有 */
+    /* 時計：ネオン風の光を持たせる */
     #clk {
       flex: 0 0 18dvh;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 10dvh;
-      font-weight: 900;
+      font-family: 'Oswald', sans-serif; /* 数字が綺麗なフォント */
+      font-size: 11dvh;
+      font-weight: 700;
       color: #fff;
       margin: 0 !important;
       line-height: 1;
-      letter-spacing: -2px;
+      letter-spacing: -3px;
+      /* 青いネオンゴースト効果 */
+      text-shadow: 
+        0 0 10px var(--accent-glow),
+        0 0 20px var(--accent-glow),
+        0 0 40px var(--accent-glow);
+    }
+
+    /* テーブルエリア：角を丸くしてフローティングさせる */
+    .table-responsive {
+      flex: 1;
+      display: flex;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    }
+
+    .table {
+      height: 100%;
+      margin: 0 !important;
+      table-layout: fixed;
+      border-collapse: separate; /* 角丸を有効にするため */
+      border-spacing: 0;
+      background-color: transparent;
+    }
+
+    /* ヘッダーとセルの等分割 */
+    th, td {
+      padding: 0 !important;
+      vertical-align: middle !important;
+      text-align: center;
+      font-size: 3.2dvh;
+      border-top: none;
+      border-bottom: 1px solid var(--table-border);
+      border-left: none;
+      border-right: none;
+    }
+
+    th {
+      font-weight: 700;
+      background-color: #000;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* 過去の便：存在感を消す */
+    .past td {
+      background-color: var(--table-past) !important;
+      color: var(--text-past) !important;
+      text-shadow: none;
+    }
+    
+    /* 次の便：行全体を光らせる */
+    .next td {
+      background-color: var(--accent-blue) !important;
+      color: #fff !important;
+      font-weight: 900;
+      text-shadow: 0 0 5px rgba(255,255,255,0.5);
+    }
+    
+    .next {
+      /* outlineではなくbox-shadowで滑らかな光を */
+      box-shadow: 0 0 20px var(--accent-glow) inset;
+      /* パルスアニメーション */
+      animation: pulse 2s infinite;
+    }
+
+    /* 青い行がゆっくりと光るアニメーション */
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 20px var(--accent-glow) inset;
+      }
+      50% {
+        box-shadow: 0 0 40px var(--accent-glow) inset, 0 0 15px var(--accent-glow);
+      }
+      100% {
+        box-shadow: 0 0 20px var(--accent-glow) inset;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container-fluid">
+    <h1 id="clk" class="text-center"></h1>
+    <div class="table-responsive">
+      <table class="table text-center align-middle">
+        <thead>
+          <tr>
+            <th style="width: 15%;">No</th>
+            <th>勝田発</th>
+            <th>大甕着</th>
+          </tr>
+        </thead>
+        <tbody id="kaeri">
+          <tr><td>01</td><td>17:19</td><td>17:33</td></tr>
+          <tr><td>02</td><td>17:42</td><td>17:57</td></tr>
+          <tr><td>03</td><td>18:02</td><td>18:17</td></tr>
+          <tr><td>04</td><td>18:21</td><td>18:35</td></tr>
+          <tr><td>05</td><td>18:47</td><td>19:02</td></tr>
+          <tr><td>06</td><td>19:04</td><td>19:19</td></tr>
+          <tr><td>07</td><td>19:31</td><td>19:46</td></tr>
+          <tr><td>08</td><td>20:21</td><td>20:36</td></tr>
+          <tr><td>09</td><td>20:56</td><td>21:10</td></tr>
+          <tr><td>10</td><td>21:34</td><td>21:48</td></tr>
+          <tr><td>11</td><td>22:41</td><td>22:55</td></tr>
+          <tr><td>12</td><td>23:44</td><td>23:58</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // 猶予0の閾値（変更なし）
+    const timeThresholds = [
+      17.317, 17.7, 18.033, 18.35, 18.783, 19.067,
+      19.517, 20.35, 20.933, 21.567, 22.683, 23.733
+    ];
+
+    const subjects = ["おつかれさん(^з^)-☆", "おつかれさんo(ﾟ▽ﾟ)/", "おつかれさん（´3｀）~♪"];
+    const email = "mybaptismday991114@gmail.com";
+
+    function updateClock() {
+      const now = new Date();
+      const h = now.getHours();
+      const m = now.getMinutes();
+      const s = now.getSeconds();
+      
+      const t = now.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      document.getElementById('clk').textContent = t;
+
+      const nowTime = h + m / 60 + s / 3600;
+      const rows = document.querySelectorAll('#kaeri tr');
+
+      rows.forEach(row => row.classList.remove('past', 'next'));
+
+      let nextIndex = timeThresholds.findIndex(threshold => nowTime < threshold);
+      
+      if (nextIndex === -1) {
+        rows.forEach(row => row.classList.add('past'));
+      } else {
+        rows.forEach((row, index) => {
+          if (index < nextIndex) {
+            row.classList.add('past');
+          } else if (index === nextIndex) {
+            row.classList.add('next');
+          }
+        });
+      }
+
+      setTimeout(updateClock, 1000);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateClock();
+
+      document.querySelectorAll('#kaeri tr').forEach(row => {
+        row.addEventListener('click', () => {
+          const tds = row.querySelectorAll('td');
+          const msg = `勝田発${tds[1].textContent} -> 大甕着${tds[2].textContent}で帰るよ～。`;
+          const rand = Math.floor(Math.random() * subjects.length);
+          window.location.href = `mailto:${email}?subject=${encodeURIComponent(subjects[rand])}&body=${encodeURIComponent(msg)}`;
+        });
+      });
+    });
+  </script>
+</body>
+</html>
     }
 
     /* テーブルエリア：残りの82%を専有 */
