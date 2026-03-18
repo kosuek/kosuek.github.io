@@ -5,25 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>行き帰り</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
- <style>
-  /* セルに対して直接色を指定してBootstrapのオーバーライドを防ぐ */
-  .past td {
-    background-color: #e0e0e0 !important;
-    color: #888;
+<style>
+  /* 1. 時計を巨大化・強調 */
+  #clk {
+    font-size: clamp(3rem, 15vw, 6rem); /* 画面幅に合わせて可変する巨大サイズ */
+    font-weight: 800;
+    margin-bottom: 1.5rem !important;
+    letter-spacing: -2px;
   }
+
+  /* 2. 表の文字を大幅に拡大 */
+  .table {
+    font-size: 1.8rem; /* 標準の約1.8倍 */
+  }
+
+  /* 3. 各行の余白を広げて視認性をアップ */
+  .table td, .table th {
+    padding: 1.2rem 0.5rem !important;
+  }
+
+  /* 4. 過去の便（グレーアウト） */
+  .past td {
+    background-color: #e9ecef !important;
+    color: #adb5bd !important;
+  }
+  
+  /* 5. 次の便（青背景＋白文字） */
   .next td {
     background-color: #0d6efd !important;
     color: white !important;
   }
+  
   .next {
     font-weight: bold;
-    border: 2px solid #0d6efd; /* 強調をさらに明確化 */
+    /* 選択されている行の外枠をさらに強調 */
+    outline: 5px solid #0d6efd;
+    outline-offset: -5px;
   }
  </style>
 </head>
 <body>
   <div class="container py-4">
-    <h1 id="clk" class="text-center mb-4"></h1>
+    <h1 id="clk" class="text-center display-1 fw-bold"></h1>
     <div class="table-responsive">
       <table class="table table-bordered table-striped text-center align-middle">
         <thead class="table-dark">
