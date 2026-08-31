@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gemini 壁打ちルーム（仮）</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            boxShadow: {
+              soft: '0 4px 20px rgba(15, 23, 42, 0.08)',
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      html, body {
+        height: 100%;
+      }
+      body {
+        font-family: "Segoe UI", "Hiragino Sans", "Yu Gothic", sans-serif;
+      }
+      .scrollbar-thin::-webkit-scrollbar {
+        width: 8px;
+      }
+      .scrollbar-thin::-webkit-scrollbar-thumb {
+        background: rgba(148, 163, 184, 0.8);
+        border-radius: 9999px;
+      }
+      .scrollbar-thin::-webkit-scrollbar-track {
+        background: rgba(226, 232, 240, 0.35);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 text-slate-800 antialiased">
+    <div id="app" class="min-h-screen flex flex-col">
+      <header class="sticky top-0 z-20 border-b border-slate-200 bg-white/90 backdrop-blur-sm">
+        <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
+          <div>
+            <p class="text-xs font-medium uppercase tracking-[0.2em] text-slate-500">壁打ち相談室</p>
+            <h1 class="text-lg font-bold text-slate-800 sm:text-2xl">Gemini 壁打ちルーム（仮）</h1>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <div class="hidden items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-[10px] font-semibold text-slate-600 sm:flex">
+              <span class="inline-block h-2 w-2 rounded-full bg-emerald-500"></span>
+              {{ appVersion }}
+            </div>
+            <button
+              type="button"
+              class="rounded-full border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+              @click="toggleSettings"
+            >
+              APIキー設定
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div v-if="showSettings" class="border-b border-slate-200 bg-slate-50/90">
+        <div class="mx-auto max-w-6xl px-4 py-4 sm:px-6">
+          <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-soft">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-end">
+              <label class="flex-1">
+                <span class="mb-2 block text-sm font-medium text-slate-700">Gemini APIキー（ローカル開発用）</span>
+                <input
+                  v-model="apiKeyInput"
+                  type="password"
+                  placeholder="AIza..."
+                  class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none transition focus:border-blue-400 focus:bg-white focus:ring-2 focus:ring-blue-100"
+                />
+              </label>
+              <div class="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  @click="toggleHowTo"
+                  class="rounded-xl border border-slate-200 bg-slate-100 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-200"
+                >
+                  取得方法
+                </button>
+                <button
+                  type="button"
+                  @click="saveApiKey"
+                  class="rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-500"
+                >
+                  保存
+                </button>
+                <button
+                  type="button"
+                  @click="clearApiKey"
+                  class="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+                >
+                  クリア
+                </button>
+              </div>
+            </div>
+
+            <div v-if="showHowTo" class="mt-4 rounded-2xl border border-blue-100 bg-blue-50 p-4 text-sm text-slate-700">
+              <div class="flex items-center justify-between gap-3">
+                <p class="text-base font-semibold text-slate-800">Gemini APIキーの取得方法</p>
+                <button
+                  type="button"
+                  @click="toggleHowTo"
+                  class="text-xs font-medium text-slate-500 hover:text-slate-700"
+                >
+                  閉じる
+                </button>
+              </div>
+
+              <ol class="mt-3 list-decimal space-y-2 pl-5 leading-7">
+                <li>
+                  <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="font-medium text-blue-600 underline underline-offset-2">
+                    Google AI Studio
+                  </a>
+                  にアクセスします。
+                </li>
+                <li>Googleアカウントでログインします。</li>
+                <li>画面上部の「Get API key」または「APIキーを作成」を押します。</li>
+                <li>新しいAPIキーを作成し、表示された文字列をコピーします。</li>
+                <li>ローカル開発用として入力して保存します。Vercel では環境変数に設定します。</li>
+              </ol>
+
+              <div class="mt-4 rounded-xl border border-blue-200 bg-white p-3 text-xs text-slate-600">
+                <p class="font-semibold text-slate-700">重要</p>
+                <p class="mt-1">
+                  公開前の本番環境では、このキーをブラウザに入れず、Vercel の環境変数 <span class="font-semibold">GEMINI_API_KEY</span> に置く構成にします。
+                </p>
+              </div>
+            </div>
+
+            <p class="mt-3 text-xs text-slate-500">
+              本番環境では、APIキーはブラウザに保存せず、Vercel の環境変数 <span class="font-semibold">GEMINI_API_KEY</span> を使います。
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <main class="mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 py-5 sm:px-6 lg:px-8">
+        <section class="flex-1 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-soft">
+          <div class="flex h-full flex-col">
+            <div class="border-b border-slate-200 bg-slate-50 px-4 py-3 sm:px-6">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm font-semibold text-slate-700">会話ログ</p>
+                </div>
+                <span
+                  class="rounded-full border px-2.5 py-1 text-xs font-medium"
+                  :class="connectionStatus === '接続成功'
+                    ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
+                    : connectionStatus === '接続エラー'
+                      ? 'border-red-200 bg-red-50 text-red-700'
+                      : connectionStatus === '接続確認中'
+                        ? 'border-amber-200 bg-amber-50 text-amber-700'
+                        : 'border-slate-200 bg-slate-100 text-slate-600'"
+                >
+                  {{ connectionStatus === '未接続' ? 'APIキー未設定' : connectionStatus }}
+                </span>
+                <span class="rounded-full border border-slate-200 bg-slate-100 px-2 py-1 text-[10px] font-semibold text-slate-600">
+                  build {{ appVersion }}
+                </span>
+              </div>
+            </div>
+
+            <div ref="chatScroll" class="scrollbar-thin flex-1 space-y-4 overflow-y-auto bg-gradient-to-b from-white to-slate-50 px-4 py-5 sm:px-6">
+              <div v-for="message in messages" :key="message.id" class="flex" :class="message.role === 'user' ? 'justify-end' : 'justify-start'">
+                <div class="max-w-[85%] sm:max-w-[75%]">
+                  <div
+                    class="rounded-2xl px-4 py-3 text-sm leading-7 shadow-sm sm:text-[15px]"
+                    :class="message.role === 'user'
+                      ? 'rounded-br-md bg-blue-600 text-white'
+                      : 'rounded-bl-md border border-slate-200 bg-white text-slate-700'"
+                  >
+                    <div class="whitespace-pre-wrap break-words">{{ message.text }}</div>
+                  </div>
+                  <div
+                    class="mt-1 text-[10px] font-medium"
+                    :class="message.role === 'user' ? 'text-right text-slate-500' : 'text-left text-slate-400'"
+                  >
+                    {{ message.role === 'user' ? 'あなた' : 'Gemini' }}
+                  </div>
+                </div>
+              </div>
+
+              <div v-if="isLoading" class="flex justify-start">
+                <div class="rounded-2xl rounded-bl-md border border-slate-200 bg-white px-4 py-3 shadow-sm">
+                  <div class="flex items-center gap-2 text-sm text-slate-500">
+                    <span class="inline-flex items-center gap-1">
+                      <span class="h-2 w-2 animate-pulse rounded-full bg-slate-400"></span>
+                      <span class="h-2 w-2 animate-pulse rounded-full bg-slate-400 [animation-delay:120ms]"></span>
+                      <span class="h-2 w-2 animate-pulse rounded-full bg-slate-400 [animation-delay:240ms]"></span>
+                    </span>
+                    Geminiが考えています...
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="border-t border-slate-200 bg-white p-3 sm:p-4">
+              <div class="flex items-end gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-2 shadow-inner sm:p-3">
+                <textarea
+                  v-model="draft"
+                  rows="1"
+                  placeholder="壁打ちのテーマを入力してください"
+                  class="max-h-40 min-h-[52px] flex-1 resize-none rounded-xl border border-transparent bg-transparent px-3 py-3 text-sm text-slate-700 outline-none placeholder:text-slate-400 focus:border-blue-200 focus:bg-white focus:ring-2 focus:ring-blue-100"
+                  @keydown.enter.prevent="handleTextareaEnter"
+                  @keydown.shift.enter.prevent="appendNewLine"
+                ></textarea>
+                <button
+                  type="button"
+                  :disabled="isLoading || !draft.trim()"
+                  @click="sendMessage"
+                  class="inline-flex h-[52px] items-center justify-center rounded-xl bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:bg-slate-300"
+                >
+                  送信
+                </button>
+              </div>
+              <p class="mt-2 text-[11px] text-slate-500">Enterで送信 / Shift + Enterで改行</p>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
