@@ -4,13 +4,9 @@ createApp({
   data() {
     return {
       appVersion: `v${new Date().toISOString().slice(0, 10)}-${new Date().toISOString().slice(11, 19).replace(/:/g, '')}`,
-      showSettings: false,
-      showHowTo: false,
-      apiKeyInput: '',
-      apiKey: '',
       draft: '',
       isLoading: false,
-      connectionStatus: '未接続',
+      connectionStatus: '準備中',
       messages: [
         {
           id: 1,
@@ -20,45 +16,12 @@ createApp({
       ],
     };
   },
-  computed: {
-    isApiReady() {
-      return Boolean(this.apiKey && this.apiKey.trim().length > 0);
-    },
-  },
   mounted() {
-    const storedKey = localStorage.getItem('gemini-api-key') || '';
-    this.apiKey = storedKey;
-    this.apiKeyInput = storedKey;
-    this.connectionStatus = storedKey ? 'APIキー保存済み' : 'APIキー未設定';
     this.$nextTick(() => {
       this.scrollToBottom();
     });
   },
   methods: {
-    toggleSettings() {
-      this.showSettings = !this.showSettings;
-    },
-    toggleHowTo() {
-      this.showHowTo = !this.showHowTo;
-    },
-    saveApiKey() {
-      const value = this.apiKeyInput.trim();
-      this.apiKey = value;
-      if (value) {
-        localStorage.setItem('gemini-api-key', value);
-        this.connectionStatus = 'APIキー保存済み';
-      } else {
-        localStorage.removeItem('gemini-api-key');
-        this.connectionStatus = 'APIキー未設定';
-      }
-      this.showSettings = false;
-    },
-    clearApiKey() {
-      this.apiKeyInput = '';
-      this.apiKey = '';
-      this.connectionStatus = 'APIキー未設定';
-      localStorage.removeItem('gemini-api-key');
-    },
     appendNewLine(event) {
       const textarea = event.target;
       const cursorPos = textarea.selectionStart;
@@ -96,23 +59,14 @@ createApp({
       this.scrollToBottom();
 
       try {
-        if (this.isApiReady) {
-          this.connectionStatus = '接続確認中';
-          const reply = await this.callGemini(this.messages);
-          this.connectionStatus = '接続成功';
-          this.messages.push({
-            id: Date.now() + 1,
-            role: 'assistant',
-            text: reply,
-          });
-        } else {
-          this.connectionStatus = 'モックモード';
-          this.messages.push({
-            id: Date.now() + 1,
-            role: 'assistant',
-            text: this.createMockReply(input),
-          });
-        }
+        this.connectionStatus = '接続確認中';
+        const reply = await this.callGemini(this.messages);
+        this.connectionStatus = '接続成功';
+        this.messages.push({
+          id: Date.now() + 1,
+          role: 'assistant',
+          text: reply,
+        });
       } catch (error) {
         this.connectionStatus = '接続エラー';
         const errorText = error?.message || '不明なエラー';
@@ -120,9 +74,7 @@ createApp({
         this.messages.push({
           id: Date.now() + 2,
           role: 'assistant',
-          text: this.isApiReady
-            ? `Gemini API の呼び出しでエラーが発生しました。\n\n${errorText}\n\n原因としては、APIキーが無効・未有効化・請求未設定・ネットワーク制限のどれかが考えられます。\n\nもしキーを入れ直した直後なら、数分待ってから再度試してください。`
-            : 'Geminiへの接続でエラーが発生しました。APIキーが正しいか、ネットワーク接続を確認してください。\n\nモックモードとして、考えの整理の例を返します。\n\n' + this.createMockReply(input),
+          text: `Gemini API の呼び出しでエラーが発生しました。\n\n${errorText}\n\nVercel の環境変数 GEMINI_API_KEY が設定されているか、または利用制限がないかを確認してください。`,
         });
       } finally {
         this.isLoading = false;
