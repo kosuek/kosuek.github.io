@@ -126,8 +126,8 @@ createApp({
         }));
     },
     async callGemini(chatMessages) {
-      const history = chatMessages.slice(-8);
-      const lastUserMessage = history[history.length - 1]?.text || '';
+      const history = chatMessages.slice(0, -1).slice(-8);
+      const lastUserMessage = chatMessages[chatMessages.length - 1]?.text || '';
 
       const response = await fetch('/api/chat', {
         method: 'POST',
