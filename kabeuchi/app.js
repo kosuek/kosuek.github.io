@@ -2,8 +2,27 @@ const { createApp } = Vue;
 
 createApp({
   data() {
+    const now = new Date();
+    const jstFormatter = new Intl.DateTimeFormat('ja-JP', {
+      timeZone: 'Asia/Tokyo',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    });
+    const parts = jstFormatter.formatToParts(now);
+    const values = {};
+
+    for (const part of parts) {
+      if (part.type !== 'literal') {
+        values[part.type] = part.value;
+      }
+    }
+
     return {
-      appVersion: `v${new Date().toISOString().slice(0, 10)}-${new Date().toISOString().slice(11, 19).replace(/:/g, '')}`,
+      appVersion: `v${values.year}.${values.month}.${values.day}-${values.hour}:${values.minute}JST`,
       draft: '',
       isLoading: false,
       connectionStatus: '準備中',
