@@ -93,7 +93,7 @@ createApp({
         this.messages.push({
           id: Date.now() + 2,
           role: 'assistant',
-          text: `Gemini API の呼び出しでエラーが発生しました。\n\n${errorText}\n\nVercel の環境変数 GEMINI_API_KEY が設定されているか、または利用制限がないかを確認してください。`,
+          text: `Gemini API の呼び出しでエラーが発生しました。\n\n${errorText}\n\nVercel の環境変数 GEMINI_API_KEY が設定されているか、利用制限や有効期限がないかを確認してください。`,
         });
       } finally {
         this.isLoading = false;
