@@ -78,6 +78,7 @@ createApp({
       this.draft = '';
       this.isLoading = true;
       this.scrollToBottom();
+      await this.saveHistory();
 
       try {
         this.connectionStatus = '接続確認中';
@@ -148,8 +149,9 @@ createApp({
 
         await fetch(GAS_HISTORY_URL, {
           method: 'POST',
+          mode: 'no-cors',
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'text/plain;charset=utf-8',
           },
           body: JSON.stringify(payload),
         });
