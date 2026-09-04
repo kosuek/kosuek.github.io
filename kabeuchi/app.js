@@ -1,4 +1,5 @@
 const { createApp } = Vue;
+const GAS_HISTORY_URL = window.GAS_HISTORY_URL || '';
 
 createApp({
   data() {
@@ -37,6 +38,7 @@ createApp({
   },
   mounted() {
     this.$nextTick(() => {
+      this.loadHistory();
       this.scrollToBottom();
     });
   },
@@ -86,6 +88,7 @@ createApp({
           role: 'assistant',
           text: reply,
         });
+        await this.saveHistory();
       } catch (error) {
         this.connectionStatus = '接続エラー';
         const errorText = error?.message || '不明なエラー';
@@ -95,9 +98,63 @@ createApp({
           role: 'assistant',
           text: `Gemini API の呼び出しでエラーが発生しました。\n\n${errorText}\n\nVercel の環境変数 GEMINI_API_KEY が設定されているか、利用制限や有効期限がないかを確認してください。`,
         });
+        await this.saveHistory();
       } finally {
         this.isLoading = false;
         this.scrollToBottom();
+      }
+    },
+    async loadHistory() {
+      if (!GAS_HISTORY_URL) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`${GAS_HISTORY_URL}?action=loadHistory`, {
+          method: 'GET',
+        });
+
+        if (!response.ok) {
+          return;
+        }
+
+        const data = await response.json();
+        const messages = Array.isArray(data?.messages) ? data.messages : [];
+
+        if (messages.length > 0) {
+          this.messages = messages
+            .filter((message) => message && message.text)
+            .map((message) => ({
+              id: Number(message.id) || Date.now() + Math.random(),
+              role: message.role === 'assistant' ? 'assistant' : 'user',
+              text: String(message.text),
+            }));
+          this.$nextTick(() => this.scrollToBottom());
+        }
+      } catch (error) {
+        console.warn('履歴の読み込みに失敗しました:', error);
+      }
+    },
+    async saveHistory() {
+      if (!GAS_HISTORY_URL) {
+        return;
+      }
+
+      try {
+        const payload = {
+          action: 'saveHistory',
+          messages: this.messages.slice(-50),
+        };
+
+        await fetch(GAS_HISTORY_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+      } catch (error) {
+        console.warn('履歴の保存に失敗しました:', error);
       }
     },
     createMockReply(input) {
