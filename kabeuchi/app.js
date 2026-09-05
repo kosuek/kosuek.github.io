@@ -1,6 +1,17 @@
 const { createApp } = Vue;
 const CHAT_API_URL = window.CHAT_API_URL || '/api/chat';
 const GAS_HISTORY_URL = window.GAS_HISTORY_URL || '';
+const SESSION_ID = (() => {
+  const storageKey = 'gemini-kabeuchi-session-id';
+  const existingId = window.sessionStorage?.getItem(storageKey);
+  if (existingId) {
+    return existingId;
+  }
+
+  const newId = `session-${new Date().toISOString().replace(/[-:.TZ]/g, '')}-${Math.random().toString(36).slice(2, 8)}`;
+  window.sessionStorage?.setItem(storageKey, newId);
+  return newId;
+})();
 
 createApp({
   data() {
@@ -78,7 +89,7 @@ createApp({
       this.draft = '';
       this.isLoading = true;
       this.scrollToBottom();
-      await this.saveHistory();
+      await this.saveHistory(userMessage);
 
       try {
         this.connectionStatus = '接続確認中';
@@ -89,7 +100,7 @@ createApp({
           role: 'assistant',
           text: reply,
         });
-        await this.saveHistory();
+        await this.saveHistory(this.messages[this.messages.length - 1]);
       } catch (error) {
         this.connectionStatus = '接続エラー';
         const errorText = error?.message || '不明なエラー';
@@ -138,15 +149,16 @@ createApp({
         console.warn('履歴の読み込みに失敗しました:', error);
       }
     },
-    async saveHistory() {
-      if (!GAS_HISTORY_URL) {
+    async saveHistory(message) {
+      if (!GAS_HISTORY_URL || !message) {
         return;
       }
 
       try {
         const payload = {
           action: 'saveHistory',
-          messages: this.messages.slice(-50),
+          sessionId: SESSION_ID,
+          messages: [message],
         };
 
         await fetch(GAS_HISTORY_URL, {
