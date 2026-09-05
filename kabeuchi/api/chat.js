@@ -35,36 +35,47 @@ export default async function handler(req, res) {
         parts: [{ text: message.text }],
       }));
 
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${encodeURIComponent(apiKey)}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+    const requestBody = JSON.stringify({
+      system_instruction: {
+        parts: [
+          {
+            text: 'あなたは「壁打ち相手」のAIアシスタントです。ユーザーの発想や悩みを一緒に整理し、会話の流れを尊重してください。前の会話を踏まえて、次の一問を投げかけたり、具体例を出したり、ユーザーの考えを深掘りしてください。日本語で自然に丁寧に返答し、1つの質問に集中して相手の思考を促します。',
+          },
+        ],
+      },
+      contents: [
+        ...chatHistory,
+        {
+          role: 'user',
+          parts: [{ text: content }],
         },
-        body: JSON.stringify({
-          system_instruction: {
-            parts: [
-              {
-                text: 'あなたは「壁打ち相手」のAIアシスタントです。ユーザーの発想や悩みを一緒に整理し、会話の流れを尊重してください。前の会話を踏まえて、次の一問を投げかけたり、具体例を出したり、ユーザーの考えを深掘りしてください。日本語で自然に丁寧に返答し、1つの質問に集中して相手の思考を促します。',
-              },
-            ],
+      ],
+      generationConfig: {
+        temperature: 0.9,
+        topP: 0.9,
+        maxOutputTokens: 500,
+      },
+    });
+
+    let response;
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${encodeURIComponent(apiKey)}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
           },
-          contents: [
-            ...chatHistory,
-            {
-              role: 'user',
-              parts: [{ text: content }],
-            },
-          ],
-          generationConfig: {
-            temperature: 0.9,
-            topP: 0.9,
-            maxOutputTokens: 500,
-          },
-        }),
+          body: requestBody,
+        }
+      );
+
+      if (response.status !== 429 || attempt === 2) {
+        break;
       }
-    );
+
+      await new Promise((resolve) => setTimeout(resolve, 1000 * (attempt + 1)));
+    }
 
     const rawText = await response.text();
 

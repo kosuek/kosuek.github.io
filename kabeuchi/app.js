@@ -94,11 +94,14 @@ createApp({
       } catch (error) {
         this.connectionStatus = '接続エラー';
         const errorText = error?.message || '不明なエラー';
+        const guidance = /high demand|429|temporarily/i.test(errorText)
+          ? 'Gemini が一時的に混雑しています。少し待ってから、もう一度送信してください。'
+          : 'Vercel の環境変数 GEMINI_API_KEY が設定されているか、利用制限や有効期限がないかを確認してください。';
 
         this.messages.push({
           id: Date.now() + 2,
           role: 'assistant',
-          text: `Gemini API の呼び出しでエラーが発生しました。\n\n${errorText}\n\nVercel の環境変数 GEMINI_API_KEY が設定されているか、利用制限や有効期限がないかを確認してください。`,
+          text: `Gemini API の呼び出しでエラーが発生しました。\n\n${errorText}\n\n${guidance}`,
         });
       } finally {
         this.isLoading = false;
