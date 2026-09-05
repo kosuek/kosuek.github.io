@@ -39,7 +39,6 @@ createApp({
   },
   mounted() {
     this.$nextTick(() => {
-      this.loadHistory();
       this.scrollToBottom();
     });
   },
