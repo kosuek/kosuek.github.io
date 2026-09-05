@@ -1,4 +1,5 @@
 const { createApp } = Vue;
+const CHAT_API_URL = window.CHAT_API_URL || '/api/chat';
 const GAS_HISTORY_URL = window.GAS_HISTORY_URL || '';
 
 createApp({
@@ -188,7 +189,7 @@ createApp({
       const history = chatMessages.slice(0, -1).slice(-8);
       const lastUserMessage = chatMessages[chatMessages.length - 1]?.text || '';
 
-      const response = await fetch('/api/chat', {
+      const response = await fetch(CHAT_API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
